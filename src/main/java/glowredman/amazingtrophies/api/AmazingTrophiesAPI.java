@@ -13,7 +13,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.launchwrapper.Launch;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
@@ -21,13 +20,15 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cpw.mods.fml.common.Loader;
+
 // TODO javadoc
 public class AmazingTrophiesAPI {
 
-    static final Logger LOGGER = LogManager.getLogger("Amazing Trophies API");
-
     // TODO javadoc
     public static final Path CONFIG_DIR = getConfigDir();
+
+    static final Logger LOGGER = LogManager.getLogger("Amazing Trophies API");
 
     private static final Map<String, AchievementProperties> ACHIEVEMENTS = new LinkedHashMap<>();
     private static final Map<String, ConditionHandler> ACHIEVEMENT_CONDITION_HANDLERS = new HashMap<>();
@@ -116,8 +117,9 @@ public class AmazingTrophiesAPI {
 
     private static Path getConfigDir() {
         try {
-            Path path = Launch.minecraftHome.toPath()
-                .resolve("config")
+            Path path = Loader.instance()
+                .getConfigDir()
+                .toPath()
                 .resolve("amazingtrophies");
             Files.createDirectories(path);
             return path;
