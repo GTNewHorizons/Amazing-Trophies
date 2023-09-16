@@ -24,10 +24,10 @@ import org.apache.logging.log4j.Logger;
 // TODO javadoc
 public class AmazingTrophiesAPI {
 
+    static final Logger LOGGER = LogManager.getLogger("Amazing Trophies API");
+
     // TODO javadoc
     public static final Path CONFIG_DIR = getConfigDir();
-
-    static final Logger LOGGER = LogManager.getLogger("Amazing Trophies API");
 
     private static final Map<String, AchievementProperties> ACHIEVEMENTS = new LinkedHashMap<>();
     private static final Map<String, ConditionHandler> ACHIEVEMENT_CONDITION_HANDLERS = new HashMap<>();
