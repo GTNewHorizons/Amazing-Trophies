@@ -1,5 +1,8 @@
 package glowredman.amazingtrophies.api;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
@@ -10,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 // TODO javadoc
+@ParametersAreNonnullByDefault
 public class AchievementProperties {
 
     // TODO javadoc for all
@@ -28,7 +32,7 @@ public class AchievementProperties {
     }
 
     // TODO javadoc
-    public AchievementProperties(String page, int x, int y, String parent, ItemDefinition icon) {
+    public AchievementProperties(String page, int x, int y, @Nullable String parent, ItemDefinition icon) {
         this(page, x, y, parent, false, icon);
     }
 
@@ -38,7 +42,8 @@ public class AchievementProperties {
     }
 
     // TODO javadoc
-    public AchievementProperties(String page, int x, int y, String parent, boolean isSpecial, ItemDefinition icon) {
+    public AchievementProperties(String page, int x, int y, @Nullable String parent, boolean isSpecial,
+        ItemDefinition icon) {
         this.page = page;
         this.x = x;
         this.y = y;
@@ -123,7 +128,7 @@ public class AchievementProperties {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) return true;
         return obj instanceof AchievementProperties other && this.id.equals(other.id);
     }

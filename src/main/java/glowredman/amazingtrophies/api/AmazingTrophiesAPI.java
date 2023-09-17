@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,20 +23,20 @@ import org.apache.logging.log4j.Logger;
 import cpw.mods.fml.common.Loader;
 
 // TODO javadoc
+@ParametersAreNonnullByDefault
 public class AmazingTrophiesAPI {
+
+    static final Logger LOGGER = LogManager.getLogger("Amazing Trophies API");
 
     // TODO javadoc
     public static final Path CONFIG_DIR = getConfigDir();
-
-    static final Logger LOGGER = LogManager.getLogger("Amazing Trophies API");
 
     private static final Map<String, AchievementProperties> ACHIEVEMENTS = new LinkedHashMap<>();
     private static final Map<String, ConditionHandler> ACHIEVEMENT_CONDITION_HANDLERS = new HashMap<>();
     private static final Map<String, ConditionHandler> TROPHY_CONDITION_HANDLERS = new HashMap<>();
 
     // TODO add javadoc
-    @Nonnull
-    public static ItemStack getTrophyWithNBT(@Nonnull String trophyID, @Nonnull EntityPlayer player) {
+    public static ItemStack getTrophyWithNBT(String trophyID, EntityPlayer player) {
         // TODO impl
         return new ItemStack(Blocks.fire);
     }
@@ -48,7 +48,7 @@ public class AmazingTrophiesAPI {
      * @param player   The player to receive the trophy
      * @author glowredman
      */
-    public static void awardTrophy(@Nonnull String trophyID, @Nonnull EntityPlayer player) {
+    public static void awardTrophy(String trophyID, EntityPlayer player) {
         ItemStack trophy = getTrophyWithNBT(trophyID, player);
         if (player.inventory.addItemStackToInventory(trophy)) {
             // The trophy has been successfully added to the player's inventory
@@ -67,7 +67,7 @@ public class AmazingTrophiesAPI {
      *                        the same functionality and {@link ConditionHandler#getID() id}.
      * @author glowredman
      */
-    public static void registerConditionHandler(@Nonnull Supplier<ConditionHandler> handlerSupplier) {
+    public static void registerConditionHandler(Supplier<ConditionHandler> handlerSupplier) {
         ConditionHandler achievementHandler = handlerSupplier.get();
         String id = achievementHandler.getID();
         if (ACHIEVEMENT_CONDITION_HANDLERS.containsKey(id)) {
@@ -124,8 +124,7 @@ public class AmazingTrophiesAPI {
             Files.createDirectories(path);
             return path;
         } catch (Exception e) {
-            LOGGER.fatal("Failed to resolve config directory path!", e);
+            throw new RuntimeException("Failed to create config directory!", e);
         }
-        return null;
     }
 }

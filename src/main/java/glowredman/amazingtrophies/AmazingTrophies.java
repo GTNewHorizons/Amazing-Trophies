@@ -3,6 +3,7 @@ package glowredman.amazingtrophies;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -33,9 +34,15 @@ public class AmazingTrophies {
     }
 
     @EventHandler
-    public static void postLoad(FMLPostInitializationEvent event) {
+    public static void postInit(FMLPostInitializationEvent event) {
         AchievementHandler.registerMissingPages();
         AmazingTrophiesAPI.registerAchievements();
+
+        if (FMLCommonHandler.instance()
+            .getSide()
+            .isClient()) {
+            new LangHandler(AmazingTrophiesAPI.CONFIG_DIR);
+        }
     }
 
 }

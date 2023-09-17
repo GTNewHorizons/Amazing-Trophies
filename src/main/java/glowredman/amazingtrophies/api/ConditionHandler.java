@@ -2,6 +2,8 @@ package glowredman.amazingtrophies.api;
 
 import java.util.function.BiConsumer;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -10,6 +12,7 @@ import com.google.gson.JsonObject;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 // TODO javadoc
+@ParametersAreNonnullByDefault
 public abstract class ConditionHandler {
 
     private BiConsumer<String, EntityPlayer> listener;
