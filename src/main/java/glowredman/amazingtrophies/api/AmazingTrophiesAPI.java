@@ -5,20 +5,25 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.Loader;
 
@@ -31,14 +36,32 @@ public class AmazingTrophiesAPI {
     // TODO javadoc
     public static final Path CONFIG_DIR = getConfigDir();
 
+    public static final String TAGNAME_ID = "id";
+    public static final String TAGNAME_TIME = "time";
+    public static final String TAGNAME_UUID = "uuid";
+    public static final String TAGNAME_NAME = "name";
+
     private static final Map<String, AchievementProperties> ACHIEVEMENTS = new LinkedHashMap<>();
+    private static final Map<String, TrophyProperties> TROPHIES = new LinkedHashMap<>();
     private static final Map<String, ConditionHandler> ACHIEVEMENT_CONDITION_HANDLERS = new HashMap<>();
     private static final Map<String, ConditionHandler> TROPHY_CONDITION_HANDLERS = new HashMap<>();
+    private static Block blockTrophy;
 
     // TODO add javadoc
-    public static ItemStack getTrophyWithNBT(String trophyID, EntityPlayer player) {
-        // TODO impl
-        return new ItemStack(Blocks.fire);
+    public static ItemStack getTrophyWithNBT(String trophyID, @Nullable EntityPlayer player) {
+        ItemStack stack = new ItemStack(blockTrophy);
+        NBTTagCompound nbt = new NBTTagCompound();
+        if (player != null) {
+            GameProfile gameProfile = player.getGameProfile();
+            nbt.setLong(TAGNAME_TIME, System.currentTimeMillis());
+            nbt.setString(
+                TAGNAME_UUID,
+                gameProfile.getId()
+                    .toString());
+            nbt.setString(TAGNAME_NAME, gameProfile.getName());
+        }
+        stack.setTagCompound(nbt);
+        return stack;
     }
 
     /**
@@ -94,6 +117,18 @@ public class AmazingTrophiesAPI {
     }
 
     // TODO javadoc
+    public static void setTrophyBlock(Block block) {
+        if (blockTrophy == null) {
+            blockTrophy = block;
+        }
+    }
+
+    // TODO javadoc
+    public static Block getTrophyBlock() {
+        return blockTrophy;
+    }
+
+    // TODO javadoc
     public static ConditionHandler getAchievementConditionHandler(String id) {
         return ACHIEVEMENT_CONDITION_HANDLERS.get(id);
     }
@@ -115,6 +150,16 @@ public class AmazingTrophiesAPI {
             .forEach(AchievementProperties::register);
         ACHIEVEMENT_CONDITION_HANDLERS.values()
             .forEach(ConditionHandler::registerAsEventHandler);
+    }
+
+    // TODO javadoc
+    public static Set<String> getTrophyIDs() {
+        return TROPHIES.keySet();
+    }
+
+    // TODO javadoc
+    public static TrophyProperties getTrophyProperties(String id) {
+        return TROPHIES.get(id);
     }
 
     private static Path getConfigDir() {
