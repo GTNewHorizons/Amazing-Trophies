@@ -18,18 +18,6 @@ public abstract class ConditionHandler {
     private BiConsumer<String, EntityPlayer> listener;
 
     // TODO javadoc
-    public ConditionHandler() {
-        if (this.isFMLEventHandler()) {
-            FMLCommonHandler.instance()
-                .bus()
-                .register(this);
-        }
-        if (this.isForgeEventHandler()) {
-            MinecraftForge.EVENT_BUS.register(this);
-        }
-    }
-
-    // TODO javadoc
     public abstract String getID();
 
     // TODO javadoc
@@ -45,13 +33,24 @@ public abstract class ConditionHandler {
     }
 
     // TODO javadoc
-    public boolean isFMLEventHandler() {
+    protected boolean isFMLEventHandler() {
         return false;
     }
 
     // TODO javadoc
-    public boolean isForgeEventHandler() {
+    protected boolean isForgeEventHandler() {
         return false;
     }
 
+    // TODO javadoc
+    public void registerAsEventHandler() {
+        if (this.isFMLEventHandler()) {
+            FMLCommonHandler.instance()
+                .bus()
+                .register(this);
+        }
+        if (this.isForgeEventHandler()) {
+            MinecraftForge.EVENT_BUS.register(this);
+        }
+    }
 }

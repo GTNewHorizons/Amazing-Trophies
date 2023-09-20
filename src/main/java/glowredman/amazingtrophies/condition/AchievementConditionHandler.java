@@ -35,8 +35,8 @@ public class AchievementConditionHandler extends ConditionHandler {
     }
 
     @Override
-    public boolean isForgeEventHandler() {
-        return true;
+    protected boolean isForgeEventHandler() {
+        return !this.achievements.isEmpty();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

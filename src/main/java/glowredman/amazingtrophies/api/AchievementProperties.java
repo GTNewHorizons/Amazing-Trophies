@@ -23,8 +23,8 @@ public class AchievementProperties {
     public final String parent;
     public final boolean isSpecial;
     public final ItemDefinition icon;
-    transient String id;
-    private transient boolean registered = false;
+    String id;
+    private boolean registered = false;
 
     // TODO javadoc
     public AchievementProperties(String page, int x, int y, ItemDefinition icon) {

@@ -113,6 +113,8 @@ public class AmazingTrophiesAPI {
     public static void registerAchievements() {
         ACHIEVEMENTS.values()
             .forEach(AchievementProperties::register);
+        ACHIEVEMENT_CONDITION_HANDLERS.values()
+            .forEach(ConditionHandler::registerAsEventHandler);
     }
 
     private static Path getConfigDir() {
