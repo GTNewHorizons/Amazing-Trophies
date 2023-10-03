@@ -84,9 +84,11 @@ public class ItemBlockTrophy extends ItemBlock {
     @Override
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
         float hitX, float hitY, float hitZ, int metadata) {
-        metadata = Math.round(player.rotationYaw * 4.0f / 360.0f) & 3;
+        // Convert the player's rotation to an int (0 - 15) such that, when multiplied by 22.5, it represents the angle
+        // by which the model needs to be rotated to face the player.
+        metadata = Math.round(-player.rotationYaw / 22.5f) & 15;
         boolean placed = super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata);
-        if (placed && stack.hasTagCompound() && world.getTileEntity(x, y, z) instanceof TileTrophy tileTrophy) {
+        if (placed && stack.hasTagCompound() && world.getTileEntity(x, y, z) instanceof TileEntityTrophy tileTrophy) {
             tileTrophy.copyFromNBT(stack.getTagCompound());
             if (!world.isRemote) {
                 world.markBlockForUpdate(x, y, z);

@@ -4,44 +4,81 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.stats.Achievement;
+import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 import net.minecraftforge.common.AchievementPage;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-
-// TODO javadoc
+/**
+ * A class to store all properties of a custom {@link Achievement}.
+ * 
+ * @author glowredman
+ */
 @ParametersAreNonnullByDefault
 public class AchievementProperties {
 
-    // TODO javadoc for all
-    public final String page;
-    public final int x;
-    public final int y;
-    public final String parent;
-    public final boolean isSpecial;
-    public final ItemDefinition icon;
-    String id;
+    private final String page;
+    private final int x;
+    private final int y;
+    private final String parent;
+    private final boolean isSpecial;
+    private final ItemDefinition icon;
+
+    private String id;
     private boolean registered = false;
 
-    // TODO javadoc
+    /**
+     * Creates a non-special instance of {@code AchievementProperties} with no parent achievement.
+     * 
+     * @param page The Achievement page to display this custom achievement on
+     * @param x    The achievement's horizontal coordinate
+     * @param y    The achievement's vertical coordinate
+     * @param icon The item that is displayed in the achievements screen and ingame when the player gains it
+     */
     public AchievementProperties(String page, int x, int y, ItemDefinition icon) {
         this(page, x, y, null, icon);
     }
 
-    // TODO javadoc
+    /**
+     * Creates a non-special instance of {@code AchievementProperties}.
+     * 
+     * @param page   The Achievement page to display this custom achievement on
+     * @param x      The achievement's horizontal coordinate
+     * @param y      The achievement's vertical coordinate
+     * @param parent The stat ID of the achievement which needs to be completed before this one can be completed. If
+     *               {@code null}, this achievement can always be completed.
+     * @param icon   The item that is displayed in the achievements screen and ingame when the player gains it
+     */
     public AchievementProperties(String page, int x, int y, @Nullable String parent, ItemDefinition icon) {
         this(page, x, y, parent, false, icon);
     }
 
-    // TODO javadoc
+    /**
+     * Creates an instance of {@code AchievementProperties} with no parent achievement.
+     * 
+     * @param page      The Achievement page to display this custom achievement on
+     * @param x         The achievement's horizontal coordinate
+     * @param y         The achievement's vertical coordinate
+     * @param isSpecial Special achievements have a different background in the achievements screen and are mentioned in
+     *                  dark purple in the chat
+     * @param icon      The item that is displayed in the achievements screen and ingame when the player gains it
+     */
     public AchievementProperties(String page, int x, int y, boolean isSpecial, ItemDefinition icon) {
         this(page, x, y, null, isSpecial, icon);
     }
 
-    // TODO javadoc
+    /**
+     * Creates an instance of {@code AchievementProperties}.
+     * 
+     * @param page      The Achievement page to display this custom achievement on
+     * @param x         The achievement's horizontal coordinate
+     * @param y         The achievement's vertical coordinate
+     * @param parent    The stat ID of the achievement which needs to be completed before this one can be completed. If
+     *                  {@code null}, this achievement can always be completed.
+     * @param isSpecial Special achievements have a different background in the achievements screen and are mentioned in
+     *                  dark purple in the chat
+     * @param icon      The item that is displayed in the achievements screen and ingame when the player gains it
+     */
     public AchievementProperties(String page, int x, int y, @Nullable String parent, boolean isSpecial,
         ItemDefinition icon) {
         this.page = page;
@@ -52,40 +89,79 @@ public class AchievementProperties {
         this.icon = icon;
     }
 
-    public static AchievementProperties parse(JsonObject json, String id) throws JsonSyntaxException {
-        JsonElement pageJson = json.get("page");
-        if (pageJson == null) {
-            throw new JsonSyntaxException("Achievement \"" + id + "\" is missing required property \"page\"!");
-        }
-        JsonElement xJson = json.get("x");
-        if (xJson == null) {
-            throw new JsonSyntaxException("Achievement \"" + id + "\" is missing required property \"x\"!");
-        }
-        JsonElement yJson = json.get("y");
-        if (yJson == null) {
-            throw new JsonSyntaxException("Achievement \"" + id + "\" is missing required property \"y\"!");
-        }
-        JsonElement parentJson = json.get("parent");
-        JsonElement isSpecialJson = json.get("isSpecial");
-        try {
-            return new AchievementProperties(
-                pageJson.getAsString(),
-                xJson.getAsInt(),
-                yJson.getAsInt(),
-                parentJson == null || parentJson.isJsonNull() ? null : parentJson.getAsString(),
-                isSpecialJson == null ? false : isSpecialJson.getAsBoolean(),
-                ItemDefinition.parse(json.getAsJsonObject("icon")));
-        } catch (ClassCastException | IllegalStateException | JsonSyntaxException e) {
-            throw new JsonSyntaxException("Malformed JSON in achievement \"" + id + "\"!", e);
-        }
+    /**
+     * The Achievement page to display this custom achievement on
+     */
+    public String getPage() {
+        return this.page;
     }
 
-    // TODO javadoc
+    /**
+     * The achievement's horizontal coordinate
+     */
+    public int getX() {
+        return this.x;
+    }
+
+    /**
+     * The achievement's vertical coordinate
+     */
+    public int getY() {
+        return this.y;
+    }
+
+    /**
+     * The stat ID of the achievement which needs to be completed before this one can be completed. If {@code null},
+     * this achievement can always be completed.
+     */
+    @Nullable
+    public String getParent() {
+        return this.parent;
+    }
+
+    /**
+     * Special achievements have a different background in the achievements screen and are mentioned in dark purple in
+     * the chat
+     */
+    public boolean isSpecial() {
+        return this.isSpecial;
+    }
+
+    /**
+     * The item that is displayed in the achievements screen and ingame when the player gains it
+     */
+    public ItemDefinition getIcon() {
+        return this.icon;
+    }
+
+    /**
+     * The ID used to register this instance to the {@link AmazingTrophiesAPI}
+     */
     public String getID() {
         return this.id;
     }
 
-    // TODO javadoc
+    void setID(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Whether or not an {@link Achievement} with properties defined by this instance has been registered to the
+     * {@link StatList} and {@link AchievementList}.
+     * 
+     * @see Achievement#registerStat()
+     */
+    public boolean isRegistered() {
+        return this.registered;
+    }
+
+    /**
+     * Creates an {@link Achievement} object with the properties describe by this {@code AchievementProperties}
+     * instance. The achievement is added to its {@link AchievementPage} and registered. If a parent stat is specified
+     * which is
+     * either not (yet) registered or not an achievement or the achievement page could not be found, nothing happens and
+     * an error is logged.
+     */
     public void register() {
         if (this.registered) {
             return;
@@ -94,7 +170,7 @@ public class AchievementProperties {
         Achievement parent = null;
         String parentID = this.parent;
         if (parentID != null && !parentID.isEmpty()) {
-            StatBase stat = StatList.func_151177_a(parentID);
+            StatBase stat = StatList.func_151177_a(parentID); // getOneShotStat
             if (!(stat instanceof Achievement)) {
                 AmazingTrophiesAPI.LOGGER
                     .error("Parent achievement {} of {} is invalid or not yet registered!", this.parent, this.id);
@@ -122,11 +198,10 @@ public class AchievementProperties {
         this.registered = true;
     }
 
-    // TODO javadoc
-    public boolean isRegistered() {
-        return this.registered;
-    }
-
+    /**
+     * Two {@code AchievementProperties} objects are equal if and only if their {@link #id ids} are
+     * {@link String#equals(Object) equal}.
+     */
     @Override
     public boolean equals(@Nullable Object obj) {
         if (this == obj) return true;

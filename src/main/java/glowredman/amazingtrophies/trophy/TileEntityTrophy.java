@@ -10,20 +10,39 @@ import java.util.UUID;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.UsernameCache;
 
 import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.api.TrophyProperties;
 
-public class TileTrophy extends TileEntity {
+public class TileEntityTrophy extends TileEntity {
 
     private TrophyProperties props;
     private long time;
     private UUID uuid;
     private String name;
+
+    public TrophyProperties getProperties() {
+        return this.props;
+    }
+
+    public long getTime() {
+        return this.time;
+    }
+
+    public UUID getPlayerUUID() {
+        return this.uuid;
+    }
+
+    public String getPlayerName() {
+        return this.name;
+    }
 
     public ItemStack getItemStack() {
         ItemStack stack = new ItemStack(AmazingTrophiesAPI.getTrophyBlock());
@@ -45,7 +64,7 @@ public class TileTrophy extends TileEntity {
             nbt.setString(TAGNAME_UUID, this.uuid.toString());
         }
         if (this.name != null) {
-            nbt.setString(TAGNAME_NAME, this.name.toString());
+            nbt.setString(TAGNAME_NAME, this.name);
         }
         nbt.setLong(TAGNAME_TIME, this.time);
     }
@@ -79,6 +98,12 @@ public class TileTrophy extends TileEntity {
                     e);
             }
         }
+        if (this.uuid != null) {
+            String actualName = UsernameCache.getLastKnownUsername(this.uuid);
+            if (actualName != null) {
+                this.name = actualName;
+            }
+        }
     }
 
     @Override
@@ -86,6 +111,16 @@ public class TileTrophy extends TileEntity {
         NBTTagCompound nbt = new NBTTagCompound();
         this.writeToNBT(nbt);
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, this.blockMetadata, nbt);
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return INFINITE_EXTENT_AABB;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+        this.readFromNBT(pkt.func_148857_g()); // getNbtCompound
     }
 
     @Override

@@ -1,72 +1,117 @@
 package glowredman.amazingtrophies.api;
 
-import static net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE;
-
 import javax.annotation.Nonnegative;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringUtils;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import net.minecraftforge.oredict.OreDictionary;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
-// TODO javadoc
+/**
+ * A class holding all details to construct an {@link ItemStack}.
+ * 
+ * @author glowredman
+ *
+ */
 @ParametersAreNonnullByDefault
 public class ItemDefinition {
 
-    // TODO javadoc for all
-    public final String registryName;
-    public final int meta;
-    public final String nbt;
+    private final String registryName;
+    private final int meta;
+    private final String nbt;
 
-    // TODO javadoc
+    /**
+     * Creates an instance of {@code ItemDefinition} with meta = 0 and no NBT.
+     * 
+     * @param registryName The item's registry name. Format: {@code modid:itemName}
+     */
     public ItemDefinition(String registryName) {
         this(registryName, 0);
     }
 
-    // TODO javadoc
+    /**
+     * Creates an instance of {@code ItemDefinition} with no NBT.
+     * 
+     * @param registryName The item's registry name. Format: {@code modid:itemName}
+     * @param meta         A value between 0 and 32766 (both inclusive). {@link OreDictionary#WILDCARD_VALUE} can be
+     *                     used to represent any value.
+     */
     public ItemDefinition(String registryName, @Nonnegative int meta) {
         this(registryName, meta, null);
     }
 
-    // TODO javadoc
-    public ItemDefinition(String registryName, @Nonnegative int meta, String nbt) {
+    /**
+     * Creates an instance of {@code ItemDefinition} with meta = 0.
+     * 
+     * @param registryName The item's registry name. Format: {@code modid:itemName}
+     * @param nbt          The NBT value in <a href=https://minecraft.wiki/w/NBT_format#SNBT_format>SNBT format</a>. If
+     *                     {@code null} or empty, the NBT value will be ignored.
+     */
+    public ItemDefinition(String registryName, @Nullable String nbt) {
+        this(registryName, 0, nbt);
+    }
+
+    /**
+     * Creates an instance of {@code ItemDefinition}.
+     * 
+     * @param registryName The item's registry name. Format: {@code modid:itemName}
+     * @param meta         A value between 0 and 32766 (both inclusive). {@link OreDictionary#WILDCARD_VALUE} can be
+     *                     used to represent any value.
+     * @param nbt          The NBT value in <a href=https://minecraft.wiki/w/NBT_format#SNBT_format>SNBT format</a>. If
+     *                     {@code null} or empty, the NBT value will be ignored.
+     */
+    public ItemDefinition(String registryName, @Nonnegative int meta, @Nullable String nbt) {
         this.registryName = registryName;
         this.meta = meta;
         this.nbt = nbt;
     }
 
-    // TODO javadoc
-    public static ItemDefinition parse(JsonObject json) throws JsonSyntaxException {
-        JsonElement registryNameJson = json.get("registryName");
-        if (registryNameJson == null) {
-            throw new JsonSyntaxException("Required property \"registryName\" is missing!");
-        }
-        JsonElement metaJson = json.get("meta");
-        JsonElement nbtJson = json.get("nbt");
-        try {
-            return new ItemDefinition(
-                registryNameJson.getAsString(),
-                metaJson == null ? 0 : metaJson.getAsInt(),
-                nbtJson == null || nbtJson.isJsonNull() ? null : nbtJson.getAsString());
-        } catch (ClassCastException | IllegalStateException e) {
-            throw new JsonSyntaxException("Malformed JSON!", e);
-        }
+    /**
+     * Gets the item's registry name. Format: {@code modid:itemName}
+     */
+    public String getRegistryName() {
+        return this.registryName;
     }
 
-    // TODO add javadoc
+    /**
+     * Gets the item stack's meta value.
+     * 
+     * @return A value between 0 and 32767 (both inclusive)
+     */
+    @Nonnegative
+    public int getMeta() {
+        return this.meta;
+    }
+
+    /**
+     * Gets the item stack's NBT value in <a href=https://minecraft.wiki/w/NBT_format#SNBT_format>SNBT format</a>. A
+     * {@code null} or empty string may be returned to indicate that the NBT value should be ignored.
+     */
+    @Nullable
+    public String getNbt() {
+        return this.nbt;
+    }
+
+    /**
+     * Constructs a new {@link ItemStack} using the stored properties.
+     * 
+     * @param stackSize The item stack's size
+     * @see GameRegistry#makeItemStack(String, int, int, String)
+     */
     public ItemStack getAsStack(int stackSize) {
         ItemStack stack = this.getAsStack();
         stack.stackSize = stackSize;
         return stack;
     }
 
-    // TODO add javadoc
+    /**
+     * Constructs a new {@link ItemStack} with stackSize = 1 using the stored properties.
+     * 
+     * @see GameRegistry#makeItemStack(String, int, int, String)
+     */
     public ItemStack getAsStack() {
         // FML completely ignores the stackSize parameter in the method's implementation...
         return GameRegistry.makeItemStack(this.registryName, this.meta, 0, this.nbt);
@@ -78,8 +123,8 @@ public class ItemDefinition {
         // spotless:off
         return obj instanceof ItemDefinition other
                 && this.registryName.equals(other.registryName)
-                && (this.meta == other.meta || this.meta == WILDCARD_VALUE || other.meta == WILDCARD_VALUE)
-                && (this.nbt.equals(other.nbt) || StringUtils.isNullOrEmpty(this.nbt) || StringUtils.isNullOrEmpty(other.nbt));
+                && (this.meta == other.meta || this.meta == OreDictionary.WILDCARD_VALUE || other.meta == OreDictionary.WILDCARD_VALUE)
+                && (StringUtils.isNullOrEmpty(this.nbt) || StringUtils.isNullOrEmpty(other.nbt) || this.nbt.equals(other.nbt));
         // spotless:on
     }
 

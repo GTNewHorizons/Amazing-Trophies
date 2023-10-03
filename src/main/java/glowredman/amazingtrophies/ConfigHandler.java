@@ -10,12 +10,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
-
 public class ConfigHandler {
 
     public static void parseOrCreate(String fileName, Consumer<? super Entry<String, JsonElement>> action) {
-        Path path = AmazingTrophiesAPI.CONFIG_DIR.resolve(fileName);
+        Path path = AmazingTrophies.CONFIG_DIR.resolve(fileName);
         if (Files.exists(path)) {
             try (JsonReader reader = new JsonReader(Files.newBufferedReader(path))) {
                 new JsonParser().parse(reader)
