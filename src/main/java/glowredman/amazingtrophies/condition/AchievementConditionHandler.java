@@ -1,12 +1,12 @@
 package glowredman.amazingtrophies.condition;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.player.AchievementEvent;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -16,7 +16,7 @@ public class AchievementConditionHandler extends ConditionHandler {
 
     public static final String ID = "achievement";
 
-    private final Map<String, String> achievements = new HashMap<>();
+    private final Multimap<String, String> achievements = HashMultimap.create();
 
     @Override
     public String getID() {
@@ -24,14 +24,18 @@ public class AchievementConditionHandler extends ConditionHandler {
     }
 
     @Override
-    public void parse(String id, JsonObject json) {
+    public void parse(String id, JsonObject json) throws JsonSyntaxException {
         if (!json.has("id")) {
-            throw new JsonParseException(id + "is missing required property \"id\"!");
+            throw new JsonSyntaxException("\"" + id + "\" is missing required property \"id\"!");
         }
-        this.achievements.put(
-            json.get("id")
-                .getAsString(),
-            id);
+        try {
+            this.achievements.put(
+                json.get("id")
+                    .getAsString(),
+                id);
+        } catch (Exception e) {
+            throw new JsonSyntaxException("Malformed JSON!", e);
+        }
     }
 
     @Override
@@ -41,12 +45,17 @@ public class AchievementConditionHandler extends ConditionHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onAchievement(AchievementEvent event) {
-        String trophyID = achievements.get(event.achievement.statId);
-        if (trophyID == null) {
+        if (!(event.entityPlayer instanceof EntityPlayerMP player)) {
             return;
         }
-        this.getListener()
-            .accept(trophyID, event.entityPlayer);
+        if (player.func_147099_x() // getStatFile
+            .hasAchievementUnlocked(event.achievement)) {
+            return;
+        }
+        for (String trophyID : this.achievements.get(event.achievement.statId)) {
+            this.getListener()
+                .accept(trophyID, player);
+        }
     }
 
 }
