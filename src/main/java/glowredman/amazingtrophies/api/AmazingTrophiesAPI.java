@@ -317,6 +317,7 @@ public class AmazingTrophiesAPI {
             return;
         }
 
+        achievementHandler.setOwner("achievements");
         achievementHandler.setListener((achievementID, player) -> {
             StatBase stat = StatList.func_151177_a(achievementID); // getOneShotStat
             if (stat == null || !stat.isAchievement()) {
@@ -327,6 +328,7 @@ public class AmazingTrophiesAPI {
         ACHIEVEMENT_CONDITION_HANDLERS.put(id, achievementHandler);
 
         ConditionHandler trophyHandler = handlerSupplier.get();
+        trophyHandler.setOwner("trophies");
         trophyHandler.setListener(AmazingTrophiesAPI::awardTrophy);
         TROPHY_CONDITION_HANDLERS.put(id, trophyHandler);
     }

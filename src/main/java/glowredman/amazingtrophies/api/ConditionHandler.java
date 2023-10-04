@@ -25,6 +25,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 @ParametersAreNonnullByDefault
 public abstract class ConditionHandler {
 
+    private String owner;
     private BiConsumer<String, EntityPlayer> listener;
 
     /**
@@ -44,15 +45,24 @@ public abstract class ConditionHandler {
      */
     public abstract void parse(String id, JsonObject json) throws JsonSyntaxException;
 
+    void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     void setListener(BiConsumer<String, EntityPlayer> listener) {
         this.listener = listener;
     }
 
     /**
+     * Gets this condition handler's owner (e.g. "achievements" or "trophies").
+     */
+    public String getOwner() {
+        return this.owner;
+    }
+
+    /**
      * Gets the action to trigger. The first argument of {@link BiConsumer#accept(Object, Object)} is the ID, as
-     * received by {@link #parse(String, JsonObject)}, the
-     * 
-     * @return
+     * received by {@link #parse(String, JsonObject)}, the second argument is the player to trigger the action on.
      */
     protected BiConsumer<String, EntityPlayer> getListener() {
         return this.listener;
