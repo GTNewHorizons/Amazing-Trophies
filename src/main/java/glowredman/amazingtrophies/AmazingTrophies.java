@@ -12,6 +12,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLConstructionEvent;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -60,7 +61,10 @@ public class AmazingTrophies {
             ClientHandler.registerTrophyModelHandlers();
             ClientHandler.setupTrophyRenderer();
         }
+    }
 
+    @EventHandler
+    public static void init(FMLInitializationEvent event) {
         ConfigHandler.parseOrCreate("achievements.json", AchievementHandler::parseAchievement);
         ConfigHandler.parseOrCreate("trophies.json", TrophyHandler::parseTrophy);
     }
