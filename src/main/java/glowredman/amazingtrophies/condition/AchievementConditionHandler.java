@@ -5,6 +5,7 @@ import net.minecraftforge.event.entity.player.AchievementEvent;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
@@ -25,16 +26,14 @@ public class AchievementConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        if (!json.has("id")) {
+        JsonElement idJson = json.get("id");
+        if (idJson == null) {
             throw new JsonSyntaxException("\"" + id + "\" is missing required property \"id\"!");
         }
         try {
-            this.achievements.put(
-                json.get("id")
-                    .getAsString(),
-                id);
-        } catch (Exception e) {
-            throw new JsonSyntaxException("Malformed JSON!", e);
+            this.achievements.put(idJson.getAsString(), id);
+        } catch (ClassCastException | IllegalStateException e) {
+            throw new JsonSyntaxException("Malformed condition JSON!", e);
         }
     }
 
