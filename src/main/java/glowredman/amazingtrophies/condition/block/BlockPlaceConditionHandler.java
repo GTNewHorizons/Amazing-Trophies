@@ -21,7 +21,7 @@ public class BlockPlaceConditionHandler extends BlockConditionHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onBlockBreak(PlaceEvent event) {
+    public void onBlockPlace(PlaceEvent event) {
         EntityPlayer player = event.player;
         if (player == null || player instanceof FakePlayer) {
             return;

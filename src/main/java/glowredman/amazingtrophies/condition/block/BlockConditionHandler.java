@@ -69,12 +69,14 @@ public abstract class BlockConditionHandler extends ConditionHandler {
             this.blocks.put(Pair.of(block, blockMetaPair.getRight()), id);
         }
 
-        StringJoiner joiner = new StringJoiner(", ");
-        failed.stream()
-            .map(p -> p.getLeft() + " (" + p.getRight() + ")")
-            .forEach(joiner::add);
-        AmazingTrophies.LOGGER
-            .warn("Could not find block objects specified by the following {}: {}", this.getOwner(), joiner);
+        if (!failed.isEmpty()) {
+            StringJoiner joiner = new StringJoiner(", ");
+            failed.stream()
+                .map(p -> p.getLeft() + " (" + p.getRight() + ")")
+                .forEach(joiner::add);
+            AmazingTrophies.LOGGER
+                .warn("Could not find block objects specified by the following {}: {}", this.getOwner(), joiner);
+        }
 
         this.blocksRaw.clear();
     }
