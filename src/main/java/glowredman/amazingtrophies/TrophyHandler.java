@@ -32,7 +32,7 @@ public class TrophyHandler {
                 if (typeJson == null) {
                     throw new JsonSyntaxException("Required property \"condition/type\" is missing!");
                 }
-                conditionHandler = AmazingTrophiesAPI.getAchievementConditionHandler(typeJson.getAsString());
+                conditionHandler = AmazingTrophiesAPI.getTrophyConditionHandler(typeJson.getAsString());
                 if (conditionHandler == null) {
                     throw new IllegalArgumentException(
                         "Referencing unknown condition type: \"" + typeJson.getAsString() + "\"");
