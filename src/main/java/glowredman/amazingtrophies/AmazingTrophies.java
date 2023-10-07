@@ -21,15 +21,18 @@ import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.api.ConditionHandler;
 import glowredman.amazingtrophies.api.Reference;
 import glowredman.amazingtrophies.condition.AchievementConditionHandler;
-import glowredman.amazingtrophies.condition.block.BlockBreakConditionHandler;
-import glowredman.amazingtrophies.condition.block.BlockPlaceConditionHandler;
+import glowredman.amazingtrophies.condition.BlockConditionHandler;
+import glowredman.amazingtrophies.condition.DropItemConditionHandler;
+import glowredman.amazingtrophies.condition.JoinWorldConditionHandler;
+import glowredman.amazingtrophies.condition.StruckByLightningConditionHandler;
+import glowredman.amazingtrophies.condition.ThrowEnderpearlConditionHandler;
 import glowredman.amazingtrophies.trophy.BlockTrophy;
 import glowredman.amazingtrophies.trophy.ItemBlockTrophy;
 import glowredman.amazingtrophies.trophy.TileEntityTrophy;
 
 @Mod(
     acceptedMinecraftVersions = "[1.7.10]",
-    // dependencies = "required-after:gtnhlib@[0.0.10)",
+    dependencies = "required-after:gtnhlib@[0.0.10)",
     modid = AmazingTrophies.MODID,
     name = AmazingTrophies.MODNAME,
     version = AmazingTrophies.VERSION)
@@ -84,8 +87,12 @@ public class AmazingTrophies {
 
     private static void registerConditionHandlers() {
         AmazingTrophiesAPI.registerConditionHandler(AchievementConditionHandler::new);
-        AmazingTrophiesAPI.registerConditionHandler(BlockBreakConditionHandler::new);
-        AmazingTrophiesAPI.registerConditionHandler(BlockPlaceConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(BlockConditionHandler.Break::new);
+        AmazingTrophiesAPI.registerConditionHandler(BlockConditionHandler.Place::new);
+        AmazingTrophiesAPI.registerConditionHandler(DropItemConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(JoinWorldConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(StruckByLightningConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(ThrowEnderpearlConditionHandler::new);
     }
 
     private static Path getConfigDir() {
