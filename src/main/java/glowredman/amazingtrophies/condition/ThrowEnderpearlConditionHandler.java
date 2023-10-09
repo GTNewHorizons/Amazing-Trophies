@@ -8,17 +8,18 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
 
 public class ThrowEnderpearlConditionHandler extends ConditionHandler {
 
     public static final String ID = "enderpearl";
+    public static final String PROPERTY_DISTANCE = "distance";
 
     private final List<Pair<Double, String>> distances = new ArrayList<>();
 
@@ -29,14 +30,10 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        JsonElement distJson = json.get("distance");
-        if (distJson == null) {
-            throw new JsonSyntaxException("\"" + id + "\" is missing required property \"distance\"!");
-        }
-        double dist = 0.0;
+        double dist;
         try {
-            dist = distJson.getAsDouble();
-        } catch (ClassCastException | IllegalStateException e) {
+            dist = ConfigHandler.getDoubleProperty(json, PROPERTY_DISTANCE, id);
+        } catch (ClassCastException | IllegalStateException | NumberFormatException e) {
             throw new JsonSyntaxException("Malformed condition JSON!", e);
         }
         this.distances.add(Pair.of(dist * dist, id));

@@ -5,39 +5,36 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameData;
+import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
 
 public abstract class BlockConditionHandler extends ConditionHandler {
+
+    public static final String PROPERTY_BLOCK = "block";
+    public static final String PROPERTY_META = "meta";
 
     protected final Multimap<Pair<Block, Integer>, String> blocks = HashMultimap.create();
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        JsonElement blockJson = json.get("block");
-        if (blockJson == null) {
-            throw new JsonSyntaxException("\"" + id + "\" is missing required property \"block\"!");
-        }
-        JsonElement metaJson = json.get("meta");
-        int meta = -1;
-        String registryName = null;
+        int meta;
+        String registryName;
         try {
-            if (metaJson != null && !metaJson.isJsonNull()) {
-                meta = metaJson.getAsInt();
-            }
-            registryName = blockJson.getAsString();
-        } catch (ClassCastException | IllegalStateException e) {
+            meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, id, OreDictionary.WILDCARD_VALUE);
+            registryName = ConfigHandler.getStringProperty(json, PROPERTY_BLOCK, id);
+        } catch (ClassCastException | IllegalStateException | NumberFormatException e) {
             throw new JsonSyntaxException("Malformed condition JSON!", e);
         }
         Block block = GameData.getBlockRegistry()
@@ -61,7 +58,7 @@ public abstract class BlockConditionHandler extends ConditionHandler {
             this.getListener()
                 .accept(id, player);
         }
-        for (String id : this.blocks.get(Pair.of(block, -1))) {
+        for (String id : this.blocks.get(Pair.of(block, OreDictionary.WILDCARD_VALUE))) {
             this.getListener()
                 .accept(id, player);
         }

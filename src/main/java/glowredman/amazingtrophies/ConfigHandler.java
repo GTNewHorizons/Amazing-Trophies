@@ -5,9 +5,12 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 public class ConfigHandler {
@@ -30,6 +33,39 @@ public class ConfigHandler {
                 AmazingTrophies.LOGGER.error("Failed to create " + fileName + "!", e);
             }
         }
+    }
+
+    public static <T> T getProperty(JsonObject json, String key, String id, Function<JsonElement, T> parser)
+        throws JsonSyntaxException {
+        JsonElement element = json.get(key);
+        if (element == null) {
+            throw new JsonSyntaxException("\"" + id + "\" is missing required property \"" + key + "\"!");
+        }
+        return parser.apply(element);
+    }
+
+    public static double getDoubleProperty(JsonObject json, String key, String id) throws JsonSyntaxException {
+        return getProperty(json, key, id, JsonElement::getAsDouble);
+    }
+
+    public static String getStringProperty(JsonObject json, String key, String id) throws JsonSyntaxException {
+        return getProperty(json, key, id, JsonElement::getAsString);
+    }
+
+    public static <T> T getProperty(JsonObject json, String key, String id, Function<JsonElement, T> parser, T fallback)
+        throws JsonSyntaxException {
+        JsonElement element = json.get(key);
+        return element == null ? fallback : parser.apply(element);
+    }
+
+    public static int getIntegerProperty(JsonObject json, String key, String id, int fallback)
+        throws JsonSyntaxException {
+        return getProperty(json, key, id, JsonElement::getAsInt, fallback);
+    }
+
+    public static String getStringProperty(JsonObject json, String key, String id, String fallback)
+        throws JsonSyntaxException {
+        return getProperty(json, key, id, JsonElement::getAsString, fallback);
     }
 
 }

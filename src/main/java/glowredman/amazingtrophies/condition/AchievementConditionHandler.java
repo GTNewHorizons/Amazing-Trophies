@@ -5,17 +5,18 @@ import net.minecraftforge.event.entity.player.AchievementEvent;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
 
 public class AchievementConditionHandler extends ConditionHandler {
 
     public static final String ID = "achievement";
+    public static final String PROPERTY_ID = "id";
 
     private final Multimap<String, String> achievements = HashMultimap.create();
 
@@ -26,12 +27,8 @@ public class AchievementConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        JsonElement idJson = json.get("id");
-        if (idJson == null) {
-            throw new JsonSyntaxException("\"" + id + "\" is missing required property \"id\"!");
-        }
         try {
-            this.achievements.put(idJson.getAsString(), id);
+            this.achievements.put(ConfigHandler.getStringProperty(json, PROPERTY_ID, id), id);
         } catch (ClassCastException | IllegalStateException e) {
             throw new JsonSyntaxException("Malformed condition JSON!", e);
         }

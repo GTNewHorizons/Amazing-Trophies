@@ -18,6 +18,8 @@ import glowredman.amazingtrophies.api.ConditionHandler;
 public class JoinWorldConditionHandler extends ConditionHandler {
 
     public static final String ID = "dimension.join";
+    public static final String PROPERTY_ID = "id";
+    public static final String PROPERTY_PROVIDER = "provider";
 
     private final Multimap<Integer, String> byID = HashMultimap.create();
     private final Multimap<Class<? extends WorldProvider>, String> byProvider = HashMultimap.create();
@@ -30,16 +32,21 @@ public class JoinWorldConditionHandler extends ConditionHandler {
     @SuppressWarnings("unchecked")
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        JsonElement idJson = json.get("id");
-        JsonElement providerJson = json.get("provider");
+        JsonElement idJson = json.get(PROPERTY_ID);
+        JsonElement providerJson = json.get(PROPERTY_PROVIDER);
         if (idJson != null && !idJson.isJsonNull() && providerJson != null && !providerJson.isJsonNull()) {
             throw new JsonSyntaxException(
-                "\"" + id + "\" is overdefined! Properties \"id\" and \"provider\" exclude each other.");
+                "\"" + id
+                    + "\" is overdefined! Properties \""
+                    + PROPERTY_ID
+                    + "\" and \""
+                    + PROPERTY_PROVIDER
+                    + "\" exclude each other.");
         }
         if (idJson != null && !idJson.isJsonNull()) {
             try {
                 this.byID.put(idJson.getAsInt(), id);
-            } catch (ClassCastException | IllegalStateException e) {
+            } catch (ClassCastException | IllegalStateException | NumberFormatException e) {
                 throw new JsonSyntaxException("Malformed condition JSON!", e);
             }
             return;
@@ -63,7 +70,8 @@ public class JoinWorldConditionHandler extends ConditionHandler {
             }
             return;
         }
-        throw new JsonSyntaxException("\"" + id + "\" is missing required property \"id\" or \"provider\"!");
+        throw new JsonSyntaxException(
+            "\"" + id + "\" is missing required property \"" + PROPERTY_ID + "\" or \"" + PROPERTY_PROVIDER + "\"!");
     }
 
     @Override

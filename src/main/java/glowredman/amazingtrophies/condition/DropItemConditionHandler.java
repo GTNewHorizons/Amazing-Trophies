@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.gtnewhorizon.gtnhlib.util.map.ItemStackMap;
@@ -16,11 +15,15 @@ import com.gtnewhorizon.gtnhlib.util.map.ItemStackMap;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
 
 public class DropItemConditionHandler extends ConditionHandler {
 
     public static final String ID = "item.drop";
+    public static final String PROPERTY_ITEM = "item";
+    public static final String PROPERTY_META = "meta";
+    public static final String PROPERTY_NBT = "nbt";
 
     private final Map<ItemStack, Set<String>> items = new ItemStackMap<>(false);
     private final Map<ItemStack, Set<String>> itemsNBT = new ItemStackMap<>(true);
@@ -32,24 +35,13 @@ public class DropItemConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        JsonElement itemJson = json.get("item");
-        if (itemJson == null) {
-            throw new JsonSyntaxException("\"" + id + "\" is missing required property \"item\"!");
-        }
-        JsonElement metaJson = json.get("meta");
-        JsonElement nbtJson = json.get("nbt");
-        String registryName = null;
-        String nbt = null;
-        ItemStack stack = null;
+        String registryName;
+        String nbt;
+        ItemStack stack;
         try {
-            registryName = itemJson.getAsString();
-            int meta = OreDictionary.WILDCARD_VALUE;
-            if (metaJson != null && !metaJson.isJsonNull()) {
-                meta = metaJson.getAsInt();
-            }
-            if (nbtJson != null && !nbtJson.isJsonNull()) {
-                nbt = nbtJson.getAsString();
-            }
+            registryName = ConfigHandler.getStringProperty(json, PROPERTY_ITEM, id);
+            int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, id, OreDictionary.WILDCARD_VALUE);
+            nbt = ConfigHandler.getStringProperty(json, PROPERTY_NBT, id, null);
             stack = GameRegistry.makeItemStack(registryName, meta, 0, nbt);
         } catch (RuntimeException e) {
             throw new JsonSyntaxException("Malformed condition JSON!", e);

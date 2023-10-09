@@ -7,7 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -25,7 +24,7 @@ public class StruckByLightningConditionHandler extends ConditionHandler {
     }
 
     @Override
-    public void parse(String id, JsonObject json) throws JsonSyntaxException {
+    public void parse(String id, JsonObject json) {
         this.ids.add(id);
     }
 
