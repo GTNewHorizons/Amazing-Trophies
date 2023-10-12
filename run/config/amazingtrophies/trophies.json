@@ -1,0 +1,309 @@
+{
+	"achievement": {
+		"condition": {
+			"type": "achievement",
+			"id": "achievement.openInventory"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"achievement.error": {
+		"condition": {
+			"type": "achievement"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"attack.entity.damage": {
+		"condition": {
+			"type": "attack.entity",
+			"damage": 5.0
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"attack.entity.damage.error": {
+		"condition": {
+			"type": "attack.entity",
+			"damage": "test"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"attack.entity.sources": {
+		"condition": {
+			"type": "attack.entity",
+			"sources": [
+			    "arrow"
+			],
+			"isSourcessAllowList": true
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"attack.entity.sources.error": {
+		"condition": {
+			"type": "attack.entity",
+			"sources": [
+			    "test",
+				null
+			]
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"attack.entity.targets1": {
+		"condition": {
+			"type": "attack.entity",
+			"targets": [
+			    "Pig"
+			],
+			"isTargetssAllowList": true
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"attack.entity.targets1.error": {
+		"condition": {
+			"type": "attack.entity",
+			"targets": {
+				"test": null
+			}
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"attack.entity.targets2": {
+		"condition": {
+			"type": "attack.entity",
+			"targets": [
+			    "net.minecraft.entity.passive.EntityCow",
+				"net.minecraft.entity.passive.EntitySheep"
+			],
+			"isTargetssAllowList": true
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"attack.entity.targets2.error1": {
+		"condition": {
+			"type": "attack.entity",
+			"targets": [
+			    "net.minecraft.entity.item.EntityItem"
+			]
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"attack.entity.targets2.error2": {
+		"condition": {
+			"type": "attack.entity",
+			"targets": [
+			    "com.example.Class"
+			]
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"block.break": {
+		"condition": {
+			"type": "block.break",
+			"block": "minecraft:sand"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"block.break.error": {
+		"condition": {
+			"type": "block.break",
+			"block": "test"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"block.place": {
+		"condition": {
+			"type": "block.place",
+			"block": "minecraft:sand"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"block.place.error": {
+		"condition": {
+			"type": "block.place",
+			"block": "minecraft:dirt",
+			"meta": -1
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"block.break": {
+		"condition": {
+			"type": "block.break",
+			"block": "minecraft:sand"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"item.drop": {
+		"condition": {
+			"type": "item.drop",
+			"item": "minecraft:diamond_sword",
+			"meta": 0
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"item.drop.wildcard": {
+		"condition": {
+			"type": "item.drop",
+			"item": "minecraft:diamond_sword"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"item.drop.nbt": {
+		"condition": {
+			"type": "item.drop",
+			"item": "minecraft:diamond_sword",
+			"nbt": "{display:{Lore:[Test]}}"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"item.drop.nbt.error": {
+		"condition": {
+			"type": "item.drop",
+			"item": "minecraft:diamond_sword",
+			"nbt": "ydflkjnykdlfjbngydfgkjlb"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"dimension.join.id": {
+		"condition": {
+			"type": "dimension.join",
+			"id": 1
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"dimension.join.provider": {
+		"condition": {
+			"type": "dimension.join",
+			"provider": "net.minecraft.world.WorldProviderHell"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"dimension.join.error1": {
+		"condition": {
+			"type": "dimension.join"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"dimension.join.error2": {
+		"condition": {
+			"type": "dimension.join",
+			"id": -1,
+			"provider": "net.minecraft.world.WorldProviderHell"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"lightning": {
+		"condition": {
+			"type": "lightning"
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	},
+	"enderpearl": {
+		"condition": {
+			"type": "enderpearl",
+			"distance": 5.0
+		},
+		"model": {
+			"type": "advanced",
+			"model": "model.obj",
+			"texture": "texture.png"
+		}
+	}
+}
