@@ -9,7 +9,6 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -29,13 +28,8 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
     }
 
     @Override
-    public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        double dist;
-        try {
-            dist = ConfigHandler.getDoubleProperty(json, PROPERTY_DISTANCE, id);
-        } catch (ClassCastException | IllegalStateException | NumberFormatException e) {
-            throw new JsonSyntaxException("Malformed condition JSON!", e);
-        }
+    public void parse(String id, JsonObject json) {
+        double dist = ConfigHandler.getDoubleProperty(json, PROPERTY_DISTANCE, id);
         this.distances.add(Pair.of(dist * dist, id));
     }
 

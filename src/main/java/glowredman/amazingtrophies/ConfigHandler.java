@@ -35,8 +35,7 @@ public class ConfigHandler {
         }
     }
 
-    public static <T> T getProperty(JsonObject json, String key, String id, Function<JsonElement, T> parser)
-        throws JsonSyntaxException {
+    public static <T> T getProperty(JsonObject json, String key, String id, Function<JsonElement, T> parser) {
         JsonElement element = json.get(key);
         if (element == null) {
             throw new JsonSyntaxException("\"" + id + "\" is missing required property \"" + key + "\"!");
@@ -44,27 +43,25 @@ public class ConfigHandler {
         return parser.apply(element);
     }
 
-    public static double getDoubleProperty(JsonObject json, String key, String id) throws JsonSyntaxException {
+    public static double getDoubleProperty(JsonObject json, String key, String id) {
         return getProperty(json, key, id, JsonElement::getAsDouble);
     }
 
-    public static String getStringProperty(JsonObject json, String key, String id) throws JsonSyntaxException {
+    public static String getStringProperty(JsonObject json, String key, String id) {
         return getProperty(json, key, id, JsonElement::getAsString);
     }
 
-    public static <T> T getProperty(JsonObject json, String key, String id, Function<JsonElement, T> parser, T fallback)
-        throws JsonSyntaxException {
+    public static <T> T getProperty(JsonObject json, String key, String id, Function<JsonElement, T> parser,
+        T fallback) {
         JsonElement element = json.get(key);
         return element == null ? fallback : parser.apply(element);
     }
 
-    public static int getIntegerProperty(JsonObject json, String key, String id, int fallback)
-        throws JsonSyntaxException {
+    public static int getIntegerProperty(JsonObject json, String key, String id, int fallback) {
         return getProperty(json, key, id, JsonElement::getAsInt, fallback);
     }
 
-    public static String getStringProperty(JsonObject json, String key, String id, String fallback)
-        throws JsonSyntaxException {
+    public static String getStringProperty(JsonObject json, String key, String id, String fallback) {
         return getProperty(json, key, id, JsonElement::getAsString, fallback);
     }
 

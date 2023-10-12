@@ -6,7 +6,6 @@ import net.minecraftforge.event.entity.player.AchievementEvent;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -26,12 +25,8 @@ public class AchievementConditionHandler extends ConditionHandler {
     }
 
     @Override
-    public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        try {
-            this.achievements.put(ConfigHandler.getStringProperty(json, PROPERTY_ID, id), id);
-        } catch (ClassCastException | IllegalStateException e) {
-            throw new JsonSyntaxException("Malformed condition JSON!", e);
-        }
+    public void parse(String id, JsonObject json) {
+        this.achievements.put(ConfigHandler.getStringProperty(json, PROPERTY_ID, id), id);
     }
 
     @Override

@@ -8,7 +8,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 
@@ -40,10 +39,11 @@ public abstract class ConditionHandler {
      * 
      * @param id   the string identifying the parent JSON object
      * @param json the JSON object to parse
-     * @throws JsonSyntaxException if the JSON object is not conforming with the syntax specified by the implementing
-     *                             ConditionHandler
+     * @throws Exception This method may throw any Exception, e.g. if the JSON object is not conforming with the syntax
+     *                   specified by the implementing
+     *                   ConditionHandler or if a value can not be found in a registry.
      */
-    public abstract void parse(String id, JsonObject json) throws JsonSyntaxException;
+    public abstract void parse(String id, JsonObject json);
 
     void setOwner(String owner) {
         this.owner = owner;

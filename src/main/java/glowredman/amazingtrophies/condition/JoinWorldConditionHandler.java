@@ -12,7 +12,6 @@ import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.ConditionHandler;
 
 public class JoinWorldConditionHandler extends ConditionHandler {
@@ -31,7 +30,7 @@ public class JoinWorldConditionHandler extends ConditionHandler {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void parse(String id, JsonObject json) throws JsonSyntaxException {
+    public void parse(String id, JsonObject json) {
         JsonElement idJson = json.get(PROPERTY_ID);
         JsonElement providerJson = json.get(PROPERTY_PROVIDER);
         if (idJson != null && !idJson.isJsonNull() && providerJson != null && !providerJson.isJsonNull()) {
@@ -44,31 +43,27 @@ public class JoinWorldConditionHandler extends ConditionHandler {
                     + "\" exclude each other.");
         }
         if (idJson != null && !idJson.isJsonNull()) {
-            try {
-                this.byID.put(idJson.getAsInt(), id);
-            } catch (ClassCastException | IllegalStateException | NumberFormatException e) {
-                throw new JsonSyntaxException("Malformed condition JSON!", e);
-            }
+            this.byID.put(idJson.getAsInt(), id);
             return;
         } else if (providerJson != null && !providerJson.isJsonNull()) {
             try {
                 Class<?> clazz = Class.forName(providerJson.getAsString());
                 if (WorldProvider.class.isAssignableFrom(clazz)) {
                     this.byProvider.put((Class<? extends WorldProvider>) clazz, id);
-                } else {
-                    AmazingTrophies.LOGGER.warn(
-                        "Could not parse condition of \"{}\": provider {} is not a subclass of {}!",
-                        id,
-                        clazz.getName(),
-                        WorldProvider.class);
+                    return;
                 }
-            } catch (ClassCastException | IllegalStateException e) {
-                throw new JsonSyntaxException("Malformed condition JSON!", e);
+                throw new IllegalArgumentException(
+                    "Could not parse condition of \"" + id
+                        + "\": provider "
+                        + clazz.getName()
+                        + " is not a subclass of "
+                        + WorldProvider.class.getName()
+                        + "!");
             } catch (ClassNotFoundException e) {
-                AmazingTrophies.LOGGER
-                    .error("Could not parse condition of \"" + id + "\": provider class could not be found!", e);
+                throw new IllegalArgumentException(
+                    "Could not parse condition of \"" + id + "\": provider class could not be found!",
+                    e);
             }
-            return;
         }
         throw new JsonSyntaxException(
             "\"" + id + "\" is missing required property \"" + PROPERTY_ID + "\" or \"" + PROPERTY_PROVIDER + "\"!");

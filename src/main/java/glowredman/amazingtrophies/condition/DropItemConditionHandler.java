@@ -9,7 +9,6 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.gtnewhorizon.gtnhlib.util.map.ItemStackMap;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -34,20 +33,14 @@ public class DropItemConditionHandler extends ConditionHandler {
     }
 
     @Override
-    public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        String registryName;
-        String nbt;
-        ItemStack stack;
-        try {
-            registryName = ConfigHandler.getStringProperty(json, PROPERTY_ITEM, id);
-            int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, id, OreDictionary.WILDCARD_VALUE);
-            nbt = ConfigHandler.getStringProperty(json, PROPERTY_NBT, id, null);
-            stack = GameRegistry.makeItemStack(registryName, meta, 0, nbt);
-        } catch (RuntimeException e) {
-            throw new JsonSyntaxException("Malformed condition JSON!", e);
-        }
+    public void parse(String id, JsonObject json) {
+        String registryName = ConfigHandler.getStringProperty(json, PROPERTY_ITEM, id);
+        int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, id, OreDictionary.WILDCARD_VALUE);
+        String nbt = ConfigHandler.getStringProperty(json, PROPERTY_NBT, id, null);
+        ItemStack stack = GameRegistry.makeItemStack(registryName, meta, 0, nbt);
         if (stack == null) {
-            throw new JsonSyntaxException("Could not find item " + registryName + " for condition of \"" + id + "\"!");
+            throw new IllegalArgumentException(
+                "Could not find item " + registryName + " for condition of \"" + id + "\"!");
         }
         (nbt == null ? this.items : this.itemsNBT).getOrDefault(stack, new HashSet<>())
             .add(id);

@@ -12,7 +12,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -28,19 +27,17 @@ public abstract class BlockConditionHandler extends ConditionHandler {
     protected final Multimap<Pair<Block, Integer>, String> blocks = HashMultimap.create();
 
     @Override
-    public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        int meta;
-        String registryName;
-        try {
-            meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, id, OreDictionary.WILDCARD_VALUE);
-            registryName = ConfigHandler.getStringProperty(json, PROPERTY_BLOCK, id);
-        } catch (ClassCastException | IllegalStateException | NumberFormatException e) {
-            throw new JsonSyntaxException("Malformed condition JSON!", e);
+    public void parse(String id, JsonObject json) {
+        int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, id, OreDictionary.WILDCARD_VALUE);
+        if (meta < 0 || meta > OreDictionary.WILDCARD_VALUE) {
+            throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
         }
+        String registryName = ConfigHandler.getStringProperty(json, PROPERTY_BLOCK, id);
         Block block = GameData.getBlockRegistry()
             .getRaw(registryName);
         if (block == null) {
-            throw new JsonSyntaxException("Could not find block " + registryName + " for condition of \"" + id + "\"!");
+            throw new IllegalArgumentException(
+                "Could not find block " + registryName + " for condition of \"" + id + "\"!");
         }
         this.blocks.put(Pair.of(block, meta), id);
     }
