@@ -28,7 +28,7 @@ public abstract class BlockConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) {
-        int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, id, OreDictionary.WILDCARD_VALUE);
+        int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, OreDictionary.WILDCARD_VALUE);
         if (meta < 0 || meta > OreDictionary.WILDCARD_VALUE) {
             throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
         }

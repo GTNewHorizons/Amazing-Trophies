@@ -35,34 +35,34 @@ public class ConfigHandler {
         }
     }
 
-    public static <T> T getProperty(JsonObject json, String key, String id, Function<JsonElement, T> parser) {
+    public static <T> T getProperty(JsonObject json, String key, Function<JsonElement, T> parser) {
         JsonElement element = json.get(key);
-        if (element == null) {
-            throw new JsonSyntaxException("\"" + id + "\" is missing required property \"" + key + "\"!");
+        if (element == null || element.isJsonNull()) {
+            throw new JsonSyntaxException("Required property \"" + key + "\" is missing!");
         }
         return parser.apply(element);
     }
 
-    public static double getDoubleProperty(JsonObject json, String key, String id) {
-        return getProperty(json, key, id, JsonElement::getAsDouble);
+    public static double getDoubleProperty(JsonObject json, String key) {
+        return getProperty(json, key, JsonElement::getAsDouble);
     }
 
-    public static String getStringProperty(JsonObject json, String key, String id) {
-        return getProperty(json, key, id, JsonElement::getAsString);
+    public static String getStringProperty(JsonObject json, String key) {
+        return getProperty(json, key, JsonElement::getAsString);
     }
 
-    public static <T> T getProperty(JsonObject json, String key, String id, Function<JsonElement, T> parser,
+    public static <T> T getProperty(JsonObject json, String key, Function<JsonElement, T> parser,
         T fallback) {
         JsonElement element = json.get(key);
         return element == null ? fallback : parser.apply(element);
     }
 
-    public static int getIntegerProperty(JsonObject json, String key, String id, int fallback) {
-        return getProperty(json, key, id, JsonElement::getAsInt, fallback);
+    public static boolean getBooleanProperty(JsonObject json, String key, boolean fallback) {
+        return getProperty(json, key, JsonElement::getAsBoolean, fallback);
     }
 
-    public static String getStringProperty(JsonObject json, String key, String id, String fallback) {
-        return getProperty(json, key, id, JsonElement::getAsString, fallback);
+    public static String getStringProperty(JsonObject json, String key, String fallback) {
+        return getProperty(json, key, JsonElement::getAsString, fallback);
     }
 
 }

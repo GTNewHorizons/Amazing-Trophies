@@ -35,8 +35,7 @@ public class JoinWorldConditionHandler extends ConditionHandler {
         JsonElement providerJson = json.get(PROPERTY_PROVIDER);
         if (idJson != null && !idJson.isJsonNull() && providerJson != null && !providerJson.isJsonNull()) {
             throw new JsonSyntaxException(
-                "\"" + id
-                    + "\" is overdefined! Properties \""
+                "Condition is overdefined! Properties \""
                     + PROPERTY_ID
                     + "\" and \""
                     + PROPERTY_PROVIDER
@@ -66,7 +65,7 @@ public class JoinWorldConditionHandler extends ConditionHandler {
             }
         }
         throw new JsonSyntaxException(
-            "\"" + id + "\" is missing required property \"" + PROPERTY_ID + "\" or \"" + PROPERTY_PROVIDER + "\"!");
+            "Condition is missing required property \"" + PROPERTY_ID + "\" or \"" + PROPERTY_PROVIDER + "\"!");
     }
 
     @Override

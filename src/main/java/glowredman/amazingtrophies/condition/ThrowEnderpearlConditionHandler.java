@@ -29,7 +29,7 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) {
-        double dist = ConfigHandler.getDoubleProperty(json, PROPERTY_DISTANCE, id);
+        double dist = ConfigHandler.getDoubleProperty(json, PROPERTY_DISTANCE);
         this.distances.add(Pair.of(dist * dist, id));
     }
 

@@ -35,11 +35,11 @@ public class DropItemConditionHandler extends ConditionHandler {
     @Override
     public void parse(String id, JsonObject json) {
         String registryName = ConfigHandler.getStringProperty(json, PROPERTY_ITEM, id);
-        int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, id, OreDictionary.WILDCARD_VALUE);
+        int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, OreDictionary.WILDCARD_VALUE);
         if (meta < 0 || meta > OreDictionary.WILDCARD_VALUE) {
             throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
         }
-        String nbt = ConfigHandler.getStringProperty(json, PROPERTY_NBT, id, null);
+        String nbt = ConfigHandler.getStringProperty(json, PROPERTY_NBT, null);
         ItemStack stack = GameRegistry.makeItemStack(registryName, meta, 0, nbt);
         if (stack == null) {
             throw new IllegalArgumentException(
