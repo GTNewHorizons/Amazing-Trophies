@@ -3,10 +3,13 @@ package glowredman.amazingtrophies;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -59,6 +62,26 @@ public class ConfigHandler {
 
     public static boolean getBooleanProperty(JsonObject json, String key, boolean fallback) {
         return getProperty(json, key, JsonElement::getAsBoolean, fallback);
+    }
+
+    public static float getFloatProperty(JsonObject json, String key, float fallback) {
+        return getProperty(json, key, JsonElement::getAsFloat, fallback);
+    }
+
+    public static int getIntegerProperty(JsonObject json, String key, int fallback) {
+        return getProperty(json, key, JsonElement::getAsInt, fallback);
+    }
+
+    public static <T> Set<T> getSetProperty(JsonObject json, String key, Function<JsonElement, T> parser,
+        Set<T> fallback) {
+        return getProperty(json, key, jsonElement -> {
+            Set<T> set = new HashSet<>();
+            JsonArray array = jsonElement.getAsJsonArray();
+            for (int i = 0; i < array.size(); i++) {
+                set.add(parser.apply(array.get(i)));
+            }
+            return set;
+        }, fallback);
     }
 
     public static String getStringProperty(JsonObject json, String key, String fallback) {

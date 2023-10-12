@@ -21,6 +21,7 @@ import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.api.ConditionHandler;
 import glowredman.amazingtrophies.api.Reference;
 import glowredman.amazingtrophies.condition.AchievementConditionHandler;
+import glowredman.amazingtrophies.condition.AttackConditionHandler;
 import glowredman.amazingtrophies.condition.BlockConditionHandler;
 import glowredman.amazingtrophies.condition.DropItemConditionHandler;
 import glowredman.amazingtrophies.condition.JoinWorldConditionHandler;
@@ -87,6 +88,8 @@ public class AmazingTrophies {
 
     private static void registerConditionHandlers() {
         AmazingTrophiesAPI.registerConditionHandler(AchievementConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(AttackConditionHandler.Entity::new);
+        AmazingTrophiesAPI.registerConditionHandler(AttackConditionHandler.Player::new);
         AmazingTrophiesAPI.registerConditionHandler(BlockConditionHandler.Break::new);
         AmazingTrophiesAPI.registerConditionHandler(BlockConditionHandler.Place::new);
         AmazingTrophiesAPI.registerConditionHandler(DropItemConditionHandler::new);
