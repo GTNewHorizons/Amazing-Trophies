@@ -198,7 +198,7 @@
 		"condition": {
 			"type": "item.drop",
 			"item": "minecraft:diamond_sword",
-			"meta": 0
+			"meta": 1
 		},
 		"model": {
 			"type": "advanced",

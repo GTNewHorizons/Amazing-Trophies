@@ -1,10 +1,12 @@
 package glowredman.amazingtrophies.condition;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StringUtils;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -23,9 +25,17 @@ public class DropItemConditionHandler extends ConditionHandler {
     public static final String PROPERTY_ITEM = "item";
     public static final String PROPERTY_META = "meta";
     public static final String PROPERTY_NBT = "nbt";
+    private static final int MASK_WILDCARD = 0b01;
+    private static final int MASK_NBT = 0b10;
 
-    private final Map<ItemStack, Set<String>> items = new ItemStackMap<>(false);
-    private final Map<ItemStack, Set<String>> itemsNBT = new ItemStackMap<>(true);
+    private final Map<Integer, Map<ItemStack, Set<String>>> items = new HashMap<>();
+
+    public DropItemConditionHandler() {
+        this.items.put(0b00, new ItemStackMap<>(false)); // damage + nbt insensitive
+        this.items.put(MASK_WILDCARD, new ItemStackMap<>(false)); // wildcard + nbt insensitive
+        this.items.put(MASK_NBT, new ItemStackMap<>(true)); // damage + nbt sensitive
+        this.items.put(MASK_WILDCARD | MASK_NBT, new ItemStackMap<>(true)); // wildcard + nbt sensitive
+    }
 
     @Override
     public String getID() {
@@ -45,19 +55,42 @@ public class DropItemConditionHandler extends ConditionHandler {
             throw new IllegalArgumentException(
                 "Could not find item " + registryName + " for condition of \"" + id + "\"!");
         }
-        (nbt == null ? this.items : this.itemsNBT).getOrDefault(stack, new HashSet<>())
-            .add(id);
+        Map<ItemStack, Set<String>> map = this.getMap(meta, nbt);
+        Set<String> ids = map.get(stack);
+        if (ids == null) {
+            ids = new HashSet<>();
+            ids.add(id);
+            map.put(stack, ids);
+            return;
+        }
+        ids.add(id);
+    }
+
+    private Map<ItemStack, Set<String>> getMap(int meta, String nbt) {
+        int mask = 0b00;
+        if (meta == OreDictionary.WILDCARD_VALUE) {
+            mask |= MASK_WILDCARD;
+        }
+        if (!StringUtils.isNullOrEmpty(nbt)) {
+            mask |= MASK_NBT;
+        }
+        return this.items.get(mask);
+    }
+
+    @Override
+    protected boolean isForgeEventHandler() {
+        return this.items.values()
+            .stream()
+            .anyMatch(map -> !map.isEmpty());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onItemDrop(ItemTossEvent event) {
-        for (String id : this.items.getOrDefault(event.entityItem.getEntityItem(), new HashSet<>())) {
-            this.getListener()
-                .accept(id, event.player);
-        }
-        for (String id : this.itemsNBT.getOrDefault(event.entityItem.getEntityItem(), new HashSet<>())) {
-            this.getListener()
-                .accept(id, event.player);
+        for (Map<ItemStack, Set<String>> map : this.items.values()) {
+            for (String id : map.getOrDefault(event.entityItem.getEntityItem(), new HashSet<>())) {
+                this.getListener()
+                    .accept(id, event.player);
+            }
         }
     }
 
