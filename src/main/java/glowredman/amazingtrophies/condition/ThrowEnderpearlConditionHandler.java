@@ -33,6 +33,11 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
         this.distances.add(Pair.of(dist * dist, id));
     }
 
+    @Override
+    protected boolean isForgeEventHandler() {
+        return !this.distances.isEmpty();
+    }
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onEnderTeleport(EnderTeleportEvent event) {
         if (!(event.entityLiving instanceof EntityPlayer player)) {
@@ -40,7 +45,7 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
         }
         double distSq = player.getDistanceSq(event.targetX, event.targetY, event.targetZ);
         for (Pair<Double, String> p : this.distances) {
-            if (p.getLeft() >= distSq) {
+            if (distSq >= p.getLeft()) {
                 this.getListener()
                     .accept(p.getRight(), player);
             }
