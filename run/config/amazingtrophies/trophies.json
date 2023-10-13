@@ -1,5 +1,6 @@
 {
 	"achievement": {
+		"__comment": "Should trigger when the Inventory is opened for the first time",
 		"condition": {
 			"type": "achievement",
 			"id": "achievement.openInventory"
@@ -11,6 +12,7 @@
 		}
 	},
 	"achievement.error": {
+		"__comment": "Should fail to parse because the 'id' property is missing",
 		"condition": {
 			"type": "achievement"
 		},
@@ -21,6 +23,7 @@
 		}
 	},
 	"attack.entity.damage": {
+		"__comment": "Should trigger if the player deals at least 5 damage to any living entity",
 		"condition": {
 			"type": "attack.entity",
 			"damage": 5.0
@@ -32,6 +35,7 @@
 		}
 	},
 	"attack.entity.damage.error": {
+		"__comment": "Should fail to parse because \"test\" is not a number",
 		"condition": {
 			"type": "attack.entity",
 			"damage": "test"
@@ -43,12 +47,13 @@
 		}
 	},
 	"attack.entity.sources": {
+		"__comment": "Should trigger only if the player shoots any living entity with an arrow",
 		"condition": {
 			"type": "attack.entity",
 			"sources": [
 			    "arrow"
 			],
-			"isSourcessAllowList": true
+			"isSourcesAllowList": true
 		},
 		"model": {
 			"type": "advanced",
@@ -57,6 +62,7 @@
 		}
 	},
 	"attack.entity.sources.error": {
+		"__comment": "Should fail to parse because 'sources' contains a null element",
 		"condition": {
 			"type": "attack.entity",
 			"sources": [
@@ -71,12 +77,13 @@
 		}
 	},
 	"attack.entity.targets1": {
+		"__comment": "Should trigger only if the player is attacking a pig",
 		"condition": {
 			"type": "attack.entity",
 			"targets": [
 			    "Pig"
 			],
-			"isTargetssAllowList": true
+			"isTargetsAllowList": true
 		},
 		"model": {
 			"type": "advanced",
@@ -85,6 +92,7 @@
 		}
 	},
 	"attack.entity.targets1.error": {
+		"__comment": "Should fail to parse because 'targets' is not an array",
 		"condition": {
 			"type": "attack.entity",
 			"targets": {
@@ -98,13 +106,14 @@
 		}
 	},
 	"attack.entity.targets2": {
+		"__comment": "Should trigger only if the player is attacking a cow or a sheep",
 		"condition": {
 			"type": "attack.entity",
 			"targets": [
 			    "net.minecraft.entity.passive.EntityCow",
 				"net.minecraft.entity.passive.EntitySheep"
 			],
-			"isTargetssAllowList": true
+			"isTargetsAllowList": true
 		},
 		"model": {
 			"type": "advanced",
@@ -113,6 +122,7 @@
 		}
 	},
 	"attack.entity.targets2.error1": {
+		"__comment": "Should fail to parse because EntityItem is not a subclass of EntityLivingBase",
 		"condition": {
 			"type": "attack.entity",
 			"targets": [
@@ -126,6 +136,7 @@
 		}
 	},
 	"attack.entity.targets2.error2": {
+		"__comment": "Should fail to parse because com.example.Class does not exist",
 		"condition": {
 			"type": "attack.entity",
 			"targets": [
@@ -139,6 +150,7 @@
 		}
 	},
 	"block.break": {
+		"__comment": "Should trigger if the player breaks either normal or red sand",
 		"condition": {
 			"type": "block.break",
 			"block": "minecraft:sand"
@@ -150,6 +162,7 @@
 		}
 	},
 	"block.break.error": {
+		"__comment": "Should fail to parse because 'test' can not be found in the registry",
 		"condition": {
 			"type": "block.break",
 			"block": "test"
@@ -161,6 +174,7 @@
 		}
 	},
 	"block.place": {
+		"__comment": "Should trigger if the player places either normal or red sand",
 		"condition": {
 			"type": "block.place",
 			"block": "minecraft:sand"
@@ -172,6 +186,7 @@
 		}
 	},
 	"block.place.error": {
+		"__comment": "Should fail to parse because -1 is not a valid meta value",
 		"condition": {
 			"type": "block.place",
 			"block": "minecraft:dirt",
@@ -183,18 +198,8 @@
 			"texture": "texture.png"
 		}
 	},
-	"block.break": {
-		"condition": {
-			"type": "block.break",
-			"block": "minecraft:sand"
-		},
-		"model": {
-			"type": "advanced",
-			"model": "model.obj",
-			"texture": "texture.png"
-		}
-	},
 	"item.drop": {
+		"__comment": "Should trigger only if the player drops a diamond sword which was damaged exactly once",
 		"condition": {
 			"type": "item.drop",
 			"item": "minecraft:diamond_sword",
@@ -207,6 +212,7 @@
 		}
 	},
 	"item.drop.wildcard": {
+		"__comment": "Should trigger if the player drops any diamond sword",
 		"condition": {
 			"type": "item.drop",
 			"item": "minecraft:diamond_sword"
@@ -218,6 +224,7 @@
 		}
 	},
 	"item.drop.nbt": {
+		"__comment": "Should trigger only if the player drops a diamond sword with the given NBT (but any damage)",
 		"condition": {
 			"type": "item.drop",
 			"item": "minecraft:diamond_sword",
@@ -230,6 +237,7 @@
 		}
 	},
 	"item.drop.nbt.error": {
+		"__comment": "Should fail to parse because ydflkjnykdlfjbngydfgkjlb is not valid NBT",
 		"condition": {
 			"type": "item.drop",
 			"item": "minecraft:diamond_sword",
@@ -242,6 +250,7 @@
 		}
 	},
 	"dimension.join.id": {
+		"__comment": "Should trigger if the player enters the end dimension",
 		"condition": {
 			"type": "dimension.join",
 			"id": 1
@@ -253,6 +262,7 @@
 		}
 	},
 	"dimension.join.provider": {
+		"__comment": "Should trigger if the player enters the nether dimension",
 		"condition": {
 			"type": "dimension.join",
 			"provider": "net.minecraft.world.WorldProviderHell"
@@ -264,6 +274,7 @@
 		}
 	},
 	"dimension.join.error1": {
+		"__comment": "Should fail to parse because neither 'id' nor 'provider' is specified",
 		"condition": {
 			"type": "dimension.join"
 		},
@@ -274,6 +285,7 @@
 		}
 	},
 	"dimension.join.error2": {
+		"__comment": "Should fail to parse because both 'id' and 'provider' are specified",
 		"condition": {
 			"type": "dimension.join",
 			"id": -1,
@@ -286,6 +298,7 @@
 		}
 	},
 	"lightning": {
+		"__comment": "Should trigger if the player is struck by lightning",
 		"condition": {
 			"type": "lightning"
 		},
@@ -296,6 +309,7 @@
 		}
 	},
 	"enderpearl": {
+		"__comment": "Should trigger if the player teleports a distance of at least 5 blocks using an enderpearl",
 		"condition": {
 			"type": "enderpearl",
 			"distance": 5.0
