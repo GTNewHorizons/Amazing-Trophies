@@ -110,5 +110,4 @@ public class AmazingTrophies {
             throw new RuntimeException("Failed to create config directory!", e);
         }
     }
-
 }

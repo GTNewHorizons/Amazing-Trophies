@@ -54,8 +54,7 @@ public class ConfigHandler {
         return getProperty(json, key, JsonElement::getAsString);
     }
 
-    public static <T> T getProperty(JsonObject json, String key, Function<JsonElement, T> parser,
-        T fallback) {
+    public static <T> T getProperty(JsonObject json, String key, Function<JsonElement, T> parser, T fallback) {
         JsonElement element = json.get(key);
         return element == null ? fallback : parser.apply(element);
     }

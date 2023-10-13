@@ -35,8 +35,7 @@ public class JoinWorldConditionHandler extends ConditionHandler {
         JsonElement providerJson = json.get(PROPERTY_PROVIDER);
         if (idJson != null && !idJson.isJsonNull() && providerJson != null && !providerJson.isJsonNull()) {
             throw new JsonSyntaxException(
-                "Condition is overdefined! Properties \""
-                    + PROPERTY_ID
+                "Condition is overdefined! Properties \"" + PROPERTY_ID
                     + "\" and \""
                     + PROPERTY_PROVIDER
                     + "\" exclude each other.");
