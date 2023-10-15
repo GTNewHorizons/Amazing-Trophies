@@ -2,7 +2,6 @@ package glowredman.amazingtrophies;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map.Entry;
 
 import net.minecraftforge.common.AchievementPage;
 
@@ -19,14 +18,10 @@ public class AchievementHandler {
 
     private static final Collection<String> PAGES = new HashSet<>();
 
-    static void parseAchievement(Entry<String, JsonElement> entry) {
-        String id = entry.getKey();
-        if (id == null) {
-            AmazingTrophies.LOGGER.error("Found null-key in achievements.json! The value will be ignored.");
-            return;
-        }
+    static void parseAchievement(JsonElement element) {
+        JsonObject json = element.getAsJsonObject();
+        String id = ConfigHandler.getStringProperty(json, "id");
         try {
-            JsonObject json = (JsonObject) entry.getValue();
             JsonObject conditionJson = json.getAsJsonObject("condition");
             ConditionHandler conditionHandler = null;
             if (conditionJson != null && !conditionJson.isJsonNull()) {
@@ -71,7 +66,7 @@ public class AchievementHandler {
             PAGES.add(props.getPage());
             AmazingTrophiesAPI.registerAchievement(id, props);
         } catch (Exception e) {
-            AmazingTrophies.LOGGER.error("An error occured while parsing achievement \"" + id + "\"!", e);
+            AmazingTrophies.LOGGER.error("Failed to parse achievement \"" + id + "\"!", e);
         }
     }
 

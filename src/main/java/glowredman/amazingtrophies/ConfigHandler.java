@@ -2,12 +2,13 @@ package glowredman.amazingtrophies;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -18,23 +19,33 @@ import com.google.gson.stream.JsonReader;
 
 public class ConfigHandler {
 
-    public static void parseOrCreate(String fileName, Consumer<? super Entry<String, JsonElement>> action) {
-        Path path = AmazingTrophies.CONFIG_DIR.resolve(fileName);
-        if (Files.exists(path)) {
-            try (JsonReader reader = new JsonReader(Files.newBufferedReader(path))) {
-                new JsonParser().parse(reader)
-                    .getAsJsonObject()
-                    .entrySet()
-                    .forEach(action);
-            } catch (Exception e) {
-                AmazingTrophies.LOGGER.error("Failed to parse " + fileName + "!", e);
-            }
-        } else {
-            try {
-                Files.write(path, Arrays.asList("{}"));
-            } catch (Exception e) {
-                AmazingTrophies.LOGGER.error("Failed to create " + fileName + "!", e);
-            }
+    private static final JsonParser PARSER = new JsonParser();
+
+    static void parseOrCreate(String directoryName, Consumer<JsonElement> action) {
+        Path dir = AmazingTrophies.CONFIG_DIR.resolve(directoryName);
+        try {
+            Files.createDirectories(dir);
+        } catch (Exception e) {
+            AmazingTrophies.LOGGER.error("Failed to create directory " + dir + "!", e);
+            return;
+        }
+        try (Stream<Path> files = Files.walk(dir)) {
+            files.filter(
+                path -> Files.isRegularFile(path) && StringUtils.endsWithIgnoreCase(
+                    path.getFileName()
+                        .toString(),
+                    ".json"))
+                .forEachOrdered(path -> parseFile(path, action));
+        } catch (Exception e) {
+            AmazingTrophies.LOGGER.error("Failed to list files in " + dir + "!", e);
+        }
+    }
+
+    private static void parseFile(Path path, Consumer<JsonElement> action) {
+        try (JsonReader reader = new JsonReader(Files.newBufferedReader(path))) {
+            action.accept(PARSER.parse(reader));
+        } catch (Exception e) {
+            AmazingTrophies.LOGGER.error("Failed to parse " + AmazingTrophies.CONFIG_DIR.relativize(path) + "!", e);
         }
     }
 

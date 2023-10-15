@@ -1,0 +1,13 @@
+{
+    "id": "enderpearl",
+    "_comment": "Should trigger if the player teleports a distance of at least 5 blocks using an enderpearl",
+    "condition": {
+        "type": "enderpearl",
+        "distance": 5.0
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

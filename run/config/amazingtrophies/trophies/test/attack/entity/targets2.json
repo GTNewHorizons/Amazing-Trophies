@@ -1,0 +1,17 @@
+{
+    "id": "attack.entity.targets2",
+    "_comment": "Should trigger only if the player is attacking a cow or a sheep",
+    "condition": {
+        "type": "attack.entity",
+        "targets": [
+            "net.minecraft.entity.passive.EntityCow",
+            "net.minecraft.entity.passive.EntitySheep"
+        ],
+        "isTargetsAllowList": true
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

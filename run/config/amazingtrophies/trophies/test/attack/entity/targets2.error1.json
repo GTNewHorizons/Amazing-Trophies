@@ -1,0 +1,15 @@
+{
+    "id": "attack.entity.targets2.error1",
+    "_comment": "Should fail to parse because EntityItem is not a subclass of EntityLivingBase",
+    "condition": {
+        "type": "attack.entity",
+        "targets": [
+            "net.minecraft.entity.item.EntityItem"
+        ]
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

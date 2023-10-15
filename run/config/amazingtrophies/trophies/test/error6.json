@@ -1,0 +1,12 @@
+{
+    "id": "error5",
+    "_comment": "Should fail to parse because the file extension specified by 'model/model' is not supported",
+    "condition": {
+        "type": "lightning"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "test.test",
+        "texture": "test"
+    }
+}

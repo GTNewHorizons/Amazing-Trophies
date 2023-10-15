@@ -1,0 +1,13 @@
+{
+    "id": "block.break.error",
+    "_comment": "Should fail to parse because 'test' can not be found in the registry",
+    "condition": {
+        "type": "block.break",
+        "block": "test"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

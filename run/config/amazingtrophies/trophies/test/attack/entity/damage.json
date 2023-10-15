@@ -1,0 +1,13 @@
+{
+    "id": "attack.entity.damage",
+    "_comment": "Should trigger if the player deals at least 5 damage to any living entity",
+    "condition": {
+        "type": "attack.entity",
+        "damage": 5.0
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "id": "error4",
+    "_comment": "Should fail to parse because 'condition/type' is unknown",
+    "condition": {
+        "type": "error.test"
+    }
+}

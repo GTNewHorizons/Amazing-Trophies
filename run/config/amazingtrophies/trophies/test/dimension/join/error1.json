@@ -1,0 +1,12 @@
+{
+    "id": "dimension.join.error1",
+    "_comment": "Should fail to parse because neither 'id' nor 'provider' is specified",
+    "condition": {
+        "type": "dimension.join"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "id": "item.drop.nbt",
+    "_comment": "Should trigger only if the player drops a diamond sword with the given NBT (but any damage)",
+    "condition": {
+        "type": "item.drop",
+        "item": "minecraft:diamond_sword",
+        "nbt": "{display:{Lore:[Test]}}"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

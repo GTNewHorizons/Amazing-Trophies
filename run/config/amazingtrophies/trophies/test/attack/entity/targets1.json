@@ -1,0 +1,16 @@
+{
+    "id": "attack.entity.targets1",
+    "_comment": "Should trigger only if the player is attacking a pig",
+    "condition": {
+        "type": "attack.entity",
+        "targets": [
+            "Pig"
+        ],
+        "isTargetsAllowList": true
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

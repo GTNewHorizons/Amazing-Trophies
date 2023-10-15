@@ -1,0 +1,13 @@
+{
+    "id": "attack.entity.damage.error",
+    "_comment": "Should fail to parse because \"test\" is not a number",
+    "condition": {
+        "type": "attack.entity",
+        "damage": "test"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

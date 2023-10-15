@@ -1,0 +1,13 @@
+{
+    "id": "achievement",
+    "_comment": "Should trigger when the Inventory is opened for the first time",
+    "condition": {
+        "type": "achievement",
+        "id": "achievement.openInventory"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

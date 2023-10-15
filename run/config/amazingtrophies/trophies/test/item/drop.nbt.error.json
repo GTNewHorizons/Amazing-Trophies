@@ -1,0 +1,14 @@
+{
+    "id": "item.drop.nbt.error",
+    "_comment": "Should fail to parse because ydflkjnykdlfjbngydfgkjlb is not valid NBT",
+    "condition": {
+        "type": "item.drop",
+        "item": "minecraft:diamond_sword",
+        "nbt": "ydflkjnykdlfjbngydfgkjlb"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

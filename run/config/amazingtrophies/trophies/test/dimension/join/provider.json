@@ -1,0 +1,13 @@
+{
+    "id": "dimension.join.provider",
+    "_comment": "Should trigger if the player enters the nether dimension",
+        "condition": {
+        "type": "dimension.join",
+        "provider": "net.minecraft.world.WorldProviderHell"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

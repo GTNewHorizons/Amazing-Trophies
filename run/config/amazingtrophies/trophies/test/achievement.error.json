@@ -1,0 +1,12 @@
+{
+    "id": "achievement.error",
+    "_comment": "Should fail to parse because the 'id' property is missing",
+    "condition": {
+        "type": "achievement"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

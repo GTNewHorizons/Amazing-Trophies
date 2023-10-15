@@ -1,0 +1,13 @@
+{
+    "id": "dimension.join.id",
+    "_comment": "Should trigger if the player enters the end dimension",
+    "condition": {
+        "type": "dimension.join",
+        "id": 1
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

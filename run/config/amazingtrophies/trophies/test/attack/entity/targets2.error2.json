@@ -1,0 +1,15 @@
+{
+    "id": "attack.entity.targets2.error2",
+    "_comment": "Should fail to parse because com.example.Class does not exist",
+    "condition": {
+        "type": "attack.entity",
+        "targets": [
+            "com.example.Class"
+        ]
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

@@ -71,8 +71,8 @@ public class AmazingTrophies {
 
     @EventHandler
     public static void init(FMLInitializationEvent event) {
-        ConfigHandler.parseOrCreate("achievements.json", AchievementHandler::parseAchievement);
-        ConfigHandler.parseOrCreate("trophies.json", TrophyHandler::parseTrophy);
+        ConfigHandler.parseOrCreate("achievements", AchievementHandler::parseAchievement);
+        ConfigHandler.parseOrCreate("trophies", TrophyHandler::parseTrophy);
     }
 
     @EventHandler

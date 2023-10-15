@@ -1,0 +1,14 @@
+{
+    "id": "dimension.join.error2",
+    "_comment": "Should fail to parse because both 'id' and 'provider' are specified",
+        "condition": {
+        "type": "dimension.join",
+        "id": -1,
+        "provider": "net.minecraft.world.WorldProviderHell"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

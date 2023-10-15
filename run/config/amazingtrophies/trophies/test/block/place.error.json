@@ -1,0 +1,14 @@
+{
+    "id": "block.place.error",
+    "_comment": "Should fail to parse because -1 is not a valid meta value",
+    "condition": {
+        "type": "block.place",
+        "block": "minecraft:dirt",
+        "meta": -1
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "id": "attack.entity.targets1.error",
+    "_comment": "Should fail to parse because 'targets' is not an array",
+    "condition": {
+        "type": "attack.entity",
+        "targets": {
+            "test": null
+        }
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

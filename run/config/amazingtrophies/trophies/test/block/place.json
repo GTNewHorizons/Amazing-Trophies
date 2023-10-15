@@ -1,0 +1,13 @@
+{
+    "id": "block.place.json",
+    "_comment": "Should trigger if the player places either normal or red sand",
+    "condition": {
+        "type": "block.place",
+        "block": "minecraft:sand"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

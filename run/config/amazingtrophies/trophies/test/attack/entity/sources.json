@@ -1,0 +1,16 @@
+{
+    "id": "attack.entity.sources",
+    "_comment": "Should trigger only if the player shoots any living entity with an arrow",
+    "condition": {
+        "type": "attack.entity",
+        "sources": [
+            "arrow"
+        ],
+        "isSourcesAllowList": true
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+            "texture": "texture.png"
+    }
+}

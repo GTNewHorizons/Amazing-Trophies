@@ -1,6 +1,5 @@
 package glowredman.amazingtrophies;
 
-import java.util.Map.Entry;
 import java.util.function.Supplier;
 
 import com.google.gson.JsonElement;
@@ -15,14 +14,10 @@ import glowredman.amazingtrophies.api.TrophyProperties;
 
 public class TrophyHandler {
 
-    static void parseTrophy(Entry<String, JsonElement> entry) {
-        String id = entry.getKey();
-        if (id == null) {
-            AmazingTrophies.LOGGER.error("Found null-key in trophies.json! The value will be ignored.");
-            return;
-        }
+    static void parseTrophy(JsonElement element) {
+        JsonObject json = element.getAsJsonObject();
+        String id = ConfigHandler.getStringProperty(json, "id");
         try {
-            JsonObject json = (JsonObject) entry.getValue();
             JsonObject conditionJson = json.getAsJsonObject("condition");
             ConditionHandler conditionHandler = null;
             if (conditionJson != null && !conditionJson.isJsonNull()
@@ -68,7 +63,7 @@ public class TrophyHandler {
 
             AmazingTrophiesAPI.registerTrophy(id, props);
         } catch (Exception e) {
-            AmazingTrophies.LOGGER.error("An error occured while parsing trophy \"" + id + "\"!", e);
+            AmazingTrophies.LOGGER.error("Failed to parse trophy \"" + id + "\"!", e);
         }
     }
 }

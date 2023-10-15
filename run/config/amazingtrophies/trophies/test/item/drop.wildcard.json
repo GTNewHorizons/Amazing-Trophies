@@ -1,0 +1,13 @@
+{
+    "id": "item.drop.wildcard",
+    "_comment": "Should trigger if the player drops any diamond sword",
+    "condition": {
+        "type": "item.drop",
+        "item": "minecraft:diamond_sword"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

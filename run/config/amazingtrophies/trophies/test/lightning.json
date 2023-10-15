@@ -1,0 +1,12 @@
+{
+    "id": "lightning",
+    "_comment": "Should trigger if the player is struck by lightning",
+    "condition": {
+        "type": "lightning"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}
