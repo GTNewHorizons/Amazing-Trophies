@@ -3,6 +3,8 @@ package glowredman.amazingtrophies.condition;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.oredict.OreDictionary;
@@ -88,6 +90,26 @@ public abstract class BlockConditionHandler extends ConditionHandler {
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public void onBlockPlace(PlaceEvent event) {
             this.handleEvent(event.player, event.block, event.blockMetadata);
+        }
+    }
+
+    public static class Interact extends BlockConditionHandler {
+
+        public static final String ID = "block.interact";
+
+        @Override
+        public String getID() {
+            return ID;
+        }
+
+        @SubscribeEvent(priority = EventPriority.LOWEST)
+        public void onInteract(PlayerInteractEvent event) {
+            if (event.action != Action.RIGHT_CLICK_BLOCK) {
+                return;
+            }
+            Block block = event.world.getBlock(event.x, event.y, event.z);
+            int meta = event.world.getBlockMetadata(event.x, event.y, event.z);
+            this.handleEvent(event.entityPlayer, block, meta);
         }
     }
 }

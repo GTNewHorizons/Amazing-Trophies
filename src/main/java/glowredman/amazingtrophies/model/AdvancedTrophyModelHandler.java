@@ -21,6 +21,13 @@ public class AdvancedTrophyModelHandler extends BaseTrophyModelHandler {
     private IModelCustom model;
     private ResourceLocation texture;
 
+    public AdvancedTrophyModelHandler() {}
+
+    public AdvancedTrophyModelHandler(IModelCustom model, ResourceLocation texture) {
+        this.model = model;
+        this.texture = texture;
+    }
+
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
         JsonElement modelPath = json.get("model");
