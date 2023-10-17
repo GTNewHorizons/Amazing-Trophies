@@ -17,7 +17,7 @@ public class AchievementConditionHandler extends ConditionHandler {
     public static final String ID = "achievement";
     public static final String PROPERTY_ID = "id";
 
-    private final Multimap<String, String> achievements = HashMultimap.create();
+    private final Multimap<String, String> conditions = HashMultimap.create();
 
     @Override
     public String getID() {
@@ -26,12 +26,12 @@ public class AchievementConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) {
-        this.achievements.put(ConfigHandler.getStringProperty(json, PROPERTY_ID, id), id);
+        this.conditions.put(ConfigHandler.getStringProperty(json, PROPERTY_ID, id), id);
     }
 
     @Override
     protected boolean isForgeEventHandler() {
-        return !this.achievements.isEmpty();
+        return !this.conditions.isEmpty();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -43,7 +43,7 @@ public class AchievementConditionHandler extends ConditionHandler {
             .hasAchievementUnlocked(event.achievement)) {
             return;
         }
-        for (String trophyID : this.achievements.get(event.achievement.statId)) {
+        for (String trophyID : this.conditions.get(event.achievement.statId)) {
             this.getListener()
                 .accept(trophyID, player);
         }

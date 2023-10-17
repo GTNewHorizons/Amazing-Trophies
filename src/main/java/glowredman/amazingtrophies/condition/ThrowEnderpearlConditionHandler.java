@@ -20,7 +20,7 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
     public static final String ID = "enderpearl";
     public static final String PROPERTY_DISTANCE = "distance";
 
-    private final List<Pair<Double, String>> distances = new ArrayList<>();
+    private final List<Pair<Double, String>> conditions = new ArrayList<>();
 
     @Override
     public String getID() {
@@ -29,13 +29,13 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) {
-        double dist = ConfigHandler.getDoubleProperty(json, PROPERTY_DISTANCE);
-        this.distances.add(Pair.of(dist * dist, id));
+        double dist = ConfigHandler.getDoubleProperty(json, PROPERTY_DISTANCE, 0.0);
+        this.conditions.add(Pair.of(dist * dist, id));
     }
 
     @Override
     protected boolean isForgeEventHandler() {
-        return !this.distances.isEmpty();
+        return !this.conditions.isEmpty();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -44,10 +44,10 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
             return;
         }
         double distSq = player.getDistanceSq(event.targetX, event.targetY, event.targetZ);
-        for (Pair<Double, String> p : this.distances) {
-            if (distSq >= p.getLeft()) {
+        for (Pair<Double, String> condition : this.conditions) {
+            if (distSq >= condition.getLeft()) {
                 this.getListener()
-                    .accept(p.getRight(), player);
+                    .accept(condition.getRight(), player);
             }
         }
     }

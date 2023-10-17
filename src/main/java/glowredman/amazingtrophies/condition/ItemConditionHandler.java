@@ -28,18 +28,18 @@ public class DropItemConditionHandler extends ConditionHandler {
     private static final int MASK_WILDCARD = 0b01;
     private static final int MASK_NBT = 0b10;
 
-    private final Map<Integer, Map<ItemStack, Set<String>>> items = new HashMap<>();
+    protected final Map<Integer, Map<ItemStack, Set<String>>> conditions = new HashMap<>();
 
-    public DropItemConditionHandler() {
-        this.items.put(0b00, new ItemStackMap<>(false)); // damage + nbt insensitive
-        this.items.put(MASK_WILDCARD, new ItemStackMap<>(false)); // wildcard + nbt insensitive
-        this.items.put(MASK_NBT, new ItemStackMap<>(true)); // damage + nbt sensitive
-        this.items.put(MASK_WILDCARD | MASK_NBT, new ItemStackMap<>(true)); // wildcard + nbt sensitive
     }
 
     @Override
     public String getID() {
         return ID;
+    public ItemConditionHandler() {
+        this.conditions.put(0b00, new ItemStackMap<>(false)); // damage + nbt insensitive
+        this.conditions.put(MASK_WILDCARD, new ItemStackMap<>(false)); // wildcard + nbt insensitive
+        this.conditions.put(MASK_NBT, new ItemStackMap<>(true)); // damage + nbt sensitive
+        this.conditions.put(MASK_WILDCARD | MASK_NBT, new ItemStackMap<>(true)); // wildcard + nbt sensitive
     }
 
     @Override
@@ -74,7 +74,6 @@ public class DropItemConditionHandler extends ConditionHandler {
         if (!StringUtils.isNullOrEmpty(nbt)) {
             mask |= MASK_NBT;
         }
-        return this.items.get(mask);
     }
 
     @Override
@@ -82,12 +81,13 @@ public class DropItemConditionHandler extends ConditionHandler {
         return this.items.values()
             .stream()
             .anyMatch(map -> !map.isEmpty());
+        return this.conditions.get(mask);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onItemDrop(ItemTossEvent event) {
-        for (Map<ItemStack, Set<String>> map : this.items.values()) {
             for (String id : map.getOrDefault(event.entityItem.getEntityItem(), new HashSet<>())) {
+        for (Map<ItemStack, Set<String>> map : this.conditions.values()) {
                 this.getListener()
                     .accept(id, event.player);
             }

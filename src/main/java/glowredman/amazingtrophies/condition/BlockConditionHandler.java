@@ -24,7 +24,7 @@ public abstract class BlockConditionHandler extends ConditionHandler {
     public static final String PROPERTY_BLOCK = "block";
     public static final String PROPERTY_META = "meta";
 
-    protected final Multimap<Pair<Block, Integer>, String> blocks = HashMultimap.create();
+    protected final Multimap<Pair<Block, Integer>, String> conditions = HashMultimap.create();
 
     @Override
     public void parse(String id, JsonObject json) {
@@ -39,23 +39,23 @@ public abstract class BlockConditionHandler extends ConditionHandler {
             throw new IllegalArgumentException(
                 "Could not find block " + registryName + " for condition of \"" + id + "\"!");
         }
-        this.blocks.put(Pair.of(block, meta), id);
+        this.conditions.put(Pair.of(block, meta), id);
     }
 
     @Override
     protected boolean isForgeEventHandler() {
-        return !this.blocks.isEmpty();
+        return !this.conditions.isEmpty();
     }
 
     protected void handleEvent(EntityPlayer player, Block block, int meta) {
         if (player == null || player instanceof FakePlayer) {
             return;
         }
-        for (String id : this.blocks.get(Pair.of(block, meta))) {
+        for (String id : this.conditions.get(Pair.of(block, meta))) {
             this.getListener()
                 .accept(id, player);
         }
-        for (String id : this.blocks.get(Pair.of(block, OreDictionary.WILDCARD_VALUE))) {
+        for (String id : this.conditions.get(Pair.of(block, OreDictionary.WILDCARD_VALUE))) {
             this.getListener()
                 .accept(id, player);
         }

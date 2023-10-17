@@ -57,8 +57,19 @@ public class ConfigHandler {
         return parser.apply(element);
     }
 
-    public static double getDoubleProperty(JsonObject json, String key) {
-        return getProperty(json, key, JsonElement::getAsDouble);
+    public static <T> Set<T> getSetProperty(JsonObject json, String key, Function<JsonElement, T> parser) {
+        return getProperty(json, key, jsonElement -> {
+            Set<T> set = new HashSet<>();
+            if (jsonElement.isJsonPrimitive()) {
+                set.add(parser.apply(jsonElement));
+                return set;
+            }
+            JsonArray array = jsonElement.getAsJsonArray();
+            for (int i = 0; i < array.size(); i++) {
+                set.add(parser.apply(array.get(i)));
+            }
+            return set;
+        });
     }
 
     public static String getStringProperty(JsonObject json, String key) {
@@ -74,6 +85,10 @@ public class ConfigHandler {
         return getProperty(json, key, JsonElement::getAsBoolean, fallback);
     }
 
+    public static double getDoubleProperty(JsonObject json, String key, double fallback) {
+        return getProperty(json, key, JsonElement::getAsDouble, fallback);
+    }
+
     public static float getFloatProperty(JsonObject json, String key, float fallback) {
         return getProperty(json, key, JsonElement::getAsFloat, fallback);
     }
@@ -86,6 +101,10 @@ public class ConfigHandler {
         Set<T> fallback) {
         return getProperty(json, key, jsonElement -> {
             Set<T> set = new HashSet<>();
+            if (jsonElement.isJsonPrimitive()) {
+                set.add(parser.apply(jsonElement));
+                return set;
+            }
             JsonArray array = jsonElement.getAsJsonArray();
             for (int i = 0; i < array.size(); i++) {
                 set.add(parser.apply(array.get(i)));

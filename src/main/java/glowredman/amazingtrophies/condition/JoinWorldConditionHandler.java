@@ -20,8 +20,8 @@ public class JoinWorldConditionHandler extends ConditionHandler {
     public static final String PROPERTY_ID = "id";
     public static final String PROPERTY_PROVIDER = "provider";
 
-    private final Multimap<Integer, String> byID = HashMultimap.create();
-    private final Multimap<Class<? extends WorldProvider>, String> byProvider = HashMultimap.create();
+    private final Multimap<Integer, String> conditionsID = HashMultimap.create();
+    private final Multimap<Class<? extends WorldProvider>, String> conditionsProvider = HashMultimap.create();
 
     @Override
     public String getID() {
@@ -41,13 +41,13 @@ public class JoinWorldConditionHandler extends ConditionHandler {
                     + "\" exclude each other.");
         }
         if (idJson != null && !idJson.isJsonNull()) {
-            this.byID.put(idJson.getAsInt(), id);
+            this.conditionsID.put(idJson.getAsInt(), id);
             return;
         } else if (providerJson != null && !providerJson.isJsonNull()) {
             try {
                 Class<?> clazz = Class.forName(providerJson.getAsString());
                 if (WorldProvider.class.isAssignableFrom(clazz)) {
-                    this.byProvider.put((Class<? extends WorldProvider>) clazz, id);
+                    this.conditionsProvider.put((Class<? extends WorldProvider>) clazz, id);
                     return;
                 }
                 throw new IllegalArgumentException(
@@ -69,7 +69,7 @@ public class JoinWorldConditionHandler extends ConditionHandler {
 
     @Override
     protected boolean isForgeEventHandler() {
-        return !this.byID.isEmpty() || !this.byProvider.isEmpty();
+        return !this.conditionsID.isEmpty() || !this.conditionsProvider.isEmpty();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -78,11 +78,11 @@ public class JoinWorldConditionHandler extends ConditionHandler {
             return;
         }
         WorldProvider provider = event.world.provider;
-        for (String id : this.byID.get(provider.dimensionId)) {
+        for (String id : this.conditionsID.get(provider.dimensionId)) {
             this.getListener()
                 .accept(id, player);
         }
-        for (String id : this.byProvider.get(provider.getClass())) {
+        for (String id : this.conditionsProvider.get(provider.getClass())) {
             this.getListener()
                 .accept(id, player);
         }
