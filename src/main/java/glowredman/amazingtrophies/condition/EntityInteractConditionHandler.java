@@ -34,6 +34,11 @@ public class EntityInteractConditionHandler extends ConditionHandler {
         }
     }
 
+    @Override
+    protected boolean isForgeEventHandler() {
+        return !this.conditions.isEmpty();
+    }
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onEntityInteract(EntityInteractEvent event) {
         for (String id : this.conditions.get(event.target.getClass())) {

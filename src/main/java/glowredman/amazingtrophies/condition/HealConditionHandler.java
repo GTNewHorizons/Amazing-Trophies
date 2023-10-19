@@ -39,6 +39,7 @@ public class HealConditionHandler extends ConditionHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onHeal(LivingHealEvent event) {
+        // TODO: Allow healing of other entities, similar to KillConditionHandler
         if (!(event.entityLiving instanceof EntityPlayer player)) {
             return;
         }

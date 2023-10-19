@@ -103,6 +103,9 @@ public class AmazingTrophies {
         AmazingTrophiesAPI.registerConditionHandler(BlockConditionHandler.Place::new);
         AmazingTrophiesAPI.registerConditionHandler(DeathConditionHandler::new);
         AmazingTrophiesAPI.registerConditionHandler(ExplosionConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(EntityInteractConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(FallConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(HealConditionHandler::new);
         AmazingTrophiesAPI.registerConditionHandler(ItemConditionHandler.Craft::new);
         AmazingTrophiesAPI.registerConditionHandler(ItemConditionHandler.Drop::new);
         AmazingTrophiesAPI.registerConditionHandler(ItemConditionHandler.Pickup::new);
@@ -110,9 +113,6 @@ public class AmazingTrophies {
         AmazingTrophiesAPI.registerConditionHandler(ItemUseConditionHandler.Finish::new);
         AmazingTrophiesAPI.registerConditionHandler(ItemUseConditionHandler.Start::new);
         AmazingTrophiesAPI.registerConditionHandler(ItemUseConditionHandler.Stop::new);
-        AmazingTrophiesAPI.registerConditionHandler(EntityInteractConditionHandler::new);
-        AmazingTrophiesAPI.registerConditionHandler(FallConditionHandler::new);
-        AmazingTrophiesAPI.registerConditionHandler(HealConditionHandler::new);
         AmazingTrophiesAPI.registerConditionHandler(JoinWorldConditionHandler::new);
         AmazingTrophiesAPI.registerConditionHandler(KillConditionHandler::new);
         AmazingTrophiesAPI.registerConditionHandler(OpenContainerConditionHandler::new);

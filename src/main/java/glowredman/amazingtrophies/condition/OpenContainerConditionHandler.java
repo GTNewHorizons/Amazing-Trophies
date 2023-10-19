@@ -20,6 +20,7 @@ public class OpenContainerConditionHandler extends ConditionHandler {
     public static final String PROPERTY_CONTAINERS = "containers";
 
     private final Multimap<Class<? extends Container>, String> conditions = HashMultimap.create();
+    private Container previous;
 
     @Override
     public String getID() {
@@ -41,13 +42,15 @@ public class OpenContainerConditionHandler extends ConditionHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onOpenContainer(PlayerOpenContainerEvent event) {
-        if (event.getResult() == Result.DENY) {
+        Container current = event.entityPlayer.openContainer;
+        if (event.getResult() == Result.DENY || current == this.previous) {
             return;
         }
-        for (String id : this.conditions.get(event.entityPlayer.openContainer.getClass())) {
+        for (String id : this.conditions.get(current.getClass())) {
             this.getListener()
                 .accept(id, event.entityPlayer);
         }
+        this.previous = current;
     }
 
     @SuppressWarnings("unchecked")

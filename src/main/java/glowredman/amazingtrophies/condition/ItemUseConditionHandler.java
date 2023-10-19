@@ -16,6 +16,11 @@ public abstract class ItemUseConditionHandler extends ItemConditionHandler {
             return ID;
         }
 
+        @Override
+        protected boolean isForgeEventHandler() {
+            return !this.conditions.isEmpty();
+        }
+
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public void onStartUse(PlayerUseItemEvent.Start event) {
             this.trigger(event.item, event.entityPlayer);
@@ -32,6 +37,11 @@ public abstract class ItemUseConditionHandler extends ItemConditionHandler {
             return ID;
         }
 
+        @Override
+        protected boolean isForgeEventHandler() {
+            return !this.conditions.isEmpty();
+        }
+
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public void onStopUse(PlayerUseItemEvent.Stop event) {
             this.trigger(event.item, event.entityPlayer);
@@ -46,6 +56,11 @@ public abstract class ItemUseConditionHandler extends ItemConditionHandler {
         @Override
         public String getID() {
             return ID;
+        }
+
+        @Override
+        protected boolean isForgeEventHandler() {
+            return !this.conditions.isEmpty();
         }
 
         @SubscribeEvent
