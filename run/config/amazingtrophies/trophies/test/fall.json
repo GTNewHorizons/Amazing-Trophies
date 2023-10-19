@@ -1,0 +1,13 @@
+{
+    "id": "fall",
+    "_comment": "Should trigger if the player falls at least 20 blocks (note: is not triggered if the player is able to fly)",
+    "condition": {
+        "type": "fall",
+        "distance": 20.0
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

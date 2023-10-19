@@ -1,0 +1,13 @@
+{
+    "id": "container.open",
+    "_comment": "Should trigger if the player opens a Beacon's inventory",
+    "condition": {
+        "type": "container.open",
+        "containers": "net.minecraft.inventory.ContainerBeacon"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

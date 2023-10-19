@@ -1,0 +1,13 @@
+{
+    "id": "item.use.stop",
+    "_comment": "Should trigger if the player stops using a Bow before it is fully drawn",
+    "condition": {
+        "type": "item.use.stop",
+        "item": "minecraft:bow"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "id": "kill",
+    "_comment": "Should trigger if the player kills a Zombie or (Wither) Skeleton",
+    "condition": {
+        "type": "kill",
+        "targets": [
+            "Zombie",
+            "Skeleton"
+        ],
+        "isTargetsAllowList": true
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

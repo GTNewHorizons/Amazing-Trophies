@@ -1,0 +1,14 @@
+{
+    "id": "death",
+    "_comment": "Should trigger only if the player uses /kill or falls out of the world",
+    "condition": {
+        "type": "death",
+        "sources": "outOfWorld",
+		"isSourcesAllowList": true
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

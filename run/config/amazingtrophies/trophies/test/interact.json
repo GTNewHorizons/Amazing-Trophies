@@ -1,0 +1,13 @@
+{
+    "id": "interact",
+    "_comment": "Should trigger if the player interacts with an Item Frame",
+    "condition": {
+        "type": "interact.entity",
+        "targets": "net.minecraft.entity.item.EntityItemFrame"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

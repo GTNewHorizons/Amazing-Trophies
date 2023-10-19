@@ -1,0 +1,13 @@
+{
+    "id": "item.pickup",
+    "_comment": "Should trigger if the player picks up any dirt itemstack",
+    "condition": {
+        "type": "item.pickup",
+        "item": "minecraft:dirt"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

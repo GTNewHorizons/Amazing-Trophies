@@ -1,0 +1,13 @@
+{
+    "id": "item.use.start",
+    "_comment": "Should trigger if the player starts eating an Apple",
+    "condition": {
+        "type": "item.use.start",
+        "item": "minecraft:apple"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

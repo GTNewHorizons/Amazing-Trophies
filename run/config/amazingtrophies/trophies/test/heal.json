@@ -1,0 +1,13 @@
+{
+    "id": "heal",
+    "_comment": "Should trigger if the player heals themselves by at least 5HP",
+    "condition": {
+        "type": "heal",
+        "amount": 5.0
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

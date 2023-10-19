@@ -1,0 +1,14 @@
+{
+    "id": "item.smelt",
+    "_comment": "Should trigger if the player smelts logs into Charcoal",
+    "condition": {
+        "type": "item.smelt",
+        "item": "minecraft:coal",
+		"meta": 1
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

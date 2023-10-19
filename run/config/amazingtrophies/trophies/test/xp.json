@@ -1,0 +1,13 @@
+{
+    "id": "xp",
+    "_comment": "Should trigger if the player picks up at least 5 XP in a single orb",
+    "condition": {
+        "type": "xp",
+        "amount": 5.0
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "id": "item.use.finish",
+    "_comment": "Should trigger if the player uses a potion",
+    "condition": {
+        "type": "item.use.start",
+        "item": "minecraft:potion"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "id": "craft",
+    "_comment": "Should trigger if the player crafts a Diamond Axe",
+    "condition": {
+        "type": "item.craft",
+        "item": "minecraft:diamond_axe"
+    },
+    "model": {
+        "type": "advanced",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}
