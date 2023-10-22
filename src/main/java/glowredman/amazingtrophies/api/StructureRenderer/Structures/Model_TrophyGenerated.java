@@ -6,7 +6,17 @@ import java.util.HashMap;
 
 public class Model_TrophyGenerated extends BaseModelStructure {
 
+    private final String[][] structure;
+
     public Model_TrophyGenerated(String[][] structure, HashMap<Character, BlockInfo> blockInfoMap) {
-        super();
+        this.charToBlock = blockInfoMap;
+        this.structure = structure;
+        processStructureMap();
     }
+
+    @Override
+    public String[][] getStructureString() {
+        return structure;
+    }
+
 }

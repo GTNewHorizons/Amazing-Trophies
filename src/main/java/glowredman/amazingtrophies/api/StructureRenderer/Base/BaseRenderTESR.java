@@ -13,7 +13,7 @@ public class BaseRenderTESR extends TileEntitySpecialRenderer {
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float timeSinceLastTick) {
         if (!(tile instanceof BaseRenderTileEntity trophyTileEntity)) return;
 
-        RenderHelper.renderModel(tile.getWorldObj(), x, y, z, getModel(trophyTileEntity.modelName));
+        RenderHelper.renderModel(tile.getWorldObj(), getModel(trophyTileEntity.modelName));
     }
 
     protected BaseModelStructure getModel(String modelName) {

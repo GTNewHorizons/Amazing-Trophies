@@ -52,11 +52,11 @@ public class RenderHelper {
         GL11.glScalef(maxScale, maxScale, maxScale);
     }
 
-    public static void renderModel(World world, double x, double y, double z, final BaseModelStructure model) {
+    public static void renderModel(World world, final BaseModelStructure model) {
 
         GL11.glPushMatrix();
 
-        GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+        //GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         scaleModel(model);
 
         //rotation();

@@ -37,17 +37,12 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
         "textures/blocks/trophyBase.png");
 
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        if (!json.has("model")) {
-            throw new JsonSyntaxException("Missing model object in json");
-        }
-
-        JsonObject model = json.getAsJsonObject("model");
 
         // Parse the keys to get BlockInfo map
-        HashMap<Character, BlockInfo> blockInfoMap = parseKeysToBlockInfoMap(model);
+        HashMap<Character, BlockInfo> blockInfoMap = parseKeysToBlockInfoMap(json);
 
         // Parse the structure into a 2D array
-        String[][] structure = parseStructureToArray(model);
+        String[][] structure = parseStructureToArray(json);
 
         Model_TrophyGenerated jsonModel = new Model_TrophyGenerated(structure, blockInfoMap);
 
@@ -113,21 +108,37 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
         throw new JsonSyntaxException("Invalid block identifier while generating Trophy : " + blockIdentifier);
     }
 
+    static final double trophyBaseHeight = 0.3125;
+
     @Override
     public void render(double x, double y, double z, int rotation, @Nullable String name, long time) {
 
-        // model
-        Minecraft.getMinecraft()
-            .getTextureManager()
-            .bindTexture(TEXTURE_BASE);
+        GL11.glPushMatrix();
+
+        // Translate to the relative position.
+        GL11.glTranslated(x, y, z);
+
+        // Apply the rotation.
+        GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
+
+        // Render the actual base of the trophy.
+        Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE_BASE);
         GL11.glPushMatrix();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        GL11.glTranslated(x, y, z);
-        GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
         MODEL_BASE.renderAll();
+        GL11.glPopMatrix();
 
-        RenderHelper.renderModel(Minecraft.getMinecraft().theWorld, x, y, z, getModel("test1"));
+        // Render custom structure.
+        GL11.glPushMatrix();
+        GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+        //GL11.glTranslated(-0.25, -0.28, -0.25);
+        RenderHelper.renderModel(Minecraft.getMinecraft().theWorld, getModel("test1"));
+        GL11.glPopAttrib();
+        GL11.glPopMatrix();
 
+        GL11.glPopMatrix();
     }
+
+
 }

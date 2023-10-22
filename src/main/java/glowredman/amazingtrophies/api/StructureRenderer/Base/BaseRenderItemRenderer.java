@@ -36,7 +36,7 @@ public class BaseRenderItemRenderer implements IItemRenderer {
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 
-        if (item.hasTagCompound() && item.getTagCompound().hasKey(MODEL_NAME_NBT_TAG)) {
+/*        if (item.hasTagCompound() && item.getTagCompound().hasKey(MODEL_NAME_NBT_TAG)) {
             BaseModelStructure modelToRender = getModel(item.getTagCompound().getString(MODEL_NAME_NBT_TAG));
 
             if (type.equals(ItemRenderType.INVENTORY)) {
@@ -46,6 +46,6 @@ public class BaseRenderItemRenderer implements IItemRenderer {
             } else {
                 RenderHelper.renderModel(world, 0, 0, 0, modelToRender);
             }
-        }
+        }*/
     }
 }
