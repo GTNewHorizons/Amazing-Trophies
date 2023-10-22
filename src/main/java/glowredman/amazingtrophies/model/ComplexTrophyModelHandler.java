@@ -1,0 +1,133 @@
+package glowredman.amazingtrophies.model;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import cpw.mods.fml.common.registry.GameRegistry;
+import glowredman.amazingtrophies.AmazingTrophies;
+import glowredman.amazingtrophies.api.StructureRenderer.Base.Util.BlockInfo;
+import glowredman.amazingtrophies.api.StructureRenderer.Base.Util.RenderHelper;
+import glowredman.amazingtrophies.api.StructureRenderer.Structures.Model_TrophyGenerated;
+import glowredman.amazingtrophies.api.TrophyModelHandler;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static glowredman.amazingtrophies.api.StructureRenderer.Trophies.Trophies.getModel;
+import static glowredman.amazingtrophies.api.StructureRenderer.Trophies.Trophies.registerModel;
+
+public class ComplexTrophyModelHandler extends TrophyModelHandler {
+
+    public static final String ID = "complexBase";
+
+    private static final IModelCustom MODEL_BASE = AdvancedModelLoader
+        .loadModel(new ResourceLocation(AmazingTrophies.MODID, "models/trophyBase.obj"));
+    private static final ResourceLocation TEXTURE_BASE = new ResourceLocation(
+        AmazingTrophies.MODID,
+        "textures/blocks/trophyBase.png");
+
+    public void parse(String id, JsonObject json) throws JsonSyntaxException {
+        if (!json.has("model")) {
+            throw new JsonSyntaxException("Missing model object in json");
+        }
+
+        JsonObject model = json.getAsJsonObject("model");
+
+        // Parse the keys to get BlockInfo map
+        HashMap<Character, BlockInfo> blockInfoMap = parseKeysToBlockInfoMap(model);
+
+        // Parse the structure into a 2D array
+        String[][] structure = parseStructureToArray(model);
+
+        Model_TrophyGenerated jsonModel = new Model_TrophyGenerated(structure, blockInfoMap);
+
+        registerModel("test1", jsonModel);
+    }
+
+    private HashMap<Character, BlockInfo> parseKeysToBlockInfoMap(JsonObject model) throws JsonSyntaxException {
+        if (!model.has("keys") || !model.has("metadata")) {
+            throw new JsonSyntaxException("Both 'keys' and 'metadata' must be present in the model.");
+        }
+
+        JsonObject metadata = model.getAsJsonObject("metadata");
+        JsonObject keys = model.getAsJsonObject("keys");
+
+        HashMap<Character, BlockInfo> resultMap = new HashMap<>();
+
+        for (Map.Entry<String, JsonElement> entry : keys.entrySet()) {
+            String keyChar = entry.getKey();
+            String blockIdentifier = entry.getValue().getAsString();
+
+            if (metadata.has(keyChar)) {
+                int meta = metadata.get(keyChar).getAsInt();
+                Block block = getBlock(blockIdentifier);
+
+                if (block != null) {
+                    BlockInfo blockInfo = new BlockInfo(block, meta);
+                    resultMap.put(keyChar.charAt(0), blockInfo);
+                }
+            } else {
+                throw new JsonSyntaxException("Metadata for key '" + keyChar + "' is missing.");
+            }
+        }
+        return resultMap;
+    }
+
+    private String[][] parseStructureToArray(JsonObject model) throws JsonSyntaxException {
+        if (!model.has("structure")) {
+            throw new JsonSyntaxException("Missing structure array in model");
+        }
+
+        List<String> structureList = new ArrayList<>();
+        for (int i = 0; i < model.getAsJsonArray("structure").size(); i++) {
+            structureList.add(model.getAsJsonArray("structure").get(i).getAsString());
+        }
+
+        String[][] structure = new String[structureList.size()][];
+        for (int i = 0; i < structureList.size(); i++) {
+            structure[i] = new String[structureList.get(i).length()];
+            for (int j = 0; j < structureList.get(i).length(); j++) {
+                structure[i][j] = String.valueOf(structureList.get(i).charAt(j));
+            }
+        }
+        return structure;
+    }
+
+    private Block getBlock(String blockIdentifier) {
+        String[] parts = blockIdentifier.split(":");
+        if (parts.length == 2) {
+            String modId = parts[0];
+            String blockName = parts[1];
+            return GameRegistry.findBlock(modId, blockName);
+        }
+        throw new JsonSyntaxException("Invalid block identifier while generating Trophy : " + blockIdentifier);
+    }
+
+    @Override
+    public void render(double x, double y, double z, int rotation, @Nullable String name, long time) {
+
+        // model
+        Minecraft.getMinecraft()
+            .getTextureManager()
+            .bindTexture(TEXTURE_BASE);
+        GL11.glPushMatrix();
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GL11.glTranslated(x, y, z);
+        GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
+        MODEL_BASE.renderAll();
+
+        RenderHelper.renderModel(Minecraft.getMinecraft().theWorld, x, y, z, getModel("test1"));
+
+    }
+}

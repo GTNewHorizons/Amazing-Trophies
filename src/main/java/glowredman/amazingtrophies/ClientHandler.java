@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import glowredman.amazingtrophies.model.ComplexTrophyModelHandler;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -35,6 +36,8 @@ public class ClientHandler {
         AmazingTrophiesAPI.registerTrophyModelHandlerProvider(BaseTrophyModelHandler.ID, BaseTrophyModelHandler::new);
         AmazingTrophiesAPI
             .registerTrophyModelHandlerProvider(AdvancedTrophyModelHandler.ID, AdvancedTrophyModelHandler::new);
+        AmazingTrophiesAPI
+            .registerTrophyModelHandlerProvider(ComplexTrophyModelHandler.ID, ComplexTrophyModelHandler::new);
     }
 
     static void setupTrophyRenderer() {
