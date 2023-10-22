@@ -17,7 +17,7 @@ public class RenderHelper {
         int z = testShape[0][0].length() / 2;
         int y = testShape[0].length / 2;
 
-        GL11.glTranslated(-x, -1 - y, -1 - z);
+        GL11.glTranslated(-x + 0.5, -1 - y, -1 - z);
     }
 
     private static void rotation() {
@@ -58,8 +58,6 @@ public class RenderHelper {
 
         //GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         scaleModel(model);
-
-        //rotation();
 
         centreModel(model);
 
