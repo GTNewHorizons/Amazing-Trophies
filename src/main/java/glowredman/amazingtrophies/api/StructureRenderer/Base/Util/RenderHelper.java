@@ -10,9 +10,9 @@ import org.lwjgl.opengl.GL11;
 public class RenderHelper {
 
     private static void centreModel(BaseModelStructure model) {
-        double x = 0.5 - model.getXLength() / 2d;
-        double y = 0.5 - model.getYLength() / 2d;
-        double z = 0.5 - model.getZLength() / 2d;
+        double x = 0.5 - model.getXLength();
+        double y = 0.5 - model.getYLength();
+        double z = 0.5 - model.getZLength();
 
         GL11.glTranslated(x, y, z);
     }
@@ -47,13 +47,18 @@ public class RenderHelper {
     }
 
     public static void renderModel(World world, final BaseModelStructure model) {
+
+        if (model == null) return;
+
         GL11.glPushMatrix();
+
 
         scaleModel(model);
         centreModel(model);
+        GL11.glTranslated(0.5, 0.5,  0.5);
 
         // Raise the model by 0.3125 units after centering it.
-        //GL11.glTranslated(0, 0.3125, 0);
+        //
 
         buildModel(world, model);
 

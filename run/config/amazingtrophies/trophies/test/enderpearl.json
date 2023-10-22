@@ -16,9 +16,9 @@
             "y" : "minecraft:wool"
         },
         "structure":
-        [
+        [ [
             "xxx",
             "xyx"
-        ]
+        ] ]
     }
 }

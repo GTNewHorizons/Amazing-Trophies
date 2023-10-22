@@ -53,11 +53,7 @@ public abstract class Trophies {
     }
 
     public static BaseModelStructure getModel(final String modelName) {
-        BaseModelStructure model = modelMap.getOrDefault(modelName, null);
-
-        if (model == null) return modelMap.get("Default");
-
-        return model;
+        return modelMap.getOrDefault(modelName, null);
     }
 
     private static void registerAll() {

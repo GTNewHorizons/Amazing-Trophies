@@ -1,5 +1,6 @@
 package glowredman.amazingtrophies.model;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -25,6 +26,7 @@ import java.util.Map;
 
 import static glowredman.amazingtrophies.api.StructureRenderer.Trophies.Trophies.getModel;
 import static glowredman.amazingtrophies.api.StructureRenderer.Trophies.Trophies.registerModel;
+import static glowredman.amazingtrophies.trophy.RendererTrophy.currentTrophyProperties;
 
 public class ComplexTrophyModelHandler extends TrophyModelHandler {
 
@@ -46,7 +48,7 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
 
         Model_TrophyGenerated jsonModel = new Model_TrophyGenerated(structure, blockInfoMap);
 
-        registerModel("test1", jsonModel);
+        registerModel(id, jsonModel);
     }
 
     private HashMap<Character, BlockInfo> parseKeysToBlockInfoMap(JsonObject model) throws JsonSyntaxException {
@@ -83,20 +85,21 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
             throw new JsonSyntaxException("Missing structure array in model");
         }
 
-        List<String> structureList = new ArrayList<>();
-        for (int i = 0; i < model.getAsJsonArray("structure").size(); i++) {
-            structureList.add(model.getAsJsonArray("structure").get(i).getAsString());
-        }
+        JsonArray outerArray = model.getAsJsonArray("structure");
+        String[][] structure = new String[outerArray.size()][];
 
-        String[][] structure = new String[structureList.size()][];
-        for (int i = 0; i < structureList.size(); i++) {
-            structure[i] = new String[structureList.get(i).length()];
-            for (int j = 0; j < structureList.get(i).length(); j++) {
-                structure[i][j] = String.valueOf(structureList.get(i).charAt(j));
+        for (int i = 0; i < outerArray.size(); i++) {
+            JsonArray innerArray = outerArray.get(i).getAsJsonArray();
+            structure[i] = new String[innerArray.size()];
+
+            for (int j = 0; j < innerArray.size(); j++) {
+                structure[i][j] = innerArray.get(j).getAsString();
             }
         }
+
         return structure;
     }
+
 
     private Block getBlock(String blockIdentifier) {
         String[] parts = blockIdentifier.split(":");
@@ -111,12 +114,12 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
     static final double trophyBaseHeight = 0.3125;
 
     @Override
-    public void render(double x, double y, double z, int rotation, @Nullable String name, long time) {
+    public void render(double x, double y, double z, int rotation, @Nullable String userName, long time) {
 
         GL11.glPushMatrix();
 
         // Translate to the relative position.
-        GL11.glTranslated(x, y-1*(2d/3d), z);
+        GL11.glTranslated(x, y, z);
 
         // Apply the rotation.
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
@@ -124,16 +127,14 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
         // Render the actual base of the trophy.
         Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE_BASE);
         GL11.glPushMatrix();
-        //GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         MODEL_BASE.renderAll();
         GL11.glPopMatrix();
 
         // Render custom structure.
         GL11.glPushMatrix();
-        //GL11.glTranslated(0, -trophyBaseHeight, 0);
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-        RenderHelper.renderModel(Minecraft.getMinecraft().theWorld, getModel("test1"));
+        RenderHelper.renderModel(Minecraft.getMinecraft().theWorld, getModel(currentTrophyProperties.getID()));
         GL11.glPopAttrib();
         GL11.glPopMatrix();
 

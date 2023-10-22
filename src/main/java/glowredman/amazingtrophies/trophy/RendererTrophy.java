@@ -14,12 +14,12 @@ import glowredman.amazingtrophies.model.BaseTrophyModelHandler;
 public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRenderer {
 
     private static final TrophyModelHandler FALLBACK_MODEL_HANDLER = new BaseTrophyModelHandler();
-
+    public static TrophyProperties currentTrophyProperties;
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTickTime) {
         TileEntityTrophy tileTrophy = (TileEntityTrophy) tileEntity;
-        TrophyProperties props = tileTrophy.getProperties();
-        TrophyModelHandler modelHandler = props == null ? FALLBACK_MODEL_HANDLER : props.getModelHandler();
+        currentTrophyProperties = tileTrophy.getProperties();
+        TrophyModelHandler modelHandler = currentTrophyProperties == null ? FALLBACK_MODEL_HANDLER : currentTrophyProperties.getModelHandler();
         if (modelHandler == null) {
             return;
         }
@@ -52,9 +52,10 @@ public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRe
             NBTTagCompound nbt = item.getTagCompound();
             String id = nbt.getString(AmazingTrophiesAPI.TAGNAME_ID);
             if (!id.isEmpty()) {
-                TrophyProperties props = AmazingTrophiesAPI.getTrophyProperties(id);
-                if (props != null) {
-                    modelHandler = props.getModelHandler();
+
+                currentTrophyProperties = AmazingTrophiesAPI.getTrophyProperties(id);
+                if (currentTrophyProperties != null) {
+                    modelHandler = currentTrophyProperties.getModelHandler();
                     if (modelHandler == null) {
                         return;
                     }
