@@ -10,15 +10,13 @@ import org.lwjgl.opengl.GL11;
 public class RenderHelper {
 
     private static void centreModel(BaseModelStructure model) {
+        double x = 0.5 - model.getXLength() / 2d;
+        double y = 0.5 - model.getYLength() / 2d;
+        double z = 0.5 - model.getZLength() / 2d;
 
-        String[][] testShape = model.getStructureString();
-
-        int x = testShape.length / 2;
-        int z = testShape[0][0].length() / 2;
-        int y = testShape[0].length / 2;
-
-        GL11.glTranslated(-x + 0.5, -1 - y, -1 - z);
+        GL11.glTranslated(x, y, z);
     }
+
 
     private static void rotation() {
         GL11.glRotatef((System.currentTimeMillis() / 16) % 360, 0.3f, 1, 0.5f);
@@ -53,18 +51,19 @@ public class RenderHelper {
     }
 
     public static void renderModel(World world, final BaseModelStructure model) {
-
         GL11.glPushMatrix();
 
-        //GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         scaleModel(model);
-
         centreModel(model);
+
+        // Raise the model by 0.3125 units after centering it.
+        GL11.glTranslated(0, 0.3125, 0);
 
         buildModel(world, model);
 
         GL11.glPopMatrix();
     }
+
 
     public static void renderBlock(Block block, int metadata, CustomRenderBlocks renderBlocks, int x, int y, int z) {
         GL11.glPushMatrix();
