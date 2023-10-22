@@ -18,10 +18,6 @@ public class RenderHelper {
     }
 
 
-    private static void rotation() {
-        GL11.glRotatef((System.currentTimeMillis() / 16) % 360, 0.3f, 1, 0.5f);
-    }
-
     private static void buildModel(World world, BaseModelStructure model) {
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
@@ -57,7 +53,7 @@ public class RenderHelper {
         centreModel(model);
 
         // Raise the model by 0.3125 units after centering it.
-        GL11.glTranslated(0, 0.3125, 0);
+        //GL11.glTranslated(0, 0.3125, 0);
 
         buildModel(world, model);
 

@@ -116,7 +116,7 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
         GL11.glPushMatrix();
 
         // Translate to the relative position.
-        GL11.glTranslated(x, y, z);
+        GL11.glTranslated(x, y-1*(2d/3d), z);
 
         // Apply the rotation.
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
@@ -124,15 +124,15 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
         // Render the actual base of the trophy.
         Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE_BASE);
         GL11.glPushMatrix();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        //GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         MODEL_BASE.renderAll();
         GL11.glPopMatrix();
 
         // Render custom structure.
         GL11.glPushMatrix();
+        //GL11.glTranslated(0, -trophyBaseHeight, 0);
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-        GL11.glTranslated(0, trophyBaseHeight, 0);
         RenderHelper.renderModel(Minecraft.getMinecraft().theWorld, getModel("test1"));
         GL11.glPopAttrib();
         GL11.glPopMatrix();
