@@ -15,6 +15,7 @@ public class RenderHelper {
         double z = 0.5 - model.getZLength();
 
         GL11.glTranslated(x, y, z);
+        GL11.glTranslated(-((int) x) / 2, 0, 0);
     }
 
 
