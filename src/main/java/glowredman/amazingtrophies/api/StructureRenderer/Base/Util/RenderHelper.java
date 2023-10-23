@@ -53,13 +53,9 @@ public class RenderHelper {
 
         GL11.glPushMatrix();
 
-
         scaleModel(model);
         centreModel(model);
         GL11.glTranslated(0.5, 0.5,  0.5);
-
-        // Raise the model by 0.3125 units after centering it.
-        //
 
         buildModel(world, model);
 

@@ -134,6 +134,7 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
         // Render custom structure.
         GL11.glPushMatrix();
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+        GL11.glTranslated(0, trophyBaseHeight, 0);
         RenderHelper.renderModel(Minecraft.getMinecraft().theWorld, getModel(currentTrophyProperties.getID()));
         GL11.glPopAttrib();
         GL11.glPopMatrix();
