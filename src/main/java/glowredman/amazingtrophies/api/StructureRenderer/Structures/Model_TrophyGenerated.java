@@ -11,6 +11,8 @@ public class Model_TrophyGenerated extends BaseModelStructure {
     public Model_TrophyGenerated(String[][] structure, HashMap<Character, BlockInfo> blockInfoMap) {
         this.charToBlock = blockInfoMap;
         this.structure = structure;
+
+        reverseInnerArrays(this.structure);
         processStructureMap();
     }
 
