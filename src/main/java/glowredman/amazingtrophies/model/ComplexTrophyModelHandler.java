@@ -53,7 +53,7 @@ public class ComplexTrophyModelHandler extends TrophyModelHandler {
 
     private HashMap<Character, BlockInfo> parseKeysToBlockInfoMap(JsonObject model) throws JsonSyntaxException {
         if (!model.has("keys") || !model.has("metadata")) {
-            throw new JsonSyntaxException("Both 'keys' and 'metadata' must be present in the model.");
+            throw new JsonSyntaxException("Both 'keys' and 'metadata' must be present in the structure model.");
         }
 
         JsonObject metadata = model.getAsJsonObject("metadata");
