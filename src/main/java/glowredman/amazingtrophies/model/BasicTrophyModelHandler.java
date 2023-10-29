@@ -14,16 +14,16 @@ import com.google.gson.JsonSyntaxException;
 
 import glowredman.amazingtrophies.AssetHandler;
 
-public class AdvancedTrophyModelHandler extends BaseTrophyModelHandler {
+public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
 
-    public static final String ID = "advanced";
+    public static final String ID = "basic";
 
     private IModelCustom model;
     private ResourceLocation texture;
 
-    public AdvancedTrophyModelHandler() {}
+    public BasicTrophyModelHandler() {}
 
-    public AdvancedTrophyModelHandler(IModelCustom model, ResourceLocation texture) {
+    public BasicTrophyModelHandler(IModelCustom model, ResourceLocation texture) {
         this.model = model;
         this.texture = texture;
     }

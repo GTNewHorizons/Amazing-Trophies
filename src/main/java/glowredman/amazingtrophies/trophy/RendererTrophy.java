@@ -9,11 +9,11 @@ import net.minecraftforge.client.IItemRenderer;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.api.TrophyModelHandler;
 import glowredman.amazingtrophies.api.TrophyProperties;
-import glowredman.amazingtrophies.model.BaseTrophyModelHandler;
+import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
 
 public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    private static final TrophyModelHandler FALLBACK_MODEL_HANDLER = new BaseTrophyModelHandler();
+    private static final TrophyModelHandler FALLBACK_MODEL_HANDLER = new PedestalTrophyModelHandler();
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTickTime) {

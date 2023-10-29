@@ -12,15 +12,15 @@ import org.lwjgl.opengl.GL12;
 import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.TrophyModelHandler;
 
-public class BaseTrophyModelHandler extends TrophyModelHandler {
+public class PedestalTrophyModelHandler extends TrophyModelHandler {
 
-    public static final String ID = "base";
+    public static final String ID = "pedestal";
 
     private static final IModelCustom MODEL_BASE = AdvancedModelLoader
-        .loadModel(new ResourceLocation(AmazingTrophies.MODID, "models/trophyBase.obj"));
+        .loadModel(new ResourceLocation(AmazingTrophies.MODID, "models/trophy_pedestal.obj"));
     private static final ResourceLocation TEXTURE_BASE = new ResourceLocation(
         AmazingTrophies.MODID,
-        "textures/blocks/trophyBase.png");
+        "textures/blocks/trophy_pedestal.png");
 
     @Override
     public void render(double x, double y, double z, int rotation, String name, long time) {

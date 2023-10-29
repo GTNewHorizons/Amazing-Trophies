@@ -13,8 +13,8 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Loader;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
-import glowredman.amazingtrophies.model.AdvancedTrophyModelHandler;
-import glowredman.amazingtrophies.model.BaseTrophyModelHandler;
+import glowredman.amazingtrophies.model.BasicTrophyModelHandler;
+import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
 import glowredman.amazingtrophies.trophy.RendererTrophy;
 import glowredman.amazingtrophies.trophy.TileEntityTrophy;
 
@@ -32,9 +32,10 @@ public class ClientHandler {
     }
 
     static void registerTrophyModelHandlers() {
-        AmazingTrophiesAPI.registerTrophyModelHandlerProvider(BaseTrophyModelHandler.ID, BaseTrophyModelHandler::new);
-        AmazingTrophiesAPI
-            .registerTrophyModelHandlerProvider(AdvancedTrophyModelHandler.ID, AdvancedTrophyModelHandler::new);
+        // spotless:off
+        AmazingTrophiesAPI.registerTrophyModelHandlerProvider(PedestalTrophyModelHandler.ID, PedestalTrophyModelHandler::new);
+        AmazingTrophiesAPI.registerTrophyModelHandlerProvider(BasicTrophyModelHandler.ID, BasicTrophyModelHandler::new);
+        // spotless:on
     }
 
     static void setupTrophyRenderer() {
