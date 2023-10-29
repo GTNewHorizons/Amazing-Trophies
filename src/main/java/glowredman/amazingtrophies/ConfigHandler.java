@@ -8,6 +8,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.JsonArray;
@@ -46,6 +50,48 @@ public class ConfigHandler {
             action.accept(PARSER.parse(reader));
         } catch (Exception e) {
             AmazingTrophies.LOGGER.error("Failed to parse " + AmazingTrophies.CONFIG_DIR.relativize(path) + "!", e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Class<? extends Entity> parseEntityClass(JsonElement json) {
+        String name = json.getAsString();
+        // entity names may also be used to identify the target entity
+        Class<?> clazz = EntityList.stringToClassMapping.get(name);
+        if (clazz != null) {
+            return (Class<? extends Entity>) clazz;
+        }
+        // not a valid entity name, try parsing as class name
+        try {
+            clazz = Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException("Could not find target class!", e);
+        }
+        if (Entity.class.isAssignableFrom(clazz)) {
+            return (Class<? extends Entity>) clazz;
+        } else {
+            throw new IllegalArgumentException(name + " is not a subclass of " + Entity.class.getName() + "!");
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Class<? extends EntityLivingBase> parseEntityLivingClass(JsonElement element) {
+        String className = element.getAsString();
+        // entity names may also be used to identify the target entity
+        Class<?> clazz = EntityList.stringToClassMapping.get(className);
+        if (clazz == null) {
+            // not a valid entity name, try parsing as class name
+            try {
+                clazz = Class.forName(className);
+            } catch (ClassNotFoundException e) {
+                throw new IllegalArgumentException("Could not find target class!", e);
+            }
+        }
+        if (EntityLivingBase.class.isAssignableFrom(clazz)) {
+            return (Class<? extends EntityLivingBase>) clazz;
+        } else {
+            throw new IllegalArgumentException(
+                className + " is not a subclass of " + EntityLivingBase.class.getName() + "!");
         }
     }
 

@@ -9,15 +9,17 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import glowredman.amazingtrophies.AssetHandler;
+import glowredman.amazingtrophies.ConfigHandler;
 
 public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
 
     public static final String ID = "basic";
+    public static final String PROPERTY_MODEL = "model";
+    public static final String PROPERTY_TEXTURE = "texture";
 
     private IModelCustom model;
     private ResourceLocation texture;
@@ -31,21 +33,10 @@ public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        JsonElement modelPath = json.get("model");
-        if (modelPath == null) {
-            throw new JsonSyntaxException("Trophy \"" + id + "\" is missing required property \"model\"!");
-        }
-        JsonElement texturePath = json.get("texture");
-        if (texturePath == null) {
-            throw new JsonSyntaxException("Trophy \"" + id + "\" is missing required property \"texture\"!");
-        }
-        try {
-            this.model = AdvancedModelLoader
-                .loadModel(AssetHandler.getResourceLocation(modelPath.getAsString(), "models/"));
-            this.texture = AssetHandler.getResourceLocation(texturePath.getAsString(), "textures/blocks/");
-        } catch (ClassCastException | IllegalStateException e) {
-            throw new JsonSyntaxException("Malformed JSON!", e);
-        }
+        this.model = AdvancedModelLoader.loadModel(
+            AssetHandler.getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_MODEL), "models/"));
+        this.texture = AssetHandler
+            .getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_TEXTURE), "textures/blocks/");
     }
 
     @Override

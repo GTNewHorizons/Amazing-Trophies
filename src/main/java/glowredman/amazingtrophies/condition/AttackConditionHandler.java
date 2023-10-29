@@ -3,7 +3,6 @@ package glowredman.amazingtrophies.condition;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EntityDamageSource;
@@ -33,7 +32,7 @@ public abstract class AttackConditionHandler extends ConditionHandler {
         float damage = ConfigHandler.getFloatProperty(json, PROPERTY_DAMAGE, 0.0f);
         Set<String> sources = ConfigHandler.getSetProperty(json, PROPERTY_SOURCES, JsonElement::getAsString, new HashSet<>());
         boolean isSourcesAllowList = ConfigHandler.getBooleanProperty(json, PROPERTY_IS_SOURCES_ALLOW_LIST, false);
-        Set<Class<? extends EntityLivingBase>> targets = ConfigHandler.getSetProperty(json, PROPERTY_TARGETS, AttackConditionHandler::parseTarget, new HashSet<>());
+        Set<Class<? extends EntityLivingBase>> targets = ConfigHandler.getSetProperty(json, PROPERTY_TARGETS, ConfigHandler::parseEntityLivingClass, new HashSet<>());
         boolean isTargetsAllowList = ConfigHandler.getBooleanProperty(json, PROPERTY_IS_TARGETS_ALLOW_LIST, false);
         // spotless:on
 
@@ -70,27 +69,6 @@ public abstract class AttackConditionHandler extends ConditionHandler {
     }
 
     protected abstract EntityPlayer getPlayer(LivingAttackEvent event);
-
-    @SuppressWarnings("unchecked")
-    static Class<? extends EntityLivingBase> parseTarget(JsonElement element) {
-        String className = element.getAsString();
-        // entity names may also be used to identify the target entity
-        Class<?> clazz = EntityList.stringToClassMapping.get(className);
-        if (clazz == null) {
-            // not a valid entity name, try parsing as class name
-            try {
-                clazz = Class.forName(className);
-            } catch (ClassNotFoundException e) {
-                throw new IllegalArgumentException("Could not find target class!", e);
-            }
-        }
-        if (EntityLivingBase.class.isAssignableFrom(clazz)) {
-            return (Class<? extends EntityLivingBase>) clazz;
-        } else {
-            throw new IllegalArgumentException(
-                className + " is not a subclass of " + EntityLivingBase.class.getName() + "!");
-        }
-    }
 
     public static class Entity extends AttackConditionHandler {
 
