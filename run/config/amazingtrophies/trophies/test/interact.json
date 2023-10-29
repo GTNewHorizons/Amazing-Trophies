@@ -6,8 +6,10 @@
         "targets": "net.minecraft.entity.item.EntityItemFrame"
     },
     "model": {
-        "type": "advanced",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "entity",
+        "entity": "MinecartSpawner",
+        "nbt": "{EntityId:MinecartCommandBlock}",
+        "yawOffset": 90,
+        "yOffset": -0.04296875
     }
 }

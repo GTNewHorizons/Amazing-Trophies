@@ -6,8 +6,9 @@
         "distance": 20.0
     },
     "model": {
-        "type": "advanced",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "entity",
+        "entity": "net.minecraft.entity.projectile.EntityFishHook",
+        "yOffset": 0.0625,
+        "scale": 1
     }
 }

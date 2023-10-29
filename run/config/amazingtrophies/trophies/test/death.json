@@ -7,8 +7,8 @@
 		"isSourcesAllowList": true
     },
     "model": {
-        "type": "advanced",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "entity",
+        "entity": "EnderDragon",
+        "scale": 0.06
     }
 }

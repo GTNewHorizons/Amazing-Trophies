@@ -6,8 +6,9 @@
         "amount": 5.0
     },
     "model": {
-        "type": "advanced",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "entity",
+        "entity": "Boat",
+        "yawOffset": 90,
+        "yOffset": -0.021484375
     }
 }
