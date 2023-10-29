@@ -1,12 +1,13 @@
 package glowredman.amazingtrophies.model;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -56,7 +57,6 @@ public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
             .getTextureManager()
             .bindTexture(this.texture);
         GL11.glPushMatrix();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glTranslated(x, y, z);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);

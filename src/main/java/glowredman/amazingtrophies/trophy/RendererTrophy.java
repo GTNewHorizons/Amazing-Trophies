@@ -66,8 +66,8 @@ public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRe
         }
 
         switch (type) {
-            case EQUIPPED, EQUIPPED_FIRST_PERSON -> modelHandler.render(0.5, 0.5, 0.5, 8, name, time);
-            default -> modelHandler.render(0.0, 0.0, 0.0, 8, name, time);
+            case EQUIPPED, EQUIPPED_FIRST_PERSON -> modelHandler.render(0.5, 0.5, 0.5, 12, name, time, 0.0f);
+            default -> modelHandler.render(0.0, 0.0, 0.0, 12, name, time, 0.0f);
         }
     }
 

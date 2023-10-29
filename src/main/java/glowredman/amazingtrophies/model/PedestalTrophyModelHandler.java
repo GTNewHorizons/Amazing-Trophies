@@ -1,5 +1,7 @@
 package glowredman.amazingtrophies.model;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -7,7 +9,6 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.TrophyModelHandler;
@@ -31,8 +32,6 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
             .getTextureManager()
             .bindTexture(TEXTURE_BASE);
         GL11.glPushMatrix();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glTranslated(x, y, z);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
         MODEL_BASE.renderAll();
@@ -46,12 +45,14 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
         GL11.glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
         GL11.glTranslatef(0.0f, -0.5f, 0.376f);
+        // at 100% scale, the text is rendered upside down and 8 blocks high
+        // this scales the text down to 80% of a pixel and flips it on the XZ plane
         GL11.glScalef(0.00625f, -0.00625f, 0.00625f);
         GL11.glDepthMask(false);
+        // due to the flip, the Y coordinate must be negative. one pixel is 10 high
         fontRenderer.drawString(name, -fontRenderer.getStringWidth(name) / 2, -39, 0x000000);
         fontRenderer.drawString(timeText, -fontRenderer.getStringWidth(timeText) / 2, -29, 0x000000);
         GL11.glDepthMask(true);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
     }
 }
