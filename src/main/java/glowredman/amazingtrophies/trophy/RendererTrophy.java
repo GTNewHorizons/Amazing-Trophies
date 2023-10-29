@@ -29,7 +29,8 @@ public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRe
             z + 0.5,
             tileTrophy.getBlockMetadata(),
             tileTrophy.getPlayerName(),
-            tileTrophy.getTime());
+            tileTrophy.getTime(),
+            partialTickTime);
     }
 
     @Override

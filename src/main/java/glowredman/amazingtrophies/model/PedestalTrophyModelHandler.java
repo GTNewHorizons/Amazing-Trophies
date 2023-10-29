@@ -23,7 +23,8 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         "textures/blocks/trophy_pedestal.png");
 
     @Override
-    public void render(double x, double y, double z, int rotation, String name, long time) {
+    public void render(double x, double y, double z, int rotation, @Nullable String name, long time,
+        float partialTickTime) {
 
         // model
         Minecraft.getMinecraft()
