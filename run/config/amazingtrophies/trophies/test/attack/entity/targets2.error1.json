@@ -8,7 +8,7 @@
         ]
     },
     "model": {
-        "type": "advanced",
+        "type": "basic",
         "model": "model.obj",
         "texture": "texture.png"
     }

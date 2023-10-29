@@ -5,7 +5,7 @@
         "type": "lightning"
     },
     "model": {
-        "type": "advanced",
+        "type": "basic",
         "model": "test.test",
         "texture": "test"
     }
