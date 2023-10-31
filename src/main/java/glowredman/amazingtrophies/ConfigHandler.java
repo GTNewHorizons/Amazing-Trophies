@@ -2,6 +2,7 @@ package glowredman.amazingtrophies;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -24,6 +25,51 @@ import com.google.gson.stream.JsonReader;
 public class ConfigHandler {
 
     private static final JsonParser PARSER = new JsonParser();
+    private static final Comparator<Path> COMPARATOR = new Comparator<>() {
+
+        @Override
+        public int compare(Path o1, Path o2) {
+            return this.compare(
+                AmazingTrophies.CONFIG_DIR.relativize(o1)
+                    .toString(),
+                AmazingTrophies.CONFIG_DIR.relativize(o2)
+                    .toString());
+        }
+
+        private int compare(String o1, String o2) {
+            int index1 = o1.indexOf('/');
+            int index2 = o2.indexOf('/');
+            if (index1 == -1) {
+                index1 = o1.indexOf('\\');
+            }
+            if (index2 == -1) {
+                index2 = o2.indexOf('\\');
+            }
+
+            if (index1 == -1) {
+                if (index2 == -1) {
+                    // both paths do not contain dirs
+                    return o1.compareToIgnoreCase(o2);
+                }
+                // path 1 does not contain a dir, path 2 does
+                return 1;
+            }
+            if (index2 == -1) {
+                // path 1 contains a dir, path 2 does not
+                return -1;
+            }
+            // both paths contain a dir
+            String dir1 = o1.substring(0, index1);
+            String dir2 = o2.substring(0, index2);
+            int i = dir1.compareToIgnoreCase(dir2);
+            if (i == 0) {
+                // both paths start with the same dir
+                return this.compare(o1.substring(index1 + 1), o2.substring(index2 + 1));
+            }
+            // the paths start with different dirs
+            return i;
+        }
+    };
 
     static void parseOrCreate(String directoryName, Consumer<JsonElement> action) {
         Path dir = AmazingTrophies.CONFIG_DIR.resolve(directoryName);
@@ -39,6 +85,7 @@ public class ConfigHandler {
                     path.getFileName()
                         .toString(),
                     ".json"))
+                .sorted(COMPARATOR)
                 .forEachOrdered(path -> parseFile(path, action));
         } catch (Exception e) {
             AmazingTrophies.LOGGER.error("Failed to list files in " + dir + "!", e);
