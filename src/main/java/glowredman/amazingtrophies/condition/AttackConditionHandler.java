@@ -19,10 +19,10 @@ import glowredman.amazingtrophies.api.ConditionHandler;
 public abstract class AttackConditionHandler extends ConditionHandler {
 
     public static final String PROPERTY_DAMAGE = "damage";
-    public static final String PROPERTY_SOURCES = "sources";
-    public static final String PROPERTY_IS_SOURCES_ALLOW_LIST = "isSourcesAllowList";
-    public static final String PROPERTY_TARGETS = "targets";
-    public static final String PROPERTY_IS_TARGETS_ALLOW_LIST = "isTargetsAllowList";
+    public static final String PROPERTY_DAMAGE_TYPES = "damageTypes";
+    public static final String PROPERTY_IS_DAMAGE_TYPES_ALLOW_LIST = "isDamageTypesAllowList";
+    public static final String PROPERTY_ENTITIES = "entities";
+    public static final String PROPERTY_IS_ENTITIES_ALLOW_LIST = "isEntitiesAllowList";
 
     protected final Set<DamageInfo> conditions = new HashSet<>();
 
@@ -30,13 +30,13 @@ public abstract class AttackConditionHandler extends ConditionHandler {
     public void parse(String id, JsonObject json) {
         // spotless:off
         float damage = ConfigHandler.getFloatProperty(json, PROPERTY_DAMAGE, 0.0f);
-        Set<String> sources = ConfigHandler.getSetProperty(json, PROPERTY_SOURCES, JsonElement::getAsString, new HashSet<>());
-        boolean isSourcesAllowList = ConfigHandler.getBooleanProperty(json, PROPERTY_IS_SOURCES_ALLOW_LIST, false);
-        Set<Class<? extends EntityLivingBase>> targets = ConfigHandler.getSetProperty(json, PROPERTY_TARGETS, ConfigHandler::parseEntityLivingClass, new HashSet<>());
-        boolean isTargetsAllowList = ConfigHandler.getBooleanProperty(json, PROPERTY_IS_TARGETS_ALLOW_LIST, false);
+        Set<String> damageTypes = ConfigHandler.getSetProperty(json, PROPERTY_DAMAGE_TYPES, JsonElement::getAsString, new HashSet<>());
+        boolean isDamageTypesAllowList = ConfigHandler.getBooleanProperty(json, PROPERTY_IS_DAMAGE_TYPES_ALLOW_LIST, false);
+        Set<Class<? extends EntityLivingBase>> entities = ConfigHandler.getSetProperty(json, PROPERTY_ENTITIES, ConfigHandler::parseEntityLivingClass, new HashSet<>());
+        boolean isEntitiesAllowList = ConfigHandler.getBooleanProperty(json, PROPERTY_IS_ENTITIES_ALLOW_LIST, false);
         // spotless:on
 
-        DamageInfo newInfo = new DamageInfo(damage, sources, isSourcesAllowList, targets, isTargetsAllowList);
+        DamageInfo newInfo = new DamageInfo(damage, damageTypes, isDamageTypesAllowList, entities, isEntitiesAllowList);
         for (DamageInfo oldInfo : this.conditions) {
             if (newInfo.equals(oldInfo)) {
                 oldInfo.ids.add(id);
@@ -55,20 +55,22 @@ public abstract class AttackConditionHandler extends ConditionHandler {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onAttack(LivingAttackEvent event) {
         EntityPlayer player = this.getPlayer(event);
-        if (player == null) {
+        Class<? extends EntityLivingBase> entityClass = this.getEntityClass(event);
+        if (player == null || entityClass == null) {
             return;
         }
 
         String damageType = event.source.getDamageType();
-        Class<? extends EntityLivingBase> targetClass = event.entityLiving.getClass();
         float damage = event.ammount;
 
         for (DamageInfo condition : this.conditions) {
-            condition.trigger(damageType, targetClass, damage, player);
+            condition.trigger(damageType, entityClass, damage, player);
         }
     }
 
     protected abstract EntityPlayer getPlayer(LivingAttackEvent event);
+
+    protected abstract Class<? extends EntityLivingBase> getEntityClass(LivingAttackEvent event);
 
     public static class Entity extends AttackConditionHandler {
 
@@ -86,6 +88,11 @@ public abstract class AttackConditionHandler extends ConditionHandler {
                 return player;
             }
             return null;
+        }
+
+        @Override
+        protected Class<? extends EntityLivingBase> getEntityClass(LivingAttackEvent event) {
+            return event.entityLiving.getClass();
         }
     }
 
@@ -105,30 +112,39 @@ public abstract class AttackConditionHandler extends ConditionHandler {
             }
             return null;
         }
+
+        @Override
+        protected Class<? extends EntityLivingBase> getEntityClass(LivingAttackEvent event) {
+            if (event.source instanceof EntityDamageSource entitySource
+                && entitySource.getEntity() instanceof EntityLivingBase entity) {
+                return entity.getClass();
+            }
+            return null;
+        }
     }
 
     private class DamageInfo {
 
         private final float minDamage;
-        private final Set<String> sources;
-        private final boolean isSourcesAllowList;
-        private final Set<Class<? extends EntityLivingBase>> targets;
-        private final boolean isTargetsAllowList;
+        private final Set<String> damageTypes;
+        private final boolean isDamageTypesAllowList;
+        private final Set<Class<? extends EntityLivingBase>> entities;
+        private final boolean isEntitiesAllowList;
         private final Set<String> ids = new HashSet<>();
 
-        private DamageInfo(float minDamage, Set<String> sources, boolean isSourcesAllowList,
-            Set<Class<? extends EntityLivingBase>> targets, boolean isTargetsAllowList) {
+        private DamageInfo(float minDamage, Set<String> damageTypes, boolean isDamageTypesAllowList,
+            Set<Class<? extends EntityLivingBase>> entities, boolean isEntitiesAllowList) {
             this.minDamage = minDamage;
-            this.sources = sources;
-            this.isSourcesAllowList = isSourcesAllowList;
-            this.targets = targets;
-            this.isTargetsAllowList = isTargetsAllowList;
+            this.damageTypes = damageTypes;
+            this.isDamageTypesAllowList = isDamageTypesAllowList;
+            this.entities = entities;
+            this.isEntitiesAllowList = isEntitiesAllowList;
         }
 
         private void trigger(String damageType, Class<? extends EntityLivingBase> targetClass, float damage,
             EntityPlayer player) {
-            if (damage < this.minDamage || (this.sources.contains(damageType) ^ this.isSourcesAllowList)
-                || (this.targets.contains(targetClass) ^ this.isTargetsAllowList)) {
+            if (damage < this.minDamage || (this.damageTypes.contains(damageType) ^ this.isDamageTypesAllowList)
+                || (this.entities.contains(targetClass) ^ this.isEntitiesAllowList)) {
                 return;
             }
             for (String id : this.ids) {
@@ -143,10 +159,10 @@ public abstract class AttackConditionHandler extends ConditionHandler {
                 return true;
             }
             return obj instanceof DamageInfo other && this.minDamage == other.minDamage
-                && this.sources.equals(other.sources)
-                && this.isSourcesAllowList == other.isSourcesAllowList
-                && this.targets.equals(other.targets)
-                && this.isTargetsAllowList == other.isTargetsAllowList;
+                && this.damageTypes.equals(other.damageTypes)
+                && this.isDamageTypesAllowList == other.isDamageTypesAllowList
+                && this.entities.equals(other.entities)
+                && this.isEntitiesAllowList == other.isEntitiesAllowList;
         }
 
     }
