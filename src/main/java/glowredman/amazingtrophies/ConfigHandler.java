@@ -22,8 +22,13 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
+import glowredman.amazingtrophies.api.ItemDefinition;
+
 public class ConfigHandler {
 
+    public static final String PROPERTY_REGISTRY_NAME = "registryName";
+    public static final String PROPERTY_META = "meta";
+    public static final String PROPERTY_NBT = "nbt";
     private static final JsonParser PARSER = new JsonParser();
     private static final Comparator<Path> COMPARATOR = new Comparator<>() {
 
@@ -148,6 +153,18 @@ public class ConfigHandler {
             throw new JsonSyntaxException("Required property \"" + key + "\" is missing!");
         }
         return parser.apply(element);
+    }
+
+    public static int getIntegerProperty(JsonObject json, String key) {
+        return getProperty(json, key, JsonElement::getAsInt);
+    }
+
+    public static ItemDefinition getItemProperty(JsonObject json, String key, int defaultMeta) {
+        JsonObject definitionJson = json.getAsJsonObject(key);
+        return new ItemDefinition(
+            getStringProperty(definitionJson, PROPERTY_REGISTRY_NAME),
+            getIntegerProperty(definitionJson, PROPERTY_META, defaultMeta),
+            getStringProperty(definitionJson, PROPERTY_NBT, null));
     }
 
     public static <T> Set<T> getSetProperty(JsonObject json, String key, Function<JsonElement, T> parser) {
