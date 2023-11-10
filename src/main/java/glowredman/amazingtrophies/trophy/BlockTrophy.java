@@ -23,7 +23,7 @@ public class BlockTrophy extends BlockContainer {
     public BlockTrophy() {
         super(Material.wood);
         this.setBlockName(AmazingTrophies.MODID + ".trophy");
-        this.setBlockTextureName(AmazingTrophies.MODID + ":trophyBase");
+        this.setBlockTextureName(AmazingTrophies.MODID + ":trophy_pedestal");
         this.setHardness(1.0f);
     }
 

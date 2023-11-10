@@ -6,8 +6,7 @@
         "id": "achievement.openInventory"
     },
     "model": {
-        "type": "advanced",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "entity",
+        "entity": "Zombie"
     }
 }

@@ -10,8 +10,8 @@
         "isTargetsAllowList": true
     },
     "model": {
-        "type": "advanced",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "entity",
+        "entity": "Squid",
+        "yOffset": 0.236328125
     }
 }

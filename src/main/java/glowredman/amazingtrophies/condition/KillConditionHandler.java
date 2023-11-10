@@ -30,7 +30,7 @@ public class KillConditionHandler extends ConditionHandler {
     @Override
     public void parse(String id, JsonObject json) {
         Set<Class<? extends EntityLivingBase>> targets = ConfigHandler
-            .getSetProperty(json, PROPERTY_TARGETS, AttackConditionHandler::parseTarget, new HashSet<>());
+            .getSetProperty(json, PROPERTY_TARGETS, ConfigHandler::parseEntityLivingClass, new HashSet<>());
         boolean isTargetsAllowList = ConfigHandler.getBooleanProperty(json, PROPERTY_IS_TARGETS_ALLOW_LIST, false);
 
         KillInfo newInfo = new KillInfo(targets, isTargetsAllowList);

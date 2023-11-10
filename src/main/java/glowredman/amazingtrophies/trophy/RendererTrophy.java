@@ -9,12 +9,12 @@ import net.minecraftforge.client.IItemRenderer;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.api.TrophyModelHandler;
 import glowredman.amazingtrophies.api.TrophyProperties;
-import glowredman.amazingtrophies.model.BaseTrophyModelHandler;
+import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
 
 public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    private static final TrophyModelHandler FALLBACK_MODEL_HANDLER = new BaseTrophyModelHandler();
-    public static TrophyProperties currentTrophyProperties;
+    private static final TrophyModelHandler FALLBACK_MODEL_HANDLER = new PedestalTrophyModelHandler();
+
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTickTime) {
         TileEntityTrophy tileTrophy = (TileEntityTrophy) tileEntity;
@@ -29,7 +29,8 @@ public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRe
             z + 0.5,
             tileTrophy.getBlockMetadata(),
             tileTrophy.getPlayerName(),
-            tileTrophy.getTime());
+            tileTrophy.getTime(),
+            partialTickTime);
     }
 
     @Override
@@ -66,8 +67,8 @@ public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRe
         }
 
         switch (type) {
-            case EQUIPPED, EQUIPPED_FIRST_PERSON -> modelHandler.render(0.5, 0.5, 0.5, 8, name, time);
-            default -> modelHandler.render(0.0, 0.0, 0.0, 8, name, time);
+            case EQUIPPED, EQUIPPED_FIRST_PERSON -> modelHandler.render(0.5, 0.5, 0.5, 12, name, time, 0.0f);
+            default -> modelHandler.render(0.0, 0.0, 0.0, 12, name, time, 0.0f);
         }
     }
 
