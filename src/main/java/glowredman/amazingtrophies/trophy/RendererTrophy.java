@@ -18,8 +18,8 @@ public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRe
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTickTime) {
         TileEntityTrophy tileTrophy = (TileEntityTrophy) tileEntity;
-        currentTrophyProperties = tileTrophy.getProperties();
-        TrophyModelHandler modelHandler = currentTrophyProperties == null ? FALLBACK_MODEL_HANDLER : currentTrophyProperties.getModelHandler();
+        TrophyProperties props = tileTrophy.getProperties();
+        TrophyModelHandler modelHandler = props == null ? FALLBACK_MODEL_HANDLER : props.getModelHandler();
         if (modelHandler == null) {
             return;
         }
@@ -54,9 +54,9 @@ public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRe
             String id = nbt.getString(AmazingTrophiesAPI.TAGNAME_ID);
             if (!id.isEmpty()) {
 
-                currentTrophyProperties = AmazingTrophiesAPI.getTrophyProperties(id);
-                if (currentTrophyProperties != null) {
-                    modelHandler = currentTrophyProperties.getModelHandler();
+                TrophyProperties props = AmazingTrophiesAPI.getTrophyProperties(id);
+                if (props != null) {
+                    modelHandler = props.getModelHandler();
                     if (modelHandler == null) {
                         return;
                     }

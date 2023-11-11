@@ -167,6 +167,10 @@ public class ConfigHandler {
             getStringProperty(definitionJson, PROPERTY_NBT, null));
     }
 
+    public static JsonObject getObjectProperty(JsonObject json, String key) {
+        return getProperty(json, key, JsonElement::getAsJsonObject);
+    }
+
     public static <T> Set<T> getSetProperty(JsonObject json, String key, Function<JsonElement, T> parser) {
         return getProperty(json, key, jsonElement -> {
             Set<T> set = new HashSet<>();

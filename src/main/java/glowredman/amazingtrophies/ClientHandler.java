@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import glowredman.amazingtrophies.model.ComplexTrophyModelHandler;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -17,6 +16,7 @@ import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.model.BasicTrophyModelHandler;
 import glowredman.amazingtrophies.model.EntityTrophyModelHandler;
 import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
+import glowredman.amazingtrophies.model.complex.ComplexTrophyModelHandler;
 import glowredman.amazingtrophies.trophy.RendererTrophy;
 import glowredman.amazingtrophies.trophy.TileEntityTrophy;
 

@@ -16,7 +16,7 @@ public class TrophyHandler {
     public static final String PROPERTY_ID = "id";
     public static final String PROPERTY_CONDITION = "condition";
     public static final String PROPERTY_TYPE = "type";
-    public static final String PROPERTY_MODEL = "type";
+    public static final String PROPERTY_MODEL = "model";
 
     static void parseTrophy(JsonElement element) {
         JsonObject json = element.getAsJsonObject();

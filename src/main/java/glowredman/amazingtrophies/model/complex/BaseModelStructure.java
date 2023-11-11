@@ -1,56 +1,48 @@
-package glowredman.amazingtrophies.api.StructureRenderer.Structures;
-
-import glowredman.amazingtrophies.api.StructureRenderer.Base.Util.BlockInfo;
-import glowredman.amazingtrophies.api.StructureRenderer.Base.Util.RenderFacesInfo;
-import net.minecraft.block.Block;
+package glowredman.amazingtrophies.model.complex;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
-public abstract class BaseModelStructure {
+import net.minecraft.block.Block;
 
-    public final int getXLength() {
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Pair;
+
+public class BaseModelStructure {
+
+    protected RenderFacesInfo[][][] renderFacesArray;
+    protected Map<Character, Pair<Block, Integer>> charToBlock = new HashMap<>();
+
+    protected final int getXLength() {
         return getStructureString().length;
     }
 
-    public final int getYLength() {
+    protected final int getYLength() {
         return getStructureString()[0][0].length();
     }
 
-    public final int getZLength() {
+    protected final int getZLength() {
         return getStructureString()[0].length;
     }
 
-    public String[][] getStructureString() {
+    protected String[][] getStructureString() {
         return null;
     }
 
-    public final float maxAxisSize() {
+    protected final float maxAxisSize() {
         return Math.max(getXLength(), Math.max(getYLength(), getZLength()));
     }
 
-    public final BlockInfo getAssociatedBlockInfo(final char letter) {
+    protected final Pair<Block, Integer> getAssociatedBlockInfo(final char letter) {
         return charToBlock.get(letter);
     }
 
-    protected HashMap<Character, BlockInfo> charToBlock = new HashMap<>();
-
     protected static void reverseInnerArrays(String[][] array) {
-
         for (String[] innerArray : array) {
-            int start = 0;
-            int end = innerArray.length - 1;
-
-            while (start < end) {
-                String temp = innerArray[start];
-                innerArray[start] = innerArray[end];
-                innerArray[end] = temp;
-
-                start++;
-                end--;
-            }
+            ArrayUtils.reverse(innerArray);
         }
     }
 
@@ -69,18 +61,13 @@ public abstract class BaseModelStructure {
     protected void processStructureMap() {
 
         String[][] structureCopy = deepCopy(getStructureString());
-        HashSet<Character> transparentBlocks = getTransparentBlocks();
+        Set<Character> transparentBlocks = getTransparentBlocks();
 
         // These will be replaced with air, so that blocks behind
         // them are rendered as normal.
         removeTransparentBlocks(structureCopy, transparentBlocks);
-
-        transparentStructure = structureCopy;
-
         generateRenderFacesInfo(structureCopy);
     }
-
-    public RenderFacesInfo[][][] renderFacesArray;
 
     private void generateRenderFacesInfo(String[][] structureCopy) {
 
@@ -95,62 +82,50 @@ public abstract class BaseModelStructure {
                     // yNeg Face
                     char yNegBlock = ' ';
                     if (z != 0) {
-                        yNegBlock = structureCopy[x][z-1].charAt(y);
+                        yNegBlock = structureCopy[x][z - 1].charAt(y);
                     }
 
-                    if (yNegBlock != ' ') renderFacesInfo.yNeg = false;
-
+                    if (yNegBlock != ' ') renderFacesInfo.setYNeg(false);
 
                     // yPos Face
                     char yPosBlock = ' ';
                     if (z != getZLength() - 1) {
-                        yPosBlock = structureCopy[x][z+1].charAt(y);
+                        yPosBlock = structureCopy[x][z + 1].charAt(y);
                     }
 
-                    if (yPosBlock != ' ') renderFacesInfo.yPos = false;
-
-
-
-
+                    if (yPosBlock != ' ') renderFacesInfo.setYPos(false);
 
                     // xNeg Face
                     char xNegBlock = ' ';
                     if (y != 0) {
-                        xNegBlock = structureCopy[x][z].charAt(y-1);
+                        xNegBlock = structureCopy[x][z].charAt(y - 1);
                     }
 
-                    if (xNegBlock != ' ') renderFacesInfo.zNeg = false;
-
+                    if (xNegBlock != ' ') renderFacesInfo.setZNeg(false);
 
                     // xPos Face
                     char xPosBlock = ' ';
                     if (y != getYLength() - 1) {
-                        xPosBlock = structureCopy[x][z].charAt(y+1);
+                        xPosBlock = structureCopy[x][z].charAt(y + 1);
                     }
 
-                    if (xPosBlock != ' ') renderFacesInfo.zPos = false;
-
-
-
+                    if (xPosBlock != ' ') renderFacesInfo.setZPos(false);
 
                     // zNeg Face
                     char zNegBlock = ' ';
                     if (x != 0) {
-                        zNegBlock = structureCopy[x-1][z].charAt(y);
+                        zNegBlock = structureCopy[x - 1][z].charAt(y);
                     }
 
-                    if (zNegBlock != ' ') renderFacesInfo.xNeg = false;
-
+                    if (zNegBlock != ' ') renderFacesInfo.setXNeg(false);
 
                     // zPos Face
                     char zPosBlock = ' ';
                     if (x != getXLength() - 1) {
-                        zPosBlock = structureCopy[x+1][z].charAt(y);
+                        zPosBlock = structureCopy[x + 1][z].charAt(y);
                     }
 
-                    if (zPosBlock != ' ') renderFacesInfo.xPos = false;
-
-
+                    if (zPosBlock != ' ') renderFacesInfo.setXPos(false);
 
                     renderFacesArray[x][z][y] = renderFacesInfo;
 
@@ -158,15 +133,11 @@ public abstract class BaseModelStructure {
             }
         }
 
-
     }
 
-    String[][] transparentStructure;
-
-
-    private void removeTransparentBlocks(String[][] structure, HashSet<Character> transparentBlocks) {
+    private void removeTransparentBlocks(String[][] structure, Set<Character> transparentBlocks) {
         if (structure == null || transparentBlocks == null) {
-            return;  // Nothing to do if either of them is null
+            return; // Nothing to do if either of them is null
         }
 
         for (int i = 0; i < structure.length; i++) {
@@ -190,13 +161,14 @@ public abstract class BaseModelStructure {
         }
     }
 
-    private HashSet<Character> getTransparentBlocks() {
-        HashSet<Character> transparentBlocks = new HashSet<>();
+    private Set<Character> getTransparentBlocks() {
+        Set<Character> transparentBlocks = new HashSet<>();
 
         // Iterate over all blocks to find transparent ones.
-        for (Map.Entry<Character, BlockInfo> entry : charToBlock.entrySet()) {
+        for (Map.Entry<Character, Pair<Block, Integer>> entry : charToBlock.entrySet()) {
 
-            Block block = entry.getValue().block;
+            Block block = entry.getValue()
+                .getLeft();
 
             // Block cannot be seen through.
             if (!block.isOpaqueCube()) {

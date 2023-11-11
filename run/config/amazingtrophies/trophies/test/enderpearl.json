@@ -6,7 +6,7 @@
         "distance": 5.0
     },
     "model": {
-        "type": "complexBase",
+        "type": "complex",
         "metadata": {
             "x" : 0,
             "y" : 1

@@ -20,6 +20,7 @@ import glowredman.amazingtrophies.api.AchievementProperties;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.api.ConditionHandler;
 import glowredman.amazingtrophies.api.Reference;
+import glowredman.amazingtrophies.api.TrophyProperties;
 import glowredman.amazingtrophies.condition.AchievementConditionHandler;
 import glowredman.amazingtrophies.condition.AttackConditionHandler;
 import glowredman.amazingtrophies.condition.BlockConditionHandler;
@@ -36,6 +37,9 @@ import glowredman.amazingtrophies.condition.OpenContainerConditionHandler;
 import glowredman.amazingtrophies.condition.PickupXPConditionHandler;
 import glowredman.amazingtrophies.condition.StruckByLightningConditionHandler;
 import glowredman.amazingtrophies.condition.ThrowEnderpearlConditionHandler;
+import glowredman.amazingtrophies.model.complex.ComplexTrophyModelHandler;
+import glowredman.amazingtrophies.model.complex.test.Model_DTPF;
+import glowredman.amazingtrophies.model.complex.test.Model_NanoForge;
 import glowredman.amazingtrophies.trophy.BlockTrophy;
 import glowredman.amazingtrophies.trophy.ItemBlockTrophy;
 import glowredman.amazingtrophies.trophy.TileEntityTrophy;
@@ -82,6 +86,12 @@ public class AmazingTrophies {
     public static void init(FMLInitializationEvent event) {
         ConfigHandler.parseOrCreate("achievements", AchievementHandler::parseAchievement);
         ConfigHandler.parseOrCreate("trophies", TrophyHandler::parseTrophy);
+
+        // TODO: remove before merging
+        AmazingTrophiesAPI
+            .registerTrophy("testDTPF", new TrophyProperties(new ComplexTrophyModelHandler(new Model_DTPF())));
+        AmazingTrophiesAPI
+            .registerTrophy("testNF", new TrophyProperties(new ComplexTrophyModelHandler(new Model_NanoForge())));
     }
 
     @EventHandler

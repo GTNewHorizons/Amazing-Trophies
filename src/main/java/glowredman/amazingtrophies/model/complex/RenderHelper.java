@@ -1,10 +1,11 @@
-package glowredman.amazingtrophies.api.StructureRenderer.Base.Util;
+package glowredman.amazingtrophies.model.complex;
 
-import glowredman.amazingtrophies.api.StructureRenderer.Structures.BaseModelStructure;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.world.World;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 
 public class RenderHelper {
@@ -18,10 +19,11 @@ public class RenderHelper {
         GL11.glTranslated(-((int) x) / 2, 0, 0);
     }
 
-
     private static void buildModel(World world, BaseModelStructure model) {
 
-        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+        Minecraft.getMinecraft()
+            .getTextureManager()
+            .bindTexture(TextureMap.locationBlocksTexture);
 
         CustomRenderBlocks renderBlocks = new CustomRenderBlocks(world);
 
@@ -33,10 +35,10 @@ public class RenderHelper {
                     if (blockChar.equals(' ')) continue;
                     if (model.renderFacesArray[x][z][y].allHidden()) continue;
 
-                    BlockInfo blockInfo = model.getAssociatedBlockInfo(blockChar);
+                    Pair<Block, Integer> blockInfo = model.getAssociatedBlockInfo(blockChar);
 
-                    renderBlocks.renderFacesInfo = model.renderFacesArray[x][z][y];
-                    renderBlock(blockInfo.block, blockInfo.metadata, renderBlocks, x, z+1, y+1);
+                    renderBlocks.setRenderFacesInfo(model.renderFacesArray[x][z][y]);
+                    renderBlock(blockInfo.getLeft(), blockInfo.getRight(), renderBlocks, x, z + 1, y + 1);
                 }
             }
         }
@@ -55,13 +57,12 @@ public class RenderHelper {
 
         scaleModel(model);
         centreModel(model);
-        GL11.glTranslated(0.5, 0.5,  0.5);
+        GL11.glTranslated(0.5, 0.5, 0.5);
 
         buildModel(world, model);
 
         GL11.glPopMatrix();
     }
-
 
     public static void renderBlock(Block block, int metadata, CustomRenderBlocks renderBlocks, int x, int y, int z) {
         GL11.glPushMatrix();
@@ -72,6 +73,5 @@ public class RenderHelper {
 
         GL11.glPopMatrix();
     }
-
 
 }
