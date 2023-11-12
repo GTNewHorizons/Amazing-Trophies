@@ -6,8 +6,7 @@
         "amount": 5.0
     },
     "model": {
-        "type": "basic",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "item",
+        "item": "minecraft:diamond_pickaxe"
     }
 }
