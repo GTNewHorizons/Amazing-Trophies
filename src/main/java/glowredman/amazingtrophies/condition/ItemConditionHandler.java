@@ -42,7 +42,7 @@ public abstract class ItemConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) {
-        String registryName = ConfigHandler.getStringProperty(json, PROPERTY_ITEM, id);
+        String registryName = ConfigHandler.getStringProperty(json, PROPERTY_ITEM);
         int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, OreDictionary.WILDCARD_VALUE);
         if (meta < 0 || meta > OreDictionary.WILDCARD_VALUE) {
             throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
@@ -50,8 +50,7 @@ public abstract class ItemConditionHandler extends ConditionHandler {
         String nbt = ConfigHandler.getStringProperty(json, PROPERTY_NBT, null);
         ItemStack stack = GameRegistry.makeItemStack(registryName, meta, 0, nbt);
         if (stack == null) {
-            throw new IllegalArgumentException(
-                "Could not find item " + registryName + " for condition of \"" + id + "\"!");
+            throw new IllegalArgumentException("Could not find item " + registryName + "!");
         }
         Map<ItemStack, Set<String>> map = this.getMap(meta, nbt);
         Set<String> ids = map.get(stack);

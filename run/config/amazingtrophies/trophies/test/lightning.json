@@ -5,8 +5,9 @@
         "type": "lightning"
     },
     "model": {
-        "type": "basic",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "item",
+        "item": "minecraft:lit_furnace",
+        "meta": 2,
+        "yawOffset": -90.0
     }
 }

@@ -15,6 +15,7 @@ import cpw.mods.fml.common.Loader;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.model.BasicTrophyModelHandler;
 import glowredman.amazingtrophies.model.EntityTrophyModelHandler;
+import glowredman.amazingtrophies.model.ItemTrophyModelHandler;
 import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
 import glowredman.amazingtrophies.model.complex.ComplexTrophyModelHandler;
 import glowredman.amazingtrophies.trophy.RendererTrophy;
@@ -38,6 +39,7 @@ public class ClientHandler {
         AmazingTrophiesAPI.registerTrophyModelHandlerProvider(PedestalTrophyModelHandler.ID, PedestalTrophyModelHandler::new);
         AmazingTrophiesAPI.registerTrophyModelHandlerProvider(BasicTrophyModelHandler.ID, BasicTrophyModelHandler::new);
         AmazingTrophiesAPI.registerTrophyModelHandlerProvider(EntityTrophyModelHandler.ID, EntityTrophyModelHandler::new);
+        AmazingTrophiesAPI.registerTrophyModelHandlerProvider(ItemTrophyModelHandler.ID, ItemTrophyModelHandler::new);
         AmazingTrophiesAPI.registerTrophyModelHandlerProvider(ComplexTrophyModelHandler.ID, ComplexTrophyModelHandler::new);
         // spotless:on
     }
