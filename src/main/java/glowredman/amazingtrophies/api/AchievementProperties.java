@@ -27,59 +27,7 @@ public class AchievementProperties {
     private String id;
     private boolean registered = false;
 
-    /**
-     * Creates a non-special instance of {@code AchievementProperties} with no parent achievement.
-     * 
-     * @param page The Achievement page to display this custom achievement on
-     * @param x    The achievement's horizontal coordinate
-     * @param y    The achievement's vertical coordinate
-     * @param icon The item that is displayed in the achievements screen and ingame when the player gains it
-     */
-    public AchievementProperties(String page, int x, int y, ItemDefinition icon) {
-        this(page, x, y, null, icon);
-    }
-
-    /**
-     * Creates a non-special instance of {@code AchievementProperties}.
-     * 
-     * @param page   The Achievement page to display this custom achievement on
-     * @param x      The achievement's horizontal coordinate
-     * @param y      The achievement's vertical coordinate
-     * @param parent The stat ID of the achievement which needs to be completed before this one can be completed. If
-     *               {@code null}, this achievement can always be completed.
-     * @param icon   The item that is displayed in the achievements screen and ingame when the player gains it
-     */
-    public AchievementProperties(String page, int x, int y, @Nullable String parent, ItemDefinition icon) {
-        this(page, x, y, parent, false, icon);
-    }
-
-    /**
-     * Creates an instance of {@code AchievementProperties} with no parent achievement.
-     * 
-     * @param page      The Achievement page to display this custom achievement on
-     * @param x         The achievement's horizontal coordinate
-     * @param y         The achievement's vertical coordinate
-     * @param isSpecial Special achievements have a different background in the achievements screen and are mentioned in
-     *                  dark purple in the chat
-     * @param icon      The item that is displayed in the achievements screen and ingame when the player gains it
-     */
-    public AchievementProperties(String page, int x, int y, boolean isSpecial, ItemDefinition icon) {
-        this(page, x, y, null, isSpecial, icon);
-    }
-
-    /**
-     * Creates an instance of {@code AchievementProperties}.
-     * 
-     * @param page      The Achievement page to display this custom achievement on
-     * @param x         The achievement's horizontal coordinate
-     * @param y         The achievement's vertical coordinate
-     * @param parent    The stat ID of the achievement which needs to be completed before this one can be completed. If
-     *                  {@code null}, this achievement can always be completed.
-     * @param isSpecial Special achievements have a different background in the achievements screen and are mentioned in
-     *                  dark purple in the chat
-     * @param icon      The item that is displayed in the achievements screen and ingame when the player gains it
-     */
-    public AchievementProperties(String page, int x, int y, @Nullable String parent, boolean isSpecial,
+    private AchievementProperties(@Nullable String page, int x, int y, @Nullable String parent, boolean isSpecial,
         ItemDefinition icon) {
         this.page = page;
         this.x = x;
@@ -186,6 +134,12 @@ public class AchievementProperties {
             achievement.setSpecial();
         }
 
+        if (this.page == null) {
+            achievement.registerStat();
+            this.registered = true;
+            return;
+        }
+
         AchievementPage page = AchievementPage.getAchievementPage(this.page);
         if (page == null) {
             AmazingTrophiesAPI.LOGGER
@@ -211,6 +165,89 @@ public class AchievementProperties {
     @Override
     public String toString() {
         return String.format("AchievementProperties(id=\"%s\")", this.id);
+    }
+
+    /**
+     * A builder class for {@link AchievementProperties} instances.
+     * 
+     * @author glowredman
+     */
+    @ParametersAreNonnullByDefault
+    public static class Builder {
+
+        private String page;
+        private final int x;
+        private final int y;
+        private String parent;
+        private boolean isSpecial;
+        private final ItemDefinition icon;
+
+        /**
+         * Creates an builder instance for {@code AchievementProperties}.
+         * 
+         * @param x    The achievement's horizontal coordinate
+         * @param y    The achievement's vertical coordinate
+         * @param icon The item that is displayed in the achievements screen and ingame when the player gains it
+         */
+        public Builder(int x, int y, ItemDefinition icon) {
+            this.x = x;
+            this.y = y;
+            this.icon = icon;
+        }
+
+        /**
+         * Sets the Achievement page to display this custom achievement on. If {@code null}, the achievement will be
+         * displayed on the default Minecraft page.
+         * 
+         * @return This {@code Builder} instance to allow chaining of methods.
+         */
+        public Builder setPage(@Nullable String page) {
+            this.page = page;
+            return this;
+        }
+
+        /**
+         * The stat ID of the achievement which needs to be completed before this one can be completed. If {@code null},
+         * this achievement can always be completed.
+         * 
+         * @return This {@code Builder} instance to allow chaining of methods.
+         */
+        public Builder setParent(@Nullable String parent) {
+            this.parent = parent;
+            return this;
+        }
+
+        /**
+         * Special achievements have a different background in the achievements screen and are mentioned in dark purple
+         * in the chat. This method enables that behavior.
+         * 
+         * @return This {@code Builder} instance to allow chaining of methods.
+         * @see #setSpecial(boolean)
+         */
+        public Builder setSpecial() {
+            this.isSpecial = true;
+            return this;
+        }
+
+        /**
+         * Special achievements have a different background in the achievements screen and are mentioned in dark purple
+         * in the chat. This method enables or disables that behavior depending on the input argument.
+         * 
+         * @return This {@code Builder} instance to allow chaining of methods.
+         * @see #setSpecial()
+         */
+        public Builder setSpecial(boolean isSpecial) {
+            this.isSpecial = isSpecial;
+            return this;
+        }
+
+        /**
+         * Constructs an instance of {@link AchievementProperties} with properties specified by this builder instance.
+         */
+        public AchievementProperties build() {
+            return new AchievementProperties(this.page, this.x, this.y, this.parent, this.isSpecial, this.icon);
+        }
+
     }
 
 }

@@ -40,13 +40,14 @@ public class AchievementHandler {
                     throw new IllegalArgumentException("Referencing unknown condition type: \"" + type + "\"");
                 }
             }
-            AchievementProperties props = new AchievementProperties(
-                ConfigHandler.getStringProperty(json, PROPERTY_PAGE),
+            AchievementProperties props = new AchievementProperties.Builder(
                 ConfigHandler.getIntegerProperty(json, PROPERTY_X),
                 ConfigHandler.getIntegerProperty(json, PROPERTY_Y),
-                ConfigHandler.getStringProperty(json, PROPERTY_PARENT, null),
-                ConfigHandler.getBooleanProperty(json, PROPERTY_IS_SPECIAL, false),
-                ConfigHandler.getItemProperty(json, PROPERTY_ICON, 0));
+                ConfigHandler.getItemProperty(json, PROPERTY_ICON, 0))
+                    .setPage(ConfigHandler.getStringProperty(json, PROPERTY_PAGE, null))
+                    .setParent(ConfigHandler.getStringProperty(json, PROPERTY_PARENT, null))
+                    .setSpecial(ConfigHandler.getBooleanProperty(json, PROPERTY_IS_SPECIAL, false))
+                    .build();
 
             if (conditionHandler != null) {
                 // condition must be parsed last
@@ -62,6 +63,7 @@ public class AchievementHandler {
     }
 
     static void registerMissingPages() {
+        PAGES.remove(null);
         for (String name : PAGES) {
             try {
                 AchievementPage.registerAchievementPage(new AchievementPage(name));
