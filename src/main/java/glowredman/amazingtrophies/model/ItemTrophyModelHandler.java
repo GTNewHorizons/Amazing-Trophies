@@ -23,7 +23,7 @@ import glowredman.amazingtrophies.ConfigHandler;
 public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
 
     public static final String ID = "item";
-    public static final String PROPERTY_ITEM = "item";
+    public static final String PROPERTY_REGISTRY_NAME = "registryName";
     public static final String PROPERTY_META = "meta";
     public static final String PROPERTY_NBT = "nbt";
     public static final String PROPERTY_Y_OFFSET = "yOffset";
@@ -50,7 +50,7 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        String registryName = ConfigHandler.getStringProperty(json, PROPERTY_ITEM);
+        String registryName = ConfigHandler.getStringProperty(json, PROPERTY_REGISTRY_NAME);
         int meta = ConfigHandler.getIntegerProperty(json, PROPERTY_META, 0);
         if (meta < 0 || meta > OreDictionary.WILDCARD_VALUE) {
             throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
