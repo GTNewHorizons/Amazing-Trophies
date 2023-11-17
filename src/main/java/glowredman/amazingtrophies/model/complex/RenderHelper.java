@@ -11,12 +11,14 @@ import org.lwjgl.opengl.GL11;
 public class RenderHelper {
 
     private static void centreModel(BaseModelStructure model) {
-        double x = 0.5 - model.getXLength();
-        double y = 0.5 - model.getYLength();
-        double z = 0.5 - model.getZLength();
 
-        GL11.glTranslated(x, y, z);
-        GL11.glTranslated(-((int) x) / 2, 0, 0);
+        String[][] testShape = model.getStructureString();
+
+        int x = testShape.length / 2;
+        int z = testShape[0][0].length() / 2;
+        //int y = testShape[0].length / 2;
+
+        GL11.glTranslated(-x, 0, -1 - z);
     }
 
     private static void buildModel(World world, BaseModelStructure model) {
@@ -49,15 +51,21 @@ public class RenderHelper {
         GL11.glScalef(maxScale, maxScale, maxScale);
     }
 
-    public static void renderModel(World world, final BaseModelStructure model) {
+    public static void renderModel(final BaseModelStructure model, double x, double y, double z) {
+
+        final World world = Minecraft.getMinecraft().theWorld;
 
         if (model == null) return;
 
         GL11.glPushMatrix();
 
+        GL11.glTranslated(x, y-0.5, z);
         scaleModel(model);
+
+        //rotation();
+
         centreModel(model);
-        GL11.glTranslated(0.5, 0.5, 0.5);
+        GL11.glTranslated(0, -0.5, 0);
 
         buildModel(world, model);
 

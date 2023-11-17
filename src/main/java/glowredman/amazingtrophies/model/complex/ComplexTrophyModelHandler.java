@@ -145,9 +145,9 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
         // Render custom structure.
         GL11.glPushMatrix();
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-        GL11.glTranslated(x, y + TROPHY_PEDESTAL_HEIGHT, z);
-        GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
-        RenderHelper.renderModel(Minecraft.getMinecraft().theWorld, this.model);
+        GL11.glTranslated(0, TROPHY_PEDESTAL_HEIGHT, 0);
+        //GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
+        RenderHelper.renderModel(model, x, y, z);
         GL11.glPopAttrib();
         GL11.glPopMatrix();
     }
