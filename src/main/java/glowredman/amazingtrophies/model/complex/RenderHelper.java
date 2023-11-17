@@ -18,7 +18,7 @@ public class RenderHelper {
         int z = testShape[0][0].length() / 2;
         //int y = testShape[0].length / 2;
 
-        GL11.glTranslated(-x, 0, -1 - z);
+        GL11.glTranslated(-x, -0.5, -1 - z);
     }
 
     private static void buildModel(World world, BaseModelStructure model) {
@@ -46,12 +46,14 @@ public class RenderHelper {
         }
     }
 
+    private static final float TROPHY_BASE_RATIO = 12.0f / 16.0f; // 12x12 top in 16x16 texture.
+
     private static void scaleModel(final BaseModelStructure model) {
-        final float maxScale = 1.0f / model.maxAxisSize();
+        final float maxScale = TROPHY_BASE_RATIO / model.maxAxisSize();
         GL11.glScalef(maxScale, maxScale, maxScale);
     }
 
-    public static void renderModel(final BaseModelStructure model, double x, double y, double z) {
+    public static void renderModel(final BaseModelStructure model) {
 
         final World world = Minecraft.getMinecraft().theWorld;
 
@@ -59,13 +61,10 @@ public class RenderHelper {
 
         GL11.glPushMatrix();
 
-        GL11.glTranslated(x, y-0.5, z);
         scaleModel(model);
 
-        //rotation();
-
         centreModel(model);
-        GL11.glTranslated(0, -0.5, 0);
+//        GL11.glTranslated(0, -0.5, 0);
 
         buildModel(world, model);
 
