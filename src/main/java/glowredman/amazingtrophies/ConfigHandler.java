@@ -192,7 +192,13 @@ public class ConfigHandler {
 
     public static <T> T getProperty(JsonObject json, String key, Function<JsonElement, T> parser, T fallback) {
         JsonElement element = json.get(key);
-        return element == null ? fallback : parser.apply(element);
+        if (element == null) {
+            return fallback;
+        }
+        if (element.isJsonNull()) {
+            return null;
+        }
+        return parser.apply(element);
     }
 
     public static boolean getBooleanProperty(JsonObject json, String key, boolean fallback) {
