@@ -21,13 +21,14 @@ public class RenderHelper {
         GL11.glTranslated(-x, -0.5, -1 - z);
     }
 
-    private static void buildModel(World world, BaseModelStructure model) {
+    private static void buildModel(BaseModelStructure model) {
 
         Minecraft.getMinecraft()
             .getTextureManager()
             .bindTexture(TextureMap.locationBlocksTexture);
 
-        CustomRenderBlocks renderBlocks = new CustomRenderBlocks(world);
+        CustomRenderBlocks renderBlocks = new CustomRenderBlocks(Minecraft.getMinecraft().theWorld);
+        renderBlocks.enableAO = false;
 
         for (int x = 0; x < model.getXLength(); x++) {
             for (int y = 0; y < model.getYLength(); y++) {
@@ -55,18 +56,13 @@ public class RenderHelper {
 
     public static void renderModel(final BaseModelStructure model) {
 
-        final World world = Minecraft.getMinecraft().theWorld;
-
         if (model == null) return;
 
         GL11.glPushMatrix();
 
         scaleModel(model);
-
         centreModel(model);
-//        GL11.glTranslated(0, -0.5, 0);
-
-        buildModel(world, model);
+        buildModel(model);
 
         GL11.glPopMatrix();
     }

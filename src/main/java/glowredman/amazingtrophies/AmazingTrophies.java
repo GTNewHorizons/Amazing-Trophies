@@ -3,6 +3,7 @@ package glowredman.amazingtrophies;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import glowredman.amazingtrophies.model.complex.test.Model_EBF;
 import net.minecraft.block.Block;
 
 import org.apache.logging.log4j.LogManager;
@@ -88,10 +89,20 @@ public class AmazingTrophies {
         ConfigHandler.parseOrCreate("trophies", TrophyHandler::parseTrophy);
 
         // TODO: remove before merging
+
+        // DTPF
+        for (int index = 11; index < 14; index++) {
+            AmazingTrophiesAPI
+                .registerTrophy("DTPF_" + index, new TrophyProperties(new ComplexTrophyModelHandler(new Model_DTPF(index))));
+        }
+
+        // EBF
+        for (int index = 0; index < 14; index++) {
+            AmazingTrophiesAPI.registerTrophy("EBF_" + index, new TrophyProperties(new ComplexTrophyModelHandler(new Model_EBF(index))));
+        }
+
         AmazingTrophiesAPI
-            .registerTrophy("testDTPF", new TrophyProperties(new ComplexTrophyModelHandler(new Model_DTPF())));
-        AmazingTrophiesAPI
-            .registerTrophy("testNF", new TrophyProperties(new ComplexTrophyModelHandler(new Model_NanoForge())));
+            .registerTrophy("NanoForge", new TrophyProperties(new ComplexTrophyModelHandler(new Model_NanoForge())));
     }
 
     @EventHandler

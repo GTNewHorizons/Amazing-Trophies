@@ -1,17 +1,15 @@
 package glowredman.amazingtrophies.model.complex.test;
 
-import net.minecraft.init.Blocks;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import glowredman.amazingtrophies.model.complex.BaseModelStructure;
+import gregtech.api.GregTech_API;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class Model_NanoForge extends BaseModelStructure {
 
     public Model_NanoForge() {
-        charToBlock.put('B', Pair.of(Blocks.stone, 0));
-        charToBlock.put('C', Pair.of(Blocks.glass, 0));
-        charToBlock.put('A', Pair.of(Blocks.emerald_block, 0));
+        charToBlock.put('B', Pair.of(GregTech_API.sBlockCasings8, 10));
+        charToBlock.put('C', Pair.of(GregTech_API.sBlockMachines, 4501));
+        charToBlock.put('A', Pair.of(GregTech_API.sBlockCasings2, 5));
 
         reverseInnerArrays(structure);
         processStructureMap();

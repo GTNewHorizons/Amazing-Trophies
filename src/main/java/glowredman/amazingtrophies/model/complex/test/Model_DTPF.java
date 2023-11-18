@@ -1,5 +1,7 @@
 package glowredman.amazingtrophies.model.complex.test;
 
+import gregtech.api.GregTech_API;
+import gregtech.api.enums.ItemList;
 import net.minecraft.init.Blocks;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -8,11 +10,12 @@ import glowredman.amazingtrophies.model.complex.BaseModelStructure;
 
 public class Model_DTPF extends BaseModelStructure {
 
-    public Model_DTPF() {
-        charToBlock.put('C', Pair.of(Blocks.brick_block, 0));
-        charToBlock.put('N', Pair.of(Blocks.dirt, 0));
-        charToBlock.put('b', Pair.of(Blocks.emerald_block, 0));
-        charToBlock.put('s', Pair.of(Blocks.lapis_block, 0));
+    public Model_DTPF(int coilMeta) {
+        charToBlock.put('C', Pair.of(ItemList.Casing_Coil_Eternal.getBlock(), coilMeta));
+        charToBlock.put('N', Pair.of(GregTech_API.sBlockCasings1, 12));
+        charToBlock.put('b', Pair.of(GregTech_API.sBlockCasings1, 13));
+        charToBlock.put('s', Pair.of(GregTech_API.sBlockCasings1, 14));
+        charToBlock.put('~', Pair.of(GregTech_API.sBlockMachines, 1004));
 
         reverseInnerArrays(structure);
         processStructureMap();
@@ -223,7 +226,7 @@ public class Model_DTPF extends BaseModelStructure {
             "                                 ", "                                 ",
             "                                 ", "                                 ",
             "                                 ", "                                 ",
-            "                N                ", "               NNN               ",
+            "                ~                ", "               NNN               ",
             "  NbbbbbNbbbbNbbbbbNbbbbNbbbbbN  ", },
         { "                                 ", "                                 ", "  N     N               N     N  ",
             "                                 ", "                                 ",
