@@ -1,8 +1,9 @@
 package glowredman.amazingtrophies.model.complex.test;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import glowredman.amazingtrophies.model.complex.BaseModelStructure;
 import gregtech.api.GregTech_API;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class Model_NanoForge extends BaseModelStructure {
 

@@ -3,7 +3,6 @@ package glowredman.amazingtrophies.model.complex;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.world.World;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
@@ -16,7 +15,7 @@ public class RenderHelper {
 
         int x = testShape.length / 2;
         int z = testShape[0][0].length() / 2;
-        //int y = testShape[0].length / 2;
+        // int y = testShape[0].length / 2;
 
         GL11.glTranslated(-x, -0.5, -1 - z);
     }

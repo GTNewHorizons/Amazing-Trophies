@@ -1,12 +1,10 @@
 package glowredman.amazingtrophies.model.complex.test;
 
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.ItemList;
-import net.minecraft.init.Blocks;
-
 import org.apache.commons.lang3.tuple.Pair;
 
 import glowredman.amazingtrophies.model.complex.BaseModelStructure;
+import gregtech.api.GregTech_API;
+import gregtech.api.enums.ItemList;
 
 public class Model_DTPF extends BaseModelStructure {
 

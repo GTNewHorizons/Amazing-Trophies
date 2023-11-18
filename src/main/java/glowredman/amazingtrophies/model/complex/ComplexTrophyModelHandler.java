@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;

@@ -3,7 +3,6 @@ package glowredman.amazingtrophies;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import glowredman.amazingtrophies.model.complex.test.Model_EBF;
 import net.minecraft.block.Block;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,6 +39,7 @@ import glowredman.amazingtrophies.condition.StruckByLightningConditionHandler;
 import glowredman.amazingtrophies.condition.ThrowEnderpearlConditionHandler;
 import glowredman.amazingtrophies.model.complex.ComplexTrophyModelHandler;
 import glowredman.amazingtrophies.model.complex.test.Model_DTPF;
+import glowredman.amazingtrophies.model.complex.test.Model_EBF;
 import glowredman.amazingtrophies.model.complex.test.Model_NanoForge;
 import glowredman.amazingtrophies.trophy.BlockTrophy;
 import glowredman.amazingtrophies.trophy.ItemBlockTrophy;
@@ -92,13 +92,16 @@ public class AmazingTrophies {
 
         // DTPF
         for (int index = 11; index < 14; index++) {
-            AmazingTrophiesAPI
-                .registerTrophy("DTPF_" + index, new TrophyProperties(new ComplexTrophyModelHandler(new Model_DTPF(index))));
+            AmazingTrophiesAPI.registerTrophy(
+                "DTPF_" + index,
+                new TrophyProperties(new ComplexTrophyModelHandler(new Model_DTPF(index))));
         }
 
         // EBF
         for (int index = 0; index < 14; index++) {
-            AmazingTrophiesAPI.registerTrophy("EBF_" + index, new TrophyProperties(new ComplexTrophyModelHandler(new Model_EBF(index))));
+            AmazingTrophiesAPI.registerTrophy(
+                "EBF_" + index,
+                new TrophyProperties(new ComplexTrophyModelHandler(new Model_EBF(index))));
         }
 
         AmazingTrophiesAPI

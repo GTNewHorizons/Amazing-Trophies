@@ -92,7 +92,8 @@ public class BlockTrophy extends BlockContainer {
     }
 
     @Override
-    public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collider) {
+    public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask,
+        List<AxisAlignedBB> list, Entity collider) {
 
         // Trophy base collision box
 
