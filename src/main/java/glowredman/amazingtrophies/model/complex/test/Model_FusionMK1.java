@@ -1,11 +1,11 @@
 package glowredman.amazingtrophies.model.complex.test;
 
-import glowredman.amazingtrophies.model.complex.BaseModelStructure;
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.ItemList;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.transpose;
+
 import org.apache.commons.lang3.tuple.Pair;
 
-import static com.gtnewhorizon.structurelib.structure.StructureUtility.transpose;
+import glowredman.amazingtrophies.model.complex.BaseModelStructure;
+import gregtech.api.GregTech_API;
 
 public class Model_FusionMK1 extends BaseModelStructure {
 
@@ -27,18 +27,15 @@ public class Model_FusionMK1 extends BaseModelStructure {
     }
 
     private final String[][] structure = transpose(
-                        new String[][] {
-        { "               ", "      ihi      ", "    hh   hh    ", "   h       h   ",
-            "  h         h  ", "  h         h  ", " i           i ", " h           h ",
-            " i           i ", "  h         h  ", "  h         h  ", "   h       h   ",
-            "    hh   hh    ", "      ihi      ", "               ", },
-        { "      xhx      ", "    hhccchh    ", "   eccxhxcce   ", "  eceh   hece  ",
-            " hce       ech ", " hch       hch ", "xcx         xcx", "hch         hch",
-            "xcx         xcx", " hch       hch ", " hce       ech ", "  eceh   hece  ",
-            "   eccx~xcce   ", "    hhccchh    ", "      xhx      ", },
-        { "               ", "      ihi      ", "    hh   hh    ", "   h       h   ",
-            "  h         h  ", "  h         h  ", " i           i ", " h           h ",
-            " i           i ", "  h         h  ", "  h         h  ", "   h       h   ",
-            "    hh   hh    ", "      ihi      ", "               ", } });
+        new String[][] {
+            { "               ", "      ihi      ", "    hh   hh    ", "   h       h   ", "  h         h  ",
+                "  h         h  ", " i           i ", " h           h ", " i           i ", "  h         h  ",
+                "  h         h  ", "   h       h   ", "    hh   hh    ", "      ihi      ", "               ", },
+            { "      xhx      ", "    hhccchh    ", "   eccxhxcce   ", "  eceh   hece  ", " hce       ech ",
+                " hch       hch ", "xcx         xcx", "hch         hch", "xcx         xcx", " hch       hch ",
+                " hce       ech ", "  eceh   hece  ", "   eccx~xcce   ", "    hhccchh    ", "      xhx      ", },
+            { "               ", "      ihi      ", "    hh   hh    ", "   h       h   ", "  h         h  ",
+                "  h         h  ", " i           i ", " h           h ", " i           i ", "  h         h  ",
+                "  h         h  ", "   h       h   ", "    hh   hh    ", "      ihi      ", "               ", } });
 
 }

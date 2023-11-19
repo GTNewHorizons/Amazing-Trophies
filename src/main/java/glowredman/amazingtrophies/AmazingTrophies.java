@@ -3,8 +3,6 @@ package glowredman.amazingtrophies;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import glowredman.amazingtrophies.model.complex.test.Model_Cleanroom;
-import glowredman.amazingtrophies.model.complex.test.Model_FusionMK1;
 import net.minecraft.block.Block;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,8 +38,10 @@ import glowredman.amazingtrophies.condition.PickupXPConditionHandler;
 import glowredman.amazingtrophies.condition.StruckByLightningConditionHandler;
 import glowredman.amazingtrophies.condition.ThrowEnderpearlConditionHandler;
 import glowredman.amazingtrophies.model.complex.ComplexTrophyModelHandler;
+import glowredman.amazingtrophies.model.complex.test.Model_Cleanroom;
 import glowredman.amazingtrophies.model.complex.test.Model_DTPF;
 import glowredman.amazingtrophies.model.complex.test.Model_EBF;
+import glowredman.amazingtrophies.model.complex.test.Model_FusionMK1;
 import glowredman.amazingtrophies.model.complex.test.Model_NanoForge;
 import glowredman.amazingtrophies.trophy.BlockTrophy;
 import glowredman.amazingtrophies.trophy.ItemBlockTrophy;
@@ -109,8 +109,10 @@ public class AmazingTrophies {
         AmazingTrophiesAPI
             .registerTrophy("NanoForge", new TrophyProperties(new ComplexTrophyModelHandler(new Model_NanoForge())));
 
-        AmazingTrophiesAPI.registerTrophy("FusionMK1", new TrophyProperties(new ComplexTrophyModelHandler(new Model_FusionMK1())));
-        AmazingTrophiesAPI.registerTrophy("Cleanroom", new TrophyProperties(new ComplexTrophyModelHandler(new Model_Cleanroom())));
+        AmazingTrophiesAPI
+            .registerTrophy("FusionMK1", new TrophyProperties(new ComplexTrophyModelHandler(new Model_FusionMK1())));
+        AmazingTrophiesAPI
+            .registerTrophy("Cleanroom", new TrophyProperties(new ComplexTrophyModelHandler(new Model_Cleanroom())));
 
     }
 
