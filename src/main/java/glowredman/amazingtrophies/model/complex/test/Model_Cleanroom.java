@@ -1,11 +1,12 @@
 package glowredman.amazingtrophies.model.complex.test;
 
+import static gregtech.api.enums.Mods.IndustrialCraft2;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import glowredman.amazingtrophies.model.complex.BaseModelStructure;
 import gregtech.api.GregTech_API;
-import org.apache.commons.lang3.tuple.Pair;
-
-import static gregtech.api.enums.Mods.IndustrialCraft2;
 
 public class Model_Cleanroom extends BaseModelStructure {
 
@@ -22,46 +23,14 @@ public class Model_Cleanroom extends BaseModelStructure {
         processStructureMap();
     }
 
-
     @Override
     public String[][] getStructureString() {
         return structure;
     }
 
-    private final String[][] structure = new String[][]{{
-        "CCCCC",
-            "CAAAC",
-            "CAAAC",
-            "CAAAC",
-            "CCCCC",
-            "D   D"
-    },{
-        "CBBBC",
-            "C   C",
-            "C   C",
-            "C   C",
-            "CCCCC",
-            "     "
-    },{
-        "CB~BC",
-            "C   C",
-            "C   C",
-            "C   C",
-            "CCCCC",
-            "     "
-    },{
-        "CBBBC",
-            "C   C",
-            "C   C",
-            "C E C",
-            "CCCCC",
-            "     "
-    },{
-        "CCCCC",
-            "CCCCC",
-            "CCCCC",
-            "CCCCC",
-            "CCCCC",
-            "D   D"
-    }};
+    private final String[][] structure = new String[][] { { "CCCCC", "CAAAC", "CAAAC", "CAAAC", "CCCCC", "D   D" },
+        { "CBBBC", "C   C", "C   C", "C   C", "CCCCC", "     " },
+        { "CB~BC", "C   C", "C   C", "C   C", "CCCCC", "     " },
+        { "CBBBC", "C   C", "C   C", "C E C", "CCCCC", "     " },
+        { "CCCCC", "CCCCC", "CCCCC", "CCCCC", "CCCCC", "D   D" } };
 }
