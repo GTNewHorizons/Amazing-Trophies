@@ -3,6 +3,8 @@ package glowredman.amazingtrophies;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import glowredman.amazingtrophies.model.complex.test.Model_Cleanroom;
+import glowredman.amazingtrophies.model.complex.test.Model_FusionMK1;
 import net.minecraft.block.Block;
 
 import org.apache.logging.log4j.LogManager;
@@ -106,6 +108,10 @@ public class AmazingTrophies {
 
         AmazingTrophiesAPI
             .registerTrophy("NanoForge", new TrophyProperties(new ComplexTrophyModelHandler(new Model_NanoForge())));
+
+        AmazingTrophiesAPI.registerTrophy("FusionMK1", new TrophyProperties(new ComplexTrophyModelHandler(new Model_FusionMK1())));
+        AmazingTrophiesAPI.registerTrophy("Cleanroom", new TrophyProperties(new ComplexTrophyModelHandler(new Model_Cleanroom())));
+
     }
 
     @EventHandler
