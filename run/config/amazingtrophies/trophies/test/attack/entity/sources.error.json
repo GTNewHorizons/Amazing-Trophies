@@ -3,7 +3,7 @@
     "_comment": "Should fail to parse because 'sources' contains a null element",
     "condition": {
         "type": "attack.entity",
-        "sources": [
+        "damageTypes": [
             "test",
             null
         ]

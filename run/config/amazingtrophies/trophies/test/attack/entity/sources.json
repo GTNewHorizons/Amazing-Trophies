@@ -3,10 +3,10 @@
     "_comment": "Should trigger only if the player shoots any living entity with an arrow",
     "condition": {
         "type": "attack.entity",
-        "sources": [
+        "damageTypes": [
             "arrow"
         ],
-        "isSourcesAllowList": true
+        "isDamageTypesAllowList": true
     },
     "model": {
         "type": "basic",
