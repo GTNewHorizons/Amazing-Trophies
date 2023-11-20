@@ -3,10 +3,10 @@
     "_comment": "Should trigger only if the player is attacking a pig",
     "condition": {
         "type": "attack.entity",
-        "targets": [
+        "entities": [
             "Pig"
         ],
-        "isTargetsAllowList": true
+        "isEntitiesAllowList": true
     },
     "model": {
         "type": "basic",

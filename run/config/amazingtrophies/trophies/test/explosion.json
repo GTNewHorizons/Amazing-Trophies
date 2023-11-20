@@ -1,8 +1,9 @@
 {
     "id": "explosion",
-    "_comment": "Should trigger if the player causes an explosion (note: igniting TNT only counts when done with Flint and Steel)",
+    "_comment": "Should trigger only if the player causes an explosion (note: igniting TNT only counts when done with Flint and Steel) of size 2 or larger",
     "condition": {
-        "type": "explosion"
+        "type": "explosion",
+        "size": 2.0
     },
     "model": {
         "type": "basic",
