@@ -204,9 +204,9 @@ public class AmazingTrophiesAPI {
     public static ItemStack getTrophyWithNBT(String trophyID, @Nullable EntityPlayer player) {
         ItemStack stack = new ItemStack(blockTrophy);
         NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setString(TAGNAME_ID, trophyID);
         if (player != null) {
             GameProfile gameProfile = player.getGameProfile();
-            nbt.setString(TAGNAME_ID, trophyID);
             nbt.setLong(TAGNAME_TIME, System.currentTimeMillis());
             nbt.setString(
                 TAGNAME_UUID,
