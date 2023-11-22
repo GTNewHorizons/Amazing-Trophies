@@ -1,5 +1,13 @@
 package glowredman.amazingtrophies;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import net.minecraft.block.Block;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -31,12 +39,6 @@ import glowredman.amazingtrophies.condition.ThrowEnderpearlConditionHandler;
 import glowredman.amazingtrophies.trophy.BlockTrophy;
 import glowredman.amazingtrophies.trophy.ItemBlockTrophy;
 import glowredman.amazingtrophies.trophy.TileEntityTrophy;
-import net.minecraft.block.Block;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Mod(
     acceptedMinecraftVersions = "[1.7.10]",

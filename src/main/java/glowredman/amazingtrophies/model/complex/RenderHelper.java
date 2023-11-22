@@ -15,7 +15,6 @@ public class RenderHelper {
 
         int x = testShape.length / 2;
         int z = testShape[0][0].length() / 2;
-        // int y = testShape[0].length / 2;
 
         GL11.glTranslated(-x, -0.5, -1 - z);
     }
