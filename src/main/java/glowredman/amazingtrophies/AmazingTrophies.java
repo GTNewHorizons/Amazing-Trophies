@@ -1,13 +1,5 @@
 package glowredman.amazingtrophies;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import net.minecraft.block.Block;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -20,7 +12,6 @@ import glowredman.amazingtrophies.api.AchievementProperties;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.api.ConditionHandler;
 import glowredman.amazingtrophies.api.Reference;
-import glowredman.amazingtrophies.api.TrophyProperties;
 import glowredman.amazingtrophies.condition.AchievementConditionHandler;
 import glowredman.amazingtrophies.condition.AttackConditionHandler;
 import glowredman.amazingtrophies.condition.BlockConditionHandler;
@@ -37,15 +28,15 @@ import glowredman.amazingtrophies.condition.OpenContainerConditionHandler;
 import glowredman.amazingtrophies.condition.PickupXPConditionHandler;
 import glowredman.amazingtrophies.condition.StruckByLightningConditionHandler;
 import glowredman.amazingtrophies.condition.ThrowEnderpearlConditionHandler;
-import glowredman.amazingtrophies.model.complex.ComplexTrophyModelHandler;
-import glowredman.amazingtrophies.model.complex.test.Model_Cleanroom;
-import glowredman.amazingtrophies.model.complex.test.Model_DTPF;
-import glowredman.amazingtrophies.model.complex.test.Model_EBF;
-import glowredman.amazingtrophies.model.complex.test.Model_FusionMK1;
-import glowredman.amazingtrophies.model.complex.test.Model_NanoForge;
 import glowredman.amazingtrophies.trophy.BlockTrophy;
 import glowredman.amazingtrophies.trophy.ItemBlockTrophy;
 import glowredman.amazingtrophies.trophy.TileEntityTrophy;
+import net.minecraft.block.Block;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Mod(
     acceptedMinecraftVersions = "[1.7.10]",
@@ -89,31 +80,6 @@ public class AmazingTrophies {
     public static void init(FMLInitializationEvent event) {
         ConfigHandler.parseOrCreate("achievements", AchievementHandler::parseAchievement);
         ConfigHandler.parseOrCreate("trophies", TrophyHandler::parseTrophy);
-
-        // TODO: remove before merging
-
-        // DTPF
-        for (int index = 11; index < 14; index++) {
-            AmazingTrophiesAPI.registerTrophy(
-                "DTPF_" + index,
-                new TrophyProperties(new ComplexTrophyModelHandler(new Model_DTPF(index))));
-        }
-
-        // EBF
-        for (int index = 0; index < 14; index++) {
-            AmazingTrophiesAPI.registerTrophy(
-                "EBF_" + index,
-                new TrophyProperties(new ComplexTrophyModelHandler(new Model_EBF(index))));
-        }
-
-        AmazingTrophiesAPI
-            .registerTrophy("NanoForge", new TrophyProperties(new ComplexTrophyModelHandler(new Model_NanoForge())));
-
-        AmazingTrophiesAPI
-            .registerTrophy("FusionMK1", new TrophyProperties(new ComplexTrophyModelHandler(new Model_FusionMK1())));
-        AmazingTrophiesAPI
-            .registerTrophy("Cleanroom", new TrophyProperties(new ComplexTrophyModelHandler(new Model_Cleanroom())));
-
     }
 
     @EventHandler
