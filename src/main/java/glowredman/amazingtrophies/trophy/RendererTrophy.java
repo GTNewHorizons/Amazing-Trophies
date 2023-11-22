@@ -53,6 +53,7 @@ public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRe
             NBTTagCompound nbt = item.getTagCompound();
             String id = nbt.getString(AmazingTrophiesAPI.TAGNAME_ID);
             if (!id.isEmpty()) {
+
                 TrophyProperties props = AmazingTrophiesAPI.getTrophyProperties(id);
                 if (props != null) {
                     modelHandler = props.getModelHandler();

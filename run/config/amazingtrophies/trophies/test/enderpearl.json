@@ -6,8 +6,19 @@
         "distance": 5.0
     },
     "model": {
-        "type": "advanced",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "complex",
+        "metadata": {
+            "x" : 0,
+            "y" : 1
+        },
+        "keys" : {
+            "x" : "minecraft:stone",
+            "y" : "minecraft:wool"
+        },
+        "structure":
+        [ [
+            "xxx",
+            "xyx"
+        ] ]
     }
 }

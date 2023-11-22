@@ -7,9 +7,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -76,6 +78,18 @@ public class BlockTrophy extends BlockContainer {
         for (String id : AmazingTrophiesAPI.getTrophyIDs()) {
             list.add(AmazingTrophiesAPI.getTrophyWithNBT(id, null));
         }
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World worldIn, int x, int y, int z, AxisAlignedBB mask,
+        List<AxisAlignedBB> list, Entity collider) {
+
+        // Trophy base collision box
+
+        setBlockBounds(0.125F, 0.0625F, 0.125F, 0.875F, 0.3125F, 0.875F);
+        super.addCollisionBoxesToList(worldIn, x, y, z, mask, list, collider);
+        setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.0625F, 0.9375F);
+        super.addCollisionBoxesToList(worldIn, x, y, z, mask, list, collider);
     }
 
     @Override
