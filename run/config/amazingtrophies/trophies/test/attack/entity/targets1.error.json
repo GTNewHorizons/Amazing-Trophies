@@ -3,7 +3,7 @@
     "_comment": "Should fail to parse because 'targets' is not an array",
     "condition": {
         "type": "attack.entity",
-        "targets": {
+        "entities": {
             "test": null
         }
     },

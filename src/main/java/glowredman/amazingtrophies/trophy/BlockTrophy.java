@@ -10,7 +10,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
@@ -77,17 +76,7 @@ public class BlockTrophy extends BlockContainer {
     @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
         for (String id : AmazingTrophiesAPI.getTrophyIDs()) {
-
-            ItemStack itemStack = new ItemStack(itemIn, 1, 0);
-
-            NBTTagCompound nbt = new NBTTagCompound();
-            nbt.setLong("time", 1);
-            nbt.setString("name", "Colen & Glowredman");
-            nbt.setString("trophyID", id);
-
-            itemStack.setTagCompound(nbt);
-
-            list.add(itemStack);
+            list.add(AmazingTrophiesAPI.getTrophyWithNBT(id, null));
         }
     }
 

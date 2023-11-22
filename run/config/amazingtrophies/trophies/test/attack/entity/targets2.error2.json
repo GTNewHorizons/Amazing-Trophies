@@ -3,7 +3,7 @@
     "_comment": "Should fail to parse because com.example.Class does not exist",
     "condition": {
         "type": "attack.entity",
-        "targets": [
+        "entities": [
             "com.example.Class"
         ]
     },
