@@ -1,5 +1,5 @@
 {
-    "id": "block.place.json",
+    "id": "block.place",
     "_comment": "Should trigger if the player places either normal or red sand",
     "condition": {
         "type": "block.place",

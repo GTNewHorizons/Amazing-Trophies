@@ -41,7 +41,7 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
             GL11.glPopMatrix();
             return;
         }
-        String timeText = String.format("%1$tF %1$tT", time);
+        String timeText = String.format("%1$tF", time);
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
         GL11.glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
         GL11.glTranslatef(0.0f, -0.5f, 0.376f);
