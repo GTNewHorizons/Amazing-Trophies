@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import glowredman.amazingtrophies.AmazingTrophies;
@@ -90,6 +91,16 @@ public class BlockTrophy extends BlockContainer {
         super.addCollisionBoxesToList(worldIn, x, y, z, mask, list, collider);
         setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.0625F, 0.9375F);
         super.addCollisionBoxesToList(worldIn, x, y, z, mask, list, collider);
+        this.setBlockBoundsForItemRender();
+    }
+
+    public void setBlockBoundsForItemRender() {
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.0625F, 0.9375F);
     }
 
     @Override
