@@ -46,6 +46,16 @@ public class BaseModelStructure {
         }
     }
 
+    protected static String[][] transpose(String[][] array) {
+        String[][] newArray = new String[array[0].length][array.length];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                newArray[j][i] = array[i][j];
+            }
+        }
+        return newArray;
+    }
+
     private static String[][] deepCopy(String[][] original) {
         if (original == null) {
             return null;

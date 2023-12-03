@@ -11,10 +11,15 @@ public class GeneratedModelStructure extends BaseModelStructure {
     private final String[][] structure;
 
     public GeneratedModelStructure(String[][] structure, Map<Character, Pair<Block, Integer>> blockInfoMap) {
-        this.charToBlock = blockInfoMap;
-        this.structure = structure;
+        this(structure, blockInfoMap, true);
+    }
 
-        reverseInnerArrays(structure);
+    public GeneratedModelStructure(String[][] structure, Map<Character, Pair<Block, Integer>> blockInfoMap,
+        boolean transpose) {
+        this.charToBlock = blockInfoMap;
+        this.structure = transpose ? transpose(structure) : structure;
+
+        reverseInnerArrays(this.structure);
         processStructureMap();
     }
 

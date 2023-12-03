@@ -26,6 +26,7 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
     public static final String PROPERTY_KEYS = "keys";
     public static final String PROPERTY_METADATA = "metadata";
     public static final String PROPERTY_STRUCTURE = "structure";
+    public static final String PROPERTY_TRANSPOSE = "transpose";
     private static final double TROPHY_PEDESTAL_HEIGHT = 5.0 / 16.0;
 
     private BaseModelStructure model;
@@ -44,7 +45,10 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
         // Parse the structure into a 2D array
         String[][] structure = parseStructureToArray(json, blockInfoMap.keySet());
 
-        this.model = new GeneratedModelStructure(structure, blockInfoMap);
+        this.model = new GeneratedModelStructure(
+            structure,
+            blockInfoMap,
+            ConfigHandler.getBooleanProperty(json, PROPERTY_TRANSPOSE, false));
     }
 
     private Map<Character, Pair<Block, Integer>> parseKeysToBlockInfoMap(JsonObject json) {
