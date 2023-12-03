@@ -37,9 +37,21 @@ public class RenderHelper {
                     if (model.renderFacesArray[x][z][y].allHidden()) continue;
 
                     Pair<Block, Integer> blockInfo = model.getAssociatedBlockInfo(blockChar);
+                    Block block = blockInfo.getLeft();
+                    int meta = blockInfo.getRight();
+
+                    if (!block.renderAsNormalBlock()) {
+                        GL11.glPushMatrix();
+                        GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+                    }
 
                     renderBlocks.setRenderFacesInfo(model.renderFacesArray[x][z][y]);
-                    renderBlock(blockInfo.getLeft(), blockInfo.getRight(), renderBlocks, x, z + 1, y + 1);
+                    renderBlock(block, meta, renderBlocks, x, z + 1, y + 1);
+
+                    if (!block.renderAsNormalBlock()) {
+                        GL11.glPopAttrib();
+                        GL11.glPopMatrix();
+                    }
                 }
             }
         }
