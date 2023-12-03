@@ -12,7 +12,6 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLConstructionEvent;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -79,13 +78,9 @@ public class AmazingTrophies {
     }
 
     @EventHandler
-    public static void init(FMLInitializationEvent event) {
+    public static void postInit(FMLPostInitializationEvent event) {
         ConfigHandler.parseOrCreate("achievements", AchievementHandler::parseAchievement);
         ConfigHandler.parseOrCreate("trophies", TrophyHandler::parseTrophy);
-    }
-
-    @EventHandler
-    public static void postInit(FMLPostInitializationEvent event) {
         AchievementHandler.registerMissingPages();
         AmazingTrophiesAPI.getAchievements()
             .forEach(AchievementProperties::register);
