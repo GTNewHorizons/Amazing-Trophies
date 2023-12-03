@@ -1,17 +1,13 @@
 package glowredman.amazingtrophies;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
-import org.apache.commons.io.FileUtils;
-
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.Loader;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.model.BasicTrophyModelHandler;
 import glowredman.amazingtrophies.model.EntityTrophyModelHandler;
@@ -25,13 +21,9 @@ public class ClientHandler {
 
     @SuppressWarnings("unchecked")
     static void setupAssetHandler() {
-        if (Loader.isModLoaded("txloader")) {
-            moveAssetDirsAndFiles();
-        } else {
-            FMLClientHandler.instance()
-                .getClient().defaultResourcePacks.add(new AssetHandler());
-            createAssetDirsAndFiles();
-        }
+        FMLClientHandler.instance()
+            .getClient().defaultResourcePacks.add(new AssetHandler());
+        createAssetDirsAndFiles();
     }
 
     static void registerTrophyModelHandlers() {
@@ -49,27 +41,6 @@ public class ClientHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrophy.class, trophyRenderer);
         MinecraftForgeClient
             .registerItemRenderer(Item.getItemFromBlock(AmazingTrophiesAPI.getTrophyBlock()), trophyRenderer);
-    }
-
-    private static void moveAssetDirsAndFiles() {
-        try {
-            File dest = new File(
-                Loader.instance()
-                    .getConfigDir(),
-                "txloader" + File.separator + "load" + File.separator + AmazingTrophies.MODID);
-            dest.mkdirs();
-            Files.list(AmazingTrophies.CONFIG_DIR)
-                .filter(Files::isDirectory)
-                .forEach(dir -> {
-                    try {
-                        FileUtils.moveDirectory(dir.toFile(), dest);
-                    } catch (Exception e) {
-                        AmazingTrophies.LOGGER.error("Failed to move " + dir + " to " + dest, e);
-                    }
-                });
-        } catch (Exception e) {
-            AmazingTrophies.LOGGER.error("Failed to get subpaths of " + AmazingTrophies.CONFIG_DIR, e);
-        }
     }
 
     private static void createAssetDirsAndFiles() {
