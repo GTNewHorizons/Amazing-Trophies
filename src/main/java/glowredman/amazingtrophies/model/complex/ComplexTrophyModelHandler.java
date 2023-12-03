@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
@@ -72,7 +73,7 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
                 resultMap.put(keyChar.charAt(0), Pair.of(block, 0));
             } else {
                 int meta = ConfigHandler.getIntegerProperty(metadata, keyChar, 0);
-                if (meta < 0 || meta > 15) {
+                if (meta < 0 || meta > OreDictionary.WILDCARD_VALUE) {
                     throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
                 }
                 resultMap.put(keyChar.charAt(0), Pair.of(block, meta));
@@ -119,7 +120,7 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
 
                 for (int k = 0; k < line.length(); k++) {
                     char c = line.charAt(k);
-                    if (!blockKeys.contains(c)) {
+                    if (!Character.isSpaceChar(c) && !blockKeys.contains(c)) {
                         throw new IllegalArgumentException(
                             "Structure key '" + c
                                 + "' (array="
