@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -117,6 +118,17 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
 
         public Render() {
             this.setRenderManager(RenderManager.instance);
+        }
+
+        @Override
+        public void doRender(EntityItem p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_,
+            float p_76986_8_, float p_76986_9_) {
+            // enable fancy graphics while the item is rendered
+            GameSettings options = this.renderManager.options;
+            boolean fancyGraphics = options.fancyGraphics;
+            options.fancyGraphics = true;
+            super.doRender(p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+            options.fancyGraphics = fancyGraphics;
         }
 
         @Override
