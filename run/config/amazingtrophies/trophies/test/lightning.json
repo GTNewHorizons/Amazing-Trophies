@@ -6,7 +6,7 @@
     },
     "model": {
         "type": "item",
-        "item": "minecraft:lit_furnace",
+        "registryName": "minecraft:lit_furnace",
         "meta": 2,
         "yawOffset": -90.0
     }
