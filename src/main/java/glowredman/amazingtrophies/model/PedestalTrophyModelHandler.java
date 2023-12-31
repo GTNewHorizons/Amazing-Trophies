@@ -2,6 +2,7 @@ package glowredman.amazingtrophies.model;
 
 import javax.annotation.Nullable;
 
+import com.gtnewhorizons.angelica.mixins.interfaces.IModelCustomExt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +18,7 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
 
     public static final String ID = "pedestal";
 
-    private static final IModelCustom MODEL_BASE = AdvancedModelLoader
+    private static final IModelCustomExt MODEL_BASE = (IModelCustomExt) AdvancedModelLoader
         .loadModel(new ResourceLocation(AmazingTrophies.MODID, "models/trophy_pedestal.obj"));
     private static final ResourceLocation TEXTURE_BASE = new ResourceLocation(
         AmazingTrophies.MODID,
@@ -34,7 +35,7 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
-        MODEL_BASE.renderAll();
+        MODEL_BASE.renderAllVBO();
 
         // text
         if (name == null || name.isEmpty() || time == 0) {
