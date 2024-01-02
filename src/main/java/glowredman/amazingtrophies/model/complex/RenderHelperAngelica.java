@@ -52,7 +52,7 @@ public class RenderHelperAngelica {
             }
         }
         final List<Quad> quads = TessellatorManager.stopCapturing();
-        final ByteBuffer byteBuffer = TessellatorManager.quadsToBuffer(quads, format);
+        final ByteBuffer byteBuffer = CapturingTessellator.quadsToBuffer(quads, format);
         final VertexBuffer vertexBuffer = new VertexBuffer();
 
         vertexBuffer.bind();
