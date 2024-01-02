@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import glowredman.amazingtrophies.AmazingTrophies;
 import net.minecraft.block.Block;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -153,7 +154,12 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
         GL11.glTranslated(x, y - 0.5 + TROPHY_PEDESTAL_HEIGHT, z);
         GL11.glRotatef(-90, 0.0f, 1.0f, 0.0f);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
-        RenderHelper.renderModel(model);
+
+        // TODO: Ensure this optional dep actually works
+        if(AmazingTrophies.isAngelicaLoaded)
+            RenderHelperAngelica.renderModel(model);
+        else
+            RenderHelper.renderModel(model);
         GL11.glPopAttrib();
         GL11.glPopMatrix();
     }

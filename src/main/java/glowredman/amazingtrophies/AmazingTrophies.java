@@ -52,6 +52,7 @@ public class AmazingTrophies {
     public static final String VERSION = Reference.VERSION;
     public static final Logger LOGGER = LogManager.getLogger(MODNAME);
     public static final Path CONFIG_DIR = getConfigDir();
+    public static boolean isAngelicaLoaded = false;
 
     @EventHandler
     public static void construct(FMLConstructionEvent event) {
@@ -63,6 +64,8 @@ public class AmazingTrophies {
 
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
+        isAngelicaLoaded = Loader.isModLoaded("angelica");
+
         registerConditionHandlers();
 
         Block blockTrophy = new BlockTrophy();

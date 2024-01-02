@@ -15,6 +15,7 @@ import com.gtnewhorizons.angelica.compat.mojang.VertexBuffer;
 
 public class BaseModelStructure {
 
+    // TODO: Make this an optional dependency
     protected VertexBuffer vertexBuffer;
     protected RenderFacesInfo[][][] renderFacesArray;
     protected Map<Character, Pair<Block, Integer>> charToBlock = new HashMap<>();
