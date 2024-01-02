@@ -2,14 +2,14 @@ package glowredman.amazingtrophies.model;
 
 import javax.annotation.Nullable;
 
-import com.gtnewhorizons.angelica.mixins.interfaces.IModelCustomExt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
+
+import com.gtnewhorizons.angelica.mixins.interfaces.IModelCustomExt;
 
 import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.TrophyModelHandler;

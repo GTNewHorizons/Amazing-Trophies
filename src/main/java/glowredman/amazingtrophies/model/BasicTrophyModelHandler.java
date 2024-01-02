@@ -1,16 +1,19 @@
 package glowredman.amazingtrophies.model;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-import com.gtnewhorizons.angelica.mixins.interfaces.IModelCustomExt;
-import glowredman.amazingtrophies.AssetHandler;
-import glowredman.amazingtrophies.ConfigHandler;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
+
 import org.lwjgl.opengl.GL11;
 
-import javax.annotation.Nullable;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.gtnewhorizons.angelica.mixins.interfaces.IModelCustomExt;
+
+import glowredman.amazingtrophies.AssetHandler;
+import glowredman.amazingtrophies.ConfigHandler;
 
 public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
 
