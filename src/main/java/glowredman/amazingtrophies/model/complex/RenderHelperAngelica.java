@@ -16,6 +16,7 @@ import com.gtnewhorizons.angelica.compat.mojang.VertexFormat;
 import com.gtnewhorizons.angelica.compat.nd.Quad;
 import com.gtnewhorizons.angelica.compat.toremove.DefaultVertexFormat;
 import com.gtnewhorizons.angelica.glsm.TessellatorManager;
+import org.lwjgl.opengl.GL12;
 
 public class RenderHelperAngelica {
 
@@ -33,8 +34,8 @@ public class RenderHelperAngelica {
         final CustomRenderBlocks renderBlocks = new CustomRenderBlocks(Minecraft.getMinecraft().theWorld);
         renderBlocks.enableAO = false;
 
-        final CapturingTessellator tessellator = new CapturingTessellator(format);
-        TessellatorManager.startCapturing(tessellator);
+        TessellatorManager.startCapturing();
+        CapturingTessellator tessellator = (CapturingTessellator) TessellatorManager.get();
         for (int x = 0; x < model.getXLength(); x++) {
             for (int y = 0; y < model.getYLength(); y++) {
                 for (int z = 0; z < model.getZLength(); z++) {
@@ -83,6 +84,8 @@ public class RenderHelperAngelica {
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnable(GL11.GL_LIGHTING);
+        // Unclear if this is needed
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 
         vertexBuffer.draw(GL11.GL_QUADS);
 
