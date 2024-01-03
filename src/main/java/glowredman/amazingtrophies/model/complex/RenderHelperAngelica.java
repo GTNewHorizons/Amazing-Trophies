@@ -64,7 +64,7 @@ public class RenderHelperAngelica {
         return vertexBuffer;
     }
 
-    static final VertexFormat format = DefaultVertexFormat.VBO;
+    static final VertexFormat format = DefaultVertexFormat.ITEM_VBO;
 
     private static void renderModelInternal(BaseModelStructure model) {
 
