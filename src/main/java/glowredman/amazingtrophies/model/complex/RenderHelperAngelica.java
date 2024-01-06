@@ -1,8 +1,5 @@
 package glowredman.amazingtrophies.model.complex;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -15,10 +12,12 @@ import com.gtnewhorizons.angelica.client.renderer.CapturingTessellator;
 import com.gtnewhorizons.angelica.compat.mojang.DefaultVertexFormat;
 import com.gtnewhorizons.angelica.compat.mojang.VertexBuffer;
 import com.gtnewhorizons.angelica.compat.mojang.VertexFormat;
-import com.gtnewhorizons.angelica.compat.nd.Quad;
 import com.gtnewhorizons.angelica.glsm.TessellatorManager;
+import com.gtnewhorizons.angelica.glsm.VBOManager;
 
 public class RenderHelperAngelica {
+
+    private static int VBO_ID = -1;
 
     private static void centreModel(BaseModelStructure model) {
 
@@ -52,19 +51,17 @@ public class RenderHelperAngelica {
                 }
             }
         }
-        final List<Quad> quads = TessellatorManager.stopCapturing();
-        final ByteBuffer byteBuffer = CapturingTessellator.quadsToBuffer(quads, format);
-        final VertexBuffer vertexBuffer = new VertexBuffer();
-
-        vertexBuffer.bind();
-        vertexBuffer.upload(byteBuffer, quads.size() * 4);
-        vertexBuffer.unbind();
+        if (VBO_ID == -1) {
+            VBO_ID = VBOManager.generateDisplayLists(1);
+        }
+        final VertexBuffer vertexBuffer = TessellatorManager.stopCapturingToVBO(format);
+        VBOManager.registerVBO(VBO_ID, vertexBuffer);
 
         model.vertexBuffer = vertexBuffer;
         return vertexBuffer;
     }
 
-    static final VertexFormat format = DefaultVertexFormat.ITEM_VBO;
+    static final VertexFormat format = DefaultVertexFormat.POSITION_TEXTURE_NORMAL;
 
     private static void renderModelInternal(BaseModelStructure model) {
 
