@@ -10,6 +10,9 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
+import com.gtnewhorizons.angelica.config.AngelicaConfig;
+import com.gtnewhorizons.angelica.mixins.interfaces.IModelCustomExt;
+
 import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.TrophyModelHandler;
 
@@ -34,7 +37,9 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
-        MODEL_BASE.renderAll();
+
+        if (AngelicaConfig.enableVBO) ((IModelCustomExt) MODEL_BASE).renderAllVBO();
+        else MODEL_BASE.renderAll();
 
         // text
         if (name == null || name.isEmpty() || time == 0) {

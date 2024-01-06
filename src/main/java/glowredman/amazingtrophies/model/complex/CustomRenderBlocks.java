@@ -3,7 +3,7 @@ package glowredman.amazingtrophies.model.complex;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockAccess;
 
 public class CustomRenderBlocks extends RenderBlocks {
 
@@ -12,7 +12,7 @@ public class CustomRenderBlocks extends RenderBlocks {
 
     private RenderFacesInfo renderFacesInfo;
 
-    public CustomRenderBlocks(World world) {
+    public CustomRenderBlocks(IBlockAccess world) {
         super(world);
     }
 
