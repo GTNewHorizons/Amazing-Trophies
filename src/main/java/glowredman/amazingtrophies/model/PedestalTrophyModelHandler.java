@@ -6,9 +6,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
+import com.gtnewhorizons.angelica.config.AngelicaConfig;
 import com.gtnewhorizons.angelica.mixins.interfaces.IModelCustomExt;
 
 import glowredman.amazingtrophies.AmazingTrophies;
@@ -18,7 +20,7 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
 
     public static final String ID = "pedestal";
 
-    private static final IModelCustomExt MODEL_BASE = (IModelCustomExt) AdvancedModelLoader
+    private static final IModelCustom MODEL_BASE = AdvancedModelLoader
         .loadModel(new ResourceLocation(AmazingTrophies.MODID, "models/trophy_pedestal.obj"));
     private static final ResourceLocation TEXTURE_BASE = new ResourceLocation(
         AmazingTrophies.MODID,
@@ -35,7 +37,9 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
-        MODEL_BASE.renderAllVBO();
+
+        if (AngelicaConfig.enableVBO) ((IModelCustomExt) MODEL_BASE).renderAllVBO();
+        else MODEL_BASE.renderAll();
 
         // text
         if (name == null || name.isEmpty() || time == 0) {
