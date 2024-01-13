@@ -12,6 +12,7 @@ import com.gtnewhorizons.angelica.client.renderer.CapturingTessellator;
 import com.gtnewhorizons.angelica.compat.mojang.DefaultVertexFormat;
 import com.gtnewhorizons.angelica.compat.mojang.VertexBuffer;
 import com.gtnewhorizons.angelica.compat.mojang.VertexFormat;
+import com.gtnewhorizons.angelica.config.AngelicaConfig;
 import com.gtnewhorizons.angelica.glsm.TessellatorManager;
 import com.gtnewhorizons.angelica.glsm.VBOManager;
 
@@ -70,7 +71,7 @@ public class RenderHelperAngelica {
             .bindTexture(TextureMap.locationBlocksTexture);
 
         // Build the VBO if needed and store it on the model
-        VertexBuffer vertexBuffer = model.vertexBuffer;
+        VertexBuffer vertexBuffer = (VertexBuffer) model.vertexBuffer;
         if (model.vertexBuffer == null) {
             vertexBuffer = rebuildVBO(model);
         }
@@ -101,6 +102,11 @@ public class RenderHelperAngelica {
     public static void renderModel(final BaseModelStructure model) {
 
         if (model == null) return;
+
+        if (!AngelicaConfig.enableVBO) {
+            RenderHelper.renderModel(model);
+            return;
+        }
 
         GL11.glPushMatrix();
 

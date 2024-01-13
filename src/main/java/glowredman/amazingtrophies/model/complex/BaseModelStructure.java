@@ -11,12 +11,12 @@ import net.minecraft.block.Block;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.gtnewhorizons.angelica.compat.mojang.VertexBuffer;
-
 public class BaseModelStructure {
 
-    // TODO: Make this an optional dependency
-    protected VertexBuffer vertexBuffer;
+    /**
+     * This is an instance of {@code com.gtnewhorizons.angelica.compat.mojang.VertexBuffer} when Angelica is installed.
+     */
+    protected Object vertexBuffer;
     protected RenderFacesInfo[][][] renderFacesArray;
     protected Map<Character, Pair<Block, Integer>> charToBlock = new HashMap<>();
 
