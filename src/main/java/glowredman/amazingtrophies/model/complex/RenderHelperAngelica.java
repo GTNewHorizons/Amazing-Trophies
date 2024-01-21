@@ -85,7 +85,7 @@ public class RenderHelperAngelica {
         // Unclear if this is needed
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 
-        vertexBuffer.draw(GL11.GL_QUADS);
+        vertexBuffer.draw();
 
         format.clearBufferState();
         vertexBuffer.unbind();
