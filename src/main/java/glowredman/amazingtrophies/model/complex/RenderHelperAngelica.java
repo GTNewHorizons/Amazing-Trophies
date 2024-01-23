@@ -15,7 +15,6 @@ import com.gtnewhorizons.angelica.compat.mojang.VertexFormat;
 import com.gtnewhorizons.angelica.config.AngelicaConfig;
 import com.gtnewhorizons.angelica.glsm.TessellatorManager;
 import com.gtnewhorizons.angelica.glsm.VBOManager;
-import com.gtnewhorizons.angelica.shadow.org.joml.Vector3d;
 
 public class RenderHelperAngelica {
 
@@ -32,7 +31,6 @@ public class RenderHelperAngelica {
     private static VertexBuffer rebuildVBO(BaseModelStructure model) {
         final CustomRenderBlocks renderBlocks = new CustomRenderBlocks(Minecraft.getMinecraft().theWorld);
         renderBlocks.enableAO = false;
-
 
         CapturingTessellator tessellator = (CapturingTessellator) TessellatorManager.get();
         for (int x = 0; x < model.getXLength(); x++) {
