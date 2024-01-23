@@ -32,6 +32,7 @@ public class RenderHelperAngelica {
         final CustomRenderBlocks renderBlocks = new CustomRenderBlocks(Minecraft.getMinecraft().theWorld);
         renderBlocks.enableAO = false;
 
+        TessellatorManager.startCapturing();
         CapturingTessellator tessellator = (CapturingTessellator) TessellatorManager.get();
         for (int x = 0; x < model.getXLength(); x++) {
             for (int y = 0; y < model.getYLength(); y++) {
