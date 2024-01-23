@@ -15,10 +15,9 @@ import com.gtnewhorizons.angelica.compat.mojang.VertexFormat;
 import com.gtnewhorizons.angelica.config.AngelicaConfig;
 import com.gtnewhorizons.angelica.glsm.TessellatorManager;
 import com.gtnewhorizons.angelica.glsm.VBOManager;
+import com.gtnewhorizons.angelica.shadow.org.joml.Vector3d;
 
 public class RenderHelperAngelica {
-
-    private static int VBO_ID = -1;
 
     private static void centreModel(BaseModelStructure model) {
 
@@ -34,7 +33,7 @@ public class RenderHelperAngelica {
         final CustomRenderBlocks renderBlocks = new CustomRenderBlocks(Minecraft.getMinecraft().theWorld);
         renderBlocks.enableAO = false;
 
-        TessellatorManager.startCapturing();
+
         CapturingTessellator tessellator = (CapturingTessellator) TessellatorManager.get();
         for (int x = 0; x < model.getXLength(); x++) {
             for (int y = 0; y < model.getYLength(); y++) {
@@ -52,11 +51,10 @@ public class RenderHelperAngelica {
                 }
             }
         }
-        if (VBO_ID == -1) {
-            VBO_ID = VBOManager.generateDisplayLists(1);
-        }
+
+        final int vboId = VBOManager.generateDisplayLists(1);
         final VertexBuffer vertexBuffer = TessellatorManager.stopCapturingToVBO(format);
-        VBOManager.registerVBO(VBO_ID, vertexBuffer);
+        VBOManager.registerVBO(vboId, vertexBuffer);
 
         model.vertexBuffer = vertexBuffer;
         return vertexBuffer;
@@ -77,18 +75,13 @@ public class RenderHelperAngelica {
         }
 
         // Now render the VBO
-        vertexBuffer.bind();
-        format.setupBufferState(0L);
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnable(GL11.GL_LIGHTING);
         // Unclear if this is needed
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 
-        vertexBuffer.draw();
-
-        format.clearBufferState();
-        vertexBuffer.unbind();
+        vertexBuffer.render();
 
     }
 

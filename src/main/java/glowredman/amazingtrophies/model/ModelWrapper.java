@@ -18,7 +18,7 @@ public abstract class ModelWrapper<T extends IModelCustom> {
 
     public static ModelWrapper<? extends IModelCustom> get(ResourceLocation resource)
         throws IllegalArgumentException, ModelFormatException {
-        if (AmazingTrophies.isAngelicaLoaded) {
+        if (AmazingTrophies.isAngelicaLoaded && AngelicaConfig.enableVBO) {
             return new ModelCustomWrapperExt(resource);
         }
         return new ModelCustomWrapper(resource);
