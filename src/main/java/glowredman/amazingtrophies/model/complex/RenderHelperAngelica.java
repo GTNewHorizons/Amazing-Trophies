@@ -50,7 +50,7 @@ public class RenderHelperAngelica {
                 }
             }
         }
-
+        tessellator.setTranslation(0, 0, 0);
         final int vboId = VBOManager.generateDisplayLists(1);
         final VertexBuffer vertexBuffer = TessellatorManager.stopCapturingToVBO(format);
         VBOManager.registerVBO(vboId, vertexBuffer);
