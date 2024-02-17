@@ -4,8 +4,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -21,20 +19,20 @@ public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
     public static final String PROPERTY_MODEL = "model";
     public static final String PROPERTY_TEXTURE = "texture";
 
-    private IModelCustom model;
+    private ModelWrapper<?> model;
     private ResourceLocation texture;
 
     public BasicTrophyModelHandler() {}
 
-    public BasicTrophyModelHandler(IModelCustom model, ResourceLocation texture) {
+    public BasicTrophyModelHandler(ModelWrapper<?> model, ResourceLocation texture) {
         this.model = model;
         this.texture = texture;
     }
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        this.model = AdvancedModelLoader.loadModel(
-            AssetHandler.getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_MODEL), "models/"));
+        this.model = ModelWrapper
+            .get(AssetHandler.getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_MODEL), "models/"));
         this.texture = AssetHandler
             .getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_TEXTURE), "textures/blocks/");
     }

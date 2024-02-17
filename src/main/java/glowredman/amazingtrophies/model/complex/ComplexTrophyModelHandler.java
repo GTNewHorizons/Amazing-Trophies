@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.registry.GameData;
+import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
 
@@ -153,7 +154,13 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
         GL11.glTranslated(x, y - 0.5 + TROPHY_PEDESTAL_HEIGHT, z);
         GL11.glRotatef(-90, 0.0f, 1.0f, 0.0f);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
-        RenderHelper.renderModel(model);
+
+        if (AmazingTrophies.isAngelicaLoaded) {
+            RenderHelperAngelica.renderModel(model);
+        } else {
+            RenderHelper.renderModel(model);
+        }
+
         GL11.glPopAttrib();
         GL11.glPopMatrix();
     }
