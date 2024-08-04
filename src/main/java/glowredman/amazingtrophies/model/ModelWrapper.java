@@ -5,8 +5,7 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.ModelFormatException;
 
-import com.gtnewhorizons.angelica.config.AngelicaConfig;
-import com.gtnewhorizons.angelica.mixins.interfaces.IModelCustomExt;
+import com.gtnewhorizon.gtnhlib.client.renderer.vbo.IModelCustomExt;
 
 import glowredman.amazingtrophies.AmazingTrophies;
 
@@ -18,7 +17,7 @@ public abstract class ModelWrapper<T extends IModelCustom> {
 
     public static ModelWrapper<? extends IModelCustom> get(ResourceLocation resource)
         throws IllegalArgumentException, ModelFormatException {
-        if (AmazingTrophies.isAngelicaLoaded && AngelicaConfig.enableVBO) {
+        if (AmazingTrophies.enableVBO) {
             return new ModelCustomWrapperExt(resource);
         }
         return new ModelCustomWrapper(resource);
@@ -44,7 +43,7 @@ public abstract class ModelWrapper<T extends IModelCustom> {
 
         @Override
         public void renderAll() {
-            if (AngelicaConfig.enableVBO) {
+            if (AmazingTrophies.enableVBO) {
                 this.model.renderAllVBO();
             } else {
                 this.model.renderAll();
