@@ -18,7 +18,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import cpw.mods.fml.common.registry.GameData;
-import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
 

@@ -1,12 +1,5 @@
 package glowredman.amazingtrophies.model.complex;
 
-import com.gtnewhorizon.gtnhlib.client.renderer.CapturingTessellator;
-import com.gtnewhorizon.gtnhlib.client.renderer.TessellatorManager;
-import com.gtnewhorizon.gtnhlib.client.renderer.vbo.VBOManager;
-import com.gtnewhorizon.gtnhlib.client.renderer.vbo.VertexBuffer;
-import com.gtnewhorizon.gtnhlib.client.renderer.vertex.DefaultVertexFormat;
-import com.gtnewhorizon.gtnhlib.client.renderer.vertex.VertexFormat;
-import glowredman.amazingtrophies.AmazingTrophies;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -14,6 +7,15 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import com.gtnewhorizon.gtnhlib.client.renderer.CapturingTessellator;
+import com.gtnewhorizon.gtnhlib.client.renderer.TessellatorManager;
+import com.gtnewhorizon.gtnhlib.client.renderer.vbo.VBOManager;
+import com.gtnewhorizon.gtnhlib.client.renderer.vbo.VertexBuffer;
+import com.gtnewhorizon.gtnhlib.client.renderer.vertex.DefaultVertexFormat;
+import com.gtnewhorizon.gtnhlib.client.renderer.vertex.VertexFormat;
+
+import glowredman.amazingtrophies.AmazingTrophies;
 
 public class RenderHelperVBO {
 
