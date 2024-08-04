@@ -1,11 +1,11 @@
 package glowredman.amazingtrophies.model;
 
-import com.gtnewhorizon.gtnhlib.client.renderer.vbo.IModelCustomExt;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.ModelFormatException;
 
+import com.gtnewhorizon.gtnhlib.client.renderer.vbo.IModelCustomExt;
 
 import glowredman.amazingtrophies.AmazingTrophies;
 
