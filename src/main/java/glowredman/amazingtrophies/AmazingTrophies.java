@@ -52,7 +52,7 @@ public class AmazingTrophies {
     public static final String VERSION = Reference.VERSION;
     public static final Logger LOGGER = LogManager.getLogger(MODNAME);
     public static final Path CONFIG_DIR = getConfigDir();
-    public static final boolean enableVBO = !Boolean.parseBoolean(System.getProperty("amazingtrophies.disableVBO", "false"));
+    public static final boolean enableVBO = !Boolean.getBoolean("amazingtrophies.disableVBO");
 
     @EventHandler
     public static void construct(FMLConstructionEvent event) {
