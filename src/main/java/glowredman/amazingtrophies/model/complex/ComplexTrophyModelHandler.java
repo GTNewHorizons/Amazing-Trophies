@@ -155,11 +155,7 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
         GL11.glRotatef(-90, 0.0f, 1.0f, 0.0f);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
 
-        if (AmazingTrophies.isAngelicaLoaded) {
-            RenderHelperAngelica.renderModel(model);
-        } else {
-            RenderHelper.renderModel(model);
-        }
+        RenderHelperVBO.renderModel(model);
 
         GL11.glPopAttrib();
         GL11.glPopMatrix();

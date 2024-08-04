@@ -41,7 +41,7 @@ import glowredman.amazingtrophies.trophy.TileEntityTrophy;
 
 @Mod(
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:gtnhlib@[0.0.10,);after:angelica",
+    dependencies = "required-after:gtnhlib@[0.4.0,);after:angelica@[1.0.0-beta4,)",
     modid = AmazingTrophies.MODID,
     name = AmazingTrophies.MODNAME,
     version = AmazingTrophies.VERSION)
@@ -52,7 +52,7 @@ public class AmazingTrophies {
     public static final String VERSION = Reference.VERSION;
     public static final Logger LOGGER = LogManager.getLogger(MODNAME);
     public static final Path CONFIG_DIR = getConfigDir();
-    public static boolean isAngelicaLoaded = false;
+    public static final boolean enableVBO = !Boolean.parseBoolean(System.getProperty("amazingtrophies.disableVBO", "false"));
 
     @EventHandler
     public static void construct(FMLConstructionEvent event) {
@@ -64,8 +64,6 @@ public class AmazingTrophies {
 
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
-        isAngelicaLoaded = Loader.isModLoaded("angelica");
-
         registerConditionHandlers();
 
         Block blockTrophy = new BlockTrophy();
