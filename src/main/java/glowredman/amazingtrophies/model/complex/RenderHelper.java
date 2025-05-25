@@ -18,20 +18,17 @@ import com.gtnewhorizon.gtnhlib.client.renderer.vertex.VertexFormat;
 import glowredman.amazingtrophies.AmazingTrophies;
 
 public class RenderHelper {
-    
+
     public static final RenderHelper INSTANCE = AmazingTrophies.enableVBO ? new RenderHelperVBO() : new RenderHelper();
 
     private static final float TROPHY_RATIO_XZ = 12.0f / 16.0f; // 12x12 top in 16x16 texture.
     private static final float TROPHY_RATIO_Y = 11.0f / 16.0f; // 11 of 16 pixels empty above the pedestal
 
     protected void centreModel(BaseModelStructure model) {
+        float x = model.getXLength() * 0.5f;
+        float z = model.getYLength() * 0.5f;
 
-        String[][] testShape = model.getStructureString();
-
-        double x = testShape.length * 0.5;
-        double z = testShape[0][0].length() * 0.5;
-
-        GL11.glTranslated(-x, -0.5, -1 - z);
+        GL11.glTranslatef(0.5f - x, -0.5f, -0.5f - z);
     }
 
     protected void buildModel(BaseModelStructure model) {
@@ -99,7 +96,7 @@ public class RenderHelper {
 
         GL11.glPopMatrix();
     }
-    
+
     private static class RenderHelperVBO extends RenderHelper {
 
         private static final VertexFormat format = DefaultVertexFormat.POSITION_TEXTURE_NORMAL;
