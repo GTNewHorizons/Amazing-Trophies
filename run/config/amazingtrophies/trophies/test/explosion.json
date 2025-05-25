@@ -6,8 +6,22 @@
         "size": 2.0
     },
     "model": {
-        "type": "basic",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "complex",
+        "metadata": {
+            "x": 0,
+            "y": 10
+        },
+        "keys": {
+            "x": "minecraft:stained_glass",
+            "y": "minecraft:stained_glass"
+        },
+        "structure": [
+            [
+                "yxy",
+                "xyx",
+                "yxy",
+                "xyx"
+            ]
+        ]
     }
 }

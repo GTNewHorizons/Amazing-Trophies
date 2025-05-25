@@ -6,8 +6,34 @@
         "damage": 5.0
     },
     "model": {
-        "type": "basic",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "complex",
+        "metadata": {
+            "x": 0,
+            "y": 10
+        },
+        "keys": {
+            "x": "minecraft:stained_glass",
+            "y": "minecraft:stained_glass"
+        },
+        "structure": [
+            [
+                "y",
+                "x",
+                "y",
+                "x"
+            ],
+            [
+                "x",
+                "y",
+                "x",
+                "y"
+            ],
+            [
+                "y",
+                "x",
+                "y",
+                "x"
+            ]
+        ]
     }
 }
