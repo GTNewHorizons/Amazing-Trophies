@@ -13,6 +13,10 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class BaseModelStructure {
 
+    /**
+     * This is an instance of {@code com.gtnewhorizons.angelica.compat.mojang.VertexBuffer} when Angelica is installed.
+     */
+    protected Object vertexBuffer;
     protected RenderFacesInfo[][][] renderFacesArray;
     protected Map<Character, Pair<Block, Integer>> charToBlock = new HashMap<>();
 

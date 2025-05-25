@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -24,7 +23,7 @@ public class BlockTrophy extends BlockContainer {
     private final ThreadLocal<TileEntityTrophy> tempTE = new ThreadLocal<>();
 
     public BlockTrophy() {
-        super(Material.wood);
+        super(MaterialTrophy.INSTANCE);
         this.setBlockName(AmazingTrophies.MODID + ".trophy");
         this.setBlockTextureName(AmazingTrophies.MODID + ":trophy_pedestal");
         this.setHardness(1.0f);

@@ -7,6 +7,6 @@
     },
     "model": {
         "type": "item",
-        "item": "minecraft:diamond_pickaxe"
+        "registryName": "minecraft:diamond_pickaxe"
     }
 }
