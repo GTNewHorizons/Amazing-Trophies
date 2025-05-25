@@ -58,7 +58,11 @@ public class RenderHelper {
                     }
 
                     renderBlocks.setRenderFacesInfo(model.renderFacesArray[x][z][y]);
-                    this.renderBlock(block, meta, renderBlocks, x, z + 1, y + 1);
+                    if (model.skipHalfOffset.contains(blockChar)) {
+                        this.renderBlock(block, meta, renderBlocks, x + 0.5, z + 1.5, y + 1.5);
+                    } else {
+                        this.renderBlock(block, meta, renderBlocks, x, z + 1, y + 1);
+                    }
 
                     if (!block.renderAsNormalBlock()) {
                         GL11.glPopAttrib();
@@ -89,7 +93,8 @@ public class RenderHelper {
         GL11.glPopMatrix();
     }
 
-    protected void renderBlock(Block block, int metadata, CustomRenderBlocks renderBlocks, int x, int y, int z) {
+    protected void renderBlock(Block block, int metadata, CustomRenderBlocks renderBlocks, double x, double y,
+        double z) {
         GL11.glPushMatrix();
 
         GL11.glTranslated(x, y, z);
@@ -120,7 +125,13 @@ public class RenderHelper {
                         final Pair<Block, Integer> blockInfo = model.getAssociatedBlockInfo(blockChar);
 
                         renderBlocks.setRenderFacesInfo(model.renderFacesArray[x][z][y]);
-                        tessellator.setTranslation(x, z + 1, y + 1);
+
+                        if (model.skipHalfOffset.contains(blockChar)) {
+                            tessellator.setTranslation(x + 0.5, z + 1.5, y + 1.5);
+                        } else {
+                            tessellator.setTranslation(x, z + 1, y + 1);
+                        }
+
                         this.renderBlock(blockInfo.getLeft(), blockInfo.getRight(), renderBlocks);
                     }
                 }
