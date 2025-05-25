@@ -70,7 +70,9 @@ public class RenderHelper {
     }
 
     protected void scaleModel(final BaseModelStructure model) {
-        final float maxScale = Math.min(TROPHY_RATIO_XZ / Math.max(model.getXLength(), model.getYLength()), TROPHY_RATIO_Y / model.getZLength());
+        final float maxScale = Math.min(
+            TROPHY_RATIO_XZ / Math.max(model.getXLength(), model.getYLength()),
+            TROPHY_RATIO_Y / model.getZLength());
         GL11.glScalef(maxScale, maxScale, maxScale);
     }
 
