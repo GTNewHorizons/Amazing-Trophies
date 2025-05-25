@@ -153,7 +153,7 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
         GL11.glTranslated(x, y - 0.5 + TROPHY_PEDESTAL_HEIGHT, z);
         GL11.glRotatef(-90, 0.0f, 1.0f, 0.0f);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
-        RenderHelper.renderModel(model);
+        RenderHelper.INSTANCE.renderModel(model);
         GL11.glPopAttrib();
         GL11.glPopMatrix();
     }
