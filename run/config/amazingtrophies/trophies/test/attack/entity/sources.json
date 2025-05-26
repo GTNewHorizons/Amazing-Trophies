@@ -9,8 +9,23 @@
         "isDamageTypesAllowList": true
     },
     "model": {
-        "type": "basic",
-        "model": "model.obj",
-            "texture": "texture.png"
+        "type": "complex",
+        "metadata": {
+            "x": 0
+        },
+        "keys": {
+            "x": "minecraft:beacon"
+        },
+        "structure": [
+            [
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x",
+                "x"
+            ]
+        ]
     }
 }

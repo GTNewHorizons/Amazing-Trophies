@@ -1,5 +1,6 @@
 package glowredman.amazingtrophies.model.complex;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +29,7 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
     public static final String PROPERTY_METADATA = "metadata";
     public static final String PROPERTY_STRUCTURE = "structure";
     public static final String PROPERTY_TRANSPOSE = "transpose";
+    public static final String PROPERTY_SKIP_HALF_OFFSET = "skipHalfOffset";
     private static final double TROPHY_PEDESTAL_HEIGHT = 5.0 / 16.0;
 
     private BaseModelStructure model;
@@ -49,7 +51,9 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
         this.model = new GeneratedModelStructure(
             structure,
             blockInfoMap,
-            ConfigHandler.getBooleanProperty(json, PROPERTY_TRANSPOSE, false));
+            ConfigHandler.getBooleanProperty(json, PROPERTY_TRANSPOSE, false),
+            ConfigHandler
+                .getSetProperty(json, PROPERTY_SKIP_HALF_OFFSET, JsonElement::getAsCharacter, Collections.emptySet()));
     }
 
     private Map<Character, Pair<Block, Integer>> parseKeysToBlockInfoMap(JsonObject json) {
@@ -154,7 +158,7 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
         GL11.glRotatef(-90, 0.0f, 1.0f, 0.0f);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
 
-        RenderHelperVBO.renderModel(model);
+        RenderHelper.INSTANCE.renderModel(model);
 
         GL11.glPopAttrib();
         GL11.glPopMatrix();

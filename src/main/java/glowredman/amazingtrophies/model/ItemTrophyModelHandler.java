@@ -27,13 +27,17 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
     public static final String PROPERTY_REGISTRY_NAME = "registryName";
     public static final String PROPERTY_META = "meta";
     public static final String PROPERTY_NBT = "nbt";
+    public static final String PROPERTY_X_OFFSET = "xOffset";
     public static final String PROPERTY_Y_OFFSET = "yOffset";
+    public static final String PROPERTY_Z_OFFSET = "zOffset";
     public static final String PROPERTY_YAW_OFFSET = "yawOffset";
     public static final String PROPERTY_SCALE = "scale";
     private static final Render RENDER = new Render();
 
     private EntityItem item;
+    private double xOffset = 0.0;
     private double yOffset = Double.NaN;
+    private double zOffset = 0.0;
     private float yawOffset = 0.0f;
     private float scale = Float.NaN;
 
@@ -61,7 +65,9 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
         if (stack == null) {
             throw new IllegalArgumentException("Could not find item " + registryName + "!");
         }
+        this.xOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Y_OFFSET, this.xOffset);
         this.yOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Y_OFFSET, this.yOffset);
+        this.zOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Y_OFFSET, this.zOffset);
         this.yawOffset = ConfigHandler.getFloatProperty(json, PROPERTY_YAW_OFFSET, this.yawOffset);
         this.scale = ConfigHandler.getFloatProperty(json, PROPERTY_SCALE, this.scale);
         this.setItem(stack);
@@ -79,7 +85,7 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
 
         GL11.glPushMatrix();
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        GL11.glTranslated(x, y + this.yOffset, z);
+        GL11.glTranslated(x + this.xOffset, y + this.yOffset, z + this.zOffset);
         GL11.glRotatef(22.5f * rotation + this.yawOffset, 0.0f, 1.0f, 0.0f);
         GL11.glScalef(this.scale, this.scale, this.scale);
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);

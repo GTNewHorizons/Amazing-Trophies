@@ -19,6 +19,7 @@ public class BaseModelStructure {
     protected Object vertexBuffer;
     protected RenderFacesInfo[][][] renderFacesArray;
     protected Map<Character, Pair<Block, Integer>> charToBlock = new HashMap<>();
+    protected Set<Character> skipHalfOffset = new HashSet<>();
 
     protected final int getXLength() {
         return getStructureString().length;
