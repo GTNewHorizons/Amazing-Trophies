@@ -40,3 +40,15 @@ Renders any item (or block with an item representation) on top of the pedestal.
 |zOffset|double||0.0|The offset is applied before scaling.|
 |yawOffset|float||0.0||
 |scale|float||0.6875 for items, 1.375 for blocks||
+
+### `complex`
+Renders any number of blocks on top of the pedestal.
+
+#### Properties
+|Name|Type|Format/Range|Default|Notes|
+|:---:|:---:|:---:|:---:|:---|
+|keys|Map|Keys: chars used in `structure`, Values: registry names|*Required*||
+|metadata|Map|Keys: chars used in `structure`, Values: metadata|{}||
+|structure|2D String array|See [StructureLib](https://www.gtnewhorizons.com/StructureLib/1.4.10/javadoc/com/gtnewhorizon/structurelib/structure/StructureDefinition.Builder.html#addShape(java.lang.String,java.lang.String%5B%5D%5B%5D))|*Required*|Unlike in StructureLib, only the space character is treated as a special character (air).|
+|transpose|boolean||false|See [StructureLib](https://www.gtnewhorizons.com/StructureLib/1.4.10/javadoc/com/gtnewhorizon/structurelib/structure/StructureUtility.html#transpose(java.lang.String%5B%5D%5B%5D))|
+|skipHalfOffset|char array||[]|Specify all blocks by their char which are misaligned by 0.5 in X, Y and Z.|
