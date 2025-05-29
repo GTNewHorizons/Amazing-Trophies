@@ -35,6 +35,8 @@ Renders any item (or block with an item representation) on top of the pedestal.
 |registryName|String|registry name|*Required*||
 |meta|int|0 - 32766|0||
 |nbt|String|[SNBT](https://minecraft.wiki/w/NBT_format#SNBT_format) Compound|null||
+|xOffset|double||0.0|The offset is applied before scaling.|
 |yOffset|double||-0.1015625 for items, -0.015625 for blocks|The offset is applied before scaling.|
+|zOffset|double||0.0|The offset is applied before scaling.|
 |yawOffset|float||0.0||
 |scale|float||0.6875 for items, 1.375 for blocks||
