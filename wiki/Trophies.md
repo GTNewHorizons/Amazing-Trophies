@@ -17,3 +17,19 @@ Custom Trophies can be defined by calling `AmazingTrophiesAPI::registerTrophy` d
 |model|Object|null|The [model](https://github.com/GTNewHorizons/Amazing-Trophies/wiki/Trophy-Model-Handlers) which is used when rendering the trophy. If null, only the pedestal will be rendered.|
 
 Both the `condition` and `model` property require the String property `type` to specify the [Condition Handler](https://github.com/GTNewHorizons/Amazing-Trophies/wiki/Condition-Handlers) / [Trophy Model Handler](https://github.com/GTNewHorizons/Amazing-Trophies/wiki/Trophy-Model-Handlers) to use. The handler may require addtional properties.
+
+#### Example
+The trophy is given to the player when they get the Bedrock achievement given as an example [here](https://github.com/GTNewHorizons/Amazing-Trophies/wiki/Achievements#example). Its model is a single Bedrock block on a pedestal.
+```json
+{
+  "id": "bedrock",
+  "condition": {
+    "type": "achievement",
+    "id": "bedrock"
+  },
+  "model": {
+    "type": "item",
+    "registryName": "minecraft:bedrock"
+  }
+}
+```

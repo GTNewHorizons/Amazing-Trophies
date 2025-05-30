@@ -32,3 +32,23 @@ The required String property `type` specifies the [Condition Handler](https://gi
 |registryName|String|registry name|*Required*|`minecraft:` can be omitted.|
 |meta|int|0 - 32766|0||
 |nbt|String|[SNBT](https://minecraft.wiki/w/NBT_format#SNBT_format) compound|null||
+
+#### Example
+The achievement is awarded when the player picks up Bedrock. The "Beaconator" achievement is the prerequisite to this and located directly below. The achievement's icon is a Bedrock block with holo effect.
+```json
+{
+  "id": "bedrock",
+  "condition": {
+    "type": "item.pickup",
+    "item": "minecraft:bedrock"
+  },
+  "page": null,
+  "x": 7,
+  "y": 6,
+  "parent": "achievement.fullBeacon",
+  "icon": {
+    "registryName": "minecraft:bedrock",
+	"nbt": "{ench:[{id:0,lvl:1}]}"
+  }
+}
+```
