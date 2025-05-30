@@ -74,6 +74,7 @@ public class CommandTrophy extends CommandBase {
                 }
             }
 
+            // notifyOperators
             func_152373_a(sender, this, "commands.trophy.award.success", trophyID, player.getCommandSenderName());
             return;
         }
