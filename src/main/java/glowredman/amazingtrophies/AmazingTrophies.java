@@ -14,6 +14,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLConstructionEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import glowredman.amazingtrophies.api.AchievementProperties;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
@@ -89,6 +90,11 @@ public class AmazingTrophies {
             .forEach(ConditionHandler::registerAsEventHandler);
         AmazingTrophiesAPI.getTrophyConditionHandlers()
             .forEach(ConditionHandler::registerAsEventHandler);
+    }
+
+    @EventHandler
+    public static void serverStarting(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandTrophy());
     }
 
     private static void registerConditionHandlers() {
