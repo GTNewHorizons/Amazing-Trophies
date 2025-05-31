@@ -6,8 +6,8 @@
         "block": "minecraft:sand"
     },
     "model": {
-        "type": "basic",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "item",
+        "registryName": "minecraft:potion",
+        "meta": 16417
     }
 }
