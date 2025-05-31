@@ -10,8 +10,8 @@
         "isEntitiesAllowList": true
     },
     "model": {
-        "type": "basic",
-        "model": "model.obj",
-        "texture": "texture.png"
+        "type": "item",
+        "registryName": "minecraft:firework_charge",
+        "nbt": "{Explosion:{Colors:[2437522]}}"
     }
 }
