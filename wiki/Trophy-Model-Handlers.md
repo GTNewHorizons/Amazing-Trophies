@@ -20,7 +20,7 @@ Renders any model on top of the pedestal. Wavefront (`.obj`) and Techne (`.tcn`)
 "texture": "texture.png"
 ```
 Source: [model.obj](https://github.com/GTNewHorizons/Amazing-Trophies/blob/master/run/config/amazingtrophies/models/model.obj) | [texture.png](https://github.com/GTNewHorizons/Amazing-Trophies/blob/master/run/config/amazingtrophies/textures/blocks/texture.png)
-![](/img/trophy_basic.png)
+![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_basic.png)
 
 ### `entity`
 Renders any entity on top of the pedestal.
@@ -40,7 +40,7 @@ Renders any entity on top of the pedestal.
 "type": "entity",
 "entity": "Zombie"
 ```
-![](/img/trophy_entity1.png)
+![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_entity1.png)
 
 *Example 2:*
 ```json
@@ -49,7 +49,7 @@ Renders any entity on top of the pedestal.
 "yOffset": 0.0625,
 "scale": 1
 ```
-![](/img/trophy_entity2.png)
+![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_entity2.png)
 
 *Example 3:*
 ```json
@@ -59,7 +59,7 @@ Renders any entity on top of the pedestal.
 "yawOffset": 90,
 "yOffset": -0.04296875
 ```
-![](/img/trophy_entity3.png)
+![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_entity3.png)
 
 ### `item`
 Renders any item (or block with an item representation) on top of the pedestal.
@@ -82,7 +82,7 @@ Renders any item (or block with an item representation) on top of the pedestal.
 "type": "item",
 "registryName": "minecraft:diamond_pickaxe"
 ```
-![](/img/trophy_item1.png)
+![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_item1.png)
 
 *Example 2:*
 ```json
@@ -90,7 +90,7 @@ Renders any item (or block with an item representation) on top of the pedestal.
 "registryName": "minecraft:potion",
 "meta": 16417
 ```
-![](/img/trophy_item2.png)
+![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_item2.png)
 
 *Example 3:*
 ```json
@@ -98,7 +98,7 @@ Renders any item (or block with an item representation) on top of the pedestal.
 "registryName": "minecraft:firework_charge",
 "nbt": "{Explosion:{Colors:[2437522]}}"
 ```
-![](/img/trophy_item3.png)
+![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_item3.png)
 
 ### `complex`
 Renders any number of blocks on top of the pedestal.
@@ -129,7 +129,7 @@ Renders any number of blocks on top of the pedestal.
     "xyx"
 ] ]
 ```
-![](/img/trophy_complex1.png)
+![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_cpmplex1.png)
 
 *Example 2:*
 ```json
@@ -206,4 +206,4 @@ Renders any number of blocks on top of the pedestal.
     ]
 ]
 ```
-![](/img/trophy_complex2.png)
+![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_complex2.png)
