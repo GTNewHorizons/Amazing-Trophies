@@ -1,7 +1,6 @@
 package glowredman.amazingtrophies.model;
 
 import java.util.Arrays;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -27,6 +26,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import glowredman.amazingtrophies.ConfigHandler;
+import it.unimi.dsi.fastutil.floats.FloatConsumer;
 
 public class EntityTrophyModelHandler extends PedestalTrophyModelHandler {
 
@@ -39,7 +39,7 @@ public class EntityTrophyModelHandler extends PedestalTrophyModelHandler {
 
     private Entity entity;
     private Render render;
-    private Consumer<Float> yawHandler;
+    private FloatConsumer yawHandler;
     // -0.1875 = -3/16 -> moves the model down to the top of the pedestal
     private double yOffset = -0.1875;
     private float yawOffset = 180.0f;
