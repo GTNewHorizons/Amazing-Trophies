@@ -1,26 +1,27 @@
 package glowredman.amazingtrophies.model.complex;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.oredict.OreDictionary;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.gtnewhorizon.gtnhlib.util.data.BlockMeta;
 
 import cpw.mods.fml.common.registry.GameData;
 import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
+import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
+import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.chars.CharSet;
 
 public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
 
@@ -43,7 +44,7 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
 
         // Parse the keys to get BlockInfo map
-        Map<Character, Pair<Block, Integer>> blockInfoMap = parseKeysToBlockInfoMap(json);
+        Char2ObjectMap<BlockMeta> blockInfoMap = parseKeysToBlockInfoMap(json);
 
         // Parse the structure into a 2D array
         String[][] structure = parseStructureToArray(json, blockInfoMap.keySet());
@@ -56,11 +57,11 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
                 .getSetProperty(json, PROPERTY_SKIP_HALF_OFFSET, JsonElement::getAsCharacter, Collections.emptySet()));
     }
 
-    private Map<Character, Pair<Block, Integer>> parseKeysToBlockInfoMap(JsonObject json) {
+    private Char2ObjectMap<BlockMeta> parseKeysToBlockInfoMap(JsonObject json) {
         JsonObject metadata = json.getAsJsonObject(PROPERTY_METADATA);
         JsonObject keys = ConfigHandler.getObjectProperty(json, PROPERTY_KEYS);
 
-        Map<Character, Pair<Block, Integer>> resultMap = new HashMap<>();
+        Char2ObjectMap<BlockMeta> resultMap = new Char2ObjectOpenHashMap<>();
 
         for (Map.Entry<String, JsonElement> entry : keys.entrySet()) {
             String keyChar = entry.getKey();
@@ -74,19 +75,19 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
             }
 
             if (metadata == null) {
-                resultMap.put(keyChar.charAt(0), Pair.of(block, 0));
+                resultMap.put(keyChar.charAt(0), new BlockMeta(block, 0));
             } else {
                 int meta = ConfigHandler.getIntegerProperty(metadata, keyChar, 0);
                 if (meta < 0 || meta > OreDictionary.WILDCARD_VALUE) {
                     throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
                 }
-                resultMap.put(keyChar.charAt(0), Pair.of(block, meta));
+                resultMap.put(keyChar.charAt(0), new BlockMeta(block, meta));
             }
         }
         return resultMap;
     }
 
-    private String[][] parseStructureToArray(JsonObject json, Set<Character> blockKeys) {
+    private String[][] parseStructureToArray(JsonObject json, CharSet blockKeys) {
         if (!json.has(PROPERTY_STRUCTURE)) {
             throw new JsonSyntaxException("Required property \"" + PROPERTY_STRUCTURE + "\" is missing!");
         }

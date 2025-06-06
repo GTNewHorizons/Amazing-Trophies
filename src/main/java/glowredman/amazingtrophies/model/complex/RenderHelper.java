@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -14,6 +13,7 @@ import com.gtnewhorizon.gtnhlib.client.renderer.vbo.VBOManager;
 import com.gtnewhorizon.gtnhlib.client.renderer.vbo.VertexBuffer;
 import com.gtnewhorizon.gtnhlib.client.renderer.vertex.DefaultVertexFormat;
 import com.gtnewhorizon.gtnhlib.client.renderer.vertex.VertexFormat;
+import com.gtnewhorizon.gtnhlib.util.data.BlockMeta;
 
 import glowredman.amazingtrophies.AmazingTrophies;
 
@@ -48,9 +48,9 @@ public class RenderHelper {
                     if (blockChar == ' ') continue;
                     if (model.renderFacesArray[x][z][y].allHidden()) continue;
 
-                    Pair<Block, Integer> blockInfo = model.getAssociatedBlockInfo(blockChar);
-                    Block block = blockInfo.getLeft();
-                    int meta = blockInfo.getRight();
+                    BlockMeta blockInfo = model.getAssociatedBlockInfo(blockChar);
+                    Block block = blockInfo.getBlock();
+                    int meta = blockInfo.getBlockMeta();
 
                     if (!block.renderAsNormalBlock()) {
                         GL11.glPushMatrix();
@@ -122,7 +122,7 @@ public class RenderHelper {
                         if (blockChar == ' ') continue;
                         if (model.renderFacesArray[x][z][y].allHidden()) continue;
 
-                        final Pair<Block, Integer> blockInfo = model.getAssociatedBlockInfo(blockChar);
+                        final BlockMeta blockInfo = model.getAssociatedBlockInfo(blockChar);
 
                         renderBlocks.setRenderFacesInfo(model.renderFacesArray[x][z][y]);
 
@@ -132,7 +132,7 @@ public class RenderHelper {
                             tessellator.setTranslation(x, z + 1, y + 1);
                         }
 
-                        this.renderBlock(blockInfo.getLeft(), blockInfo.getRight(), renderBlocks);
+                        this.renderBlock(blockInfo.getBlock(), blockInfo.getBlockMeta(), renderBlocks);
                     }
                 }
             }
