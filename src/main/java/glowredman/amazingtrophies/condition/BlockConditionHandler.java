@@ -9,11 +9,10 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
+import com.gtnewhorizon.gtnhlib.util.data.BlockMeta;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -26,7 +25,7 @@ public abstract class BlockConditionHandler extends ConditionHandler {
     public static final String PROPERTY_BLOCK = "block";
     public static final String PROPERTY_META = "meta";
 
-    protected final Multimap<Pair<Block, Integer>, String> conditions = HashMultimap.create();
+    protected final Multimap<BlockMeta, String> conditions = HashMultimap.create();
 
     @Override
     public void parse(String id, JsonObject json) {
@@ -41,7 +40,7 @@ public abstract class BlockConditionHandler extends ConditionHandler {
             throw new IllegalArgumentException(
                 "Could not find block " + registryName + " for condition of \"" + id + "\"!");
         }
-        this.conditions.put(Pair.of(block, meta), id);
+        this.conditions.put(new BlockMeta(block, meta), id);
     }
 
     @Override
@@ -53,11 +52,11 @@ public abstract class BlockConditionHandler extends ConditionHandler {
         if (player == null || player instanceof FakePlayer) {
             return;
         }
-        for (String id : this.conditions.get(Pair.of(block, meta))) {
+        for (String id : this.conditions.get(new BlockMeta(block, meta))) {
             this.getListener()
                 .accept(id, player);
         }
-        for (String id : this.conditions.get(Pair.of(block, OreDictionary.WILDCARD_VALUE))) {
+        for (String id : this.conditions.get(new BlockMeta(block, OreDictionary.WILDCARD_VALUE))) {
             this.getListener()
                 .accept(id, player);
         }
