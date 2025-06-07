@@ -2,16 +2,17 @@ package glowredman.amazingtrophies.model.complex;
 
 import java.util.Arrays;
 
-import net.minecraft.block.Block;
-
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.gtnewhorizon.gtnhlib.util.data.BlockMeta;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
+import it.unimi.dsi.fastutil.chars.Char2ObjectMap.Entry;
+import it.unimi.dsi.fastutil.chars.Char2ObjectMap.FastEntrySet;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.chars.CharOpenHashSet;
 import it.unimi.dsi.fastutil.chars.CharSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 
 public class BaseModelStructure {
 
@@ -182,17 +183,22 @@ public class BaseModelStructure {
         CharSet transparentBlocks = new CharOpenHashSet();
 
         // Iterate over all blocks to find transparent ones.
-        for (Char2ObjectMap.Entry<BlockMeta> entry : charToBlock.char2ObjectEntrySet()) {
+        ObjectSet<Entry<BlockMeta>> entrySet = charToBlock.char2ObjectEntrySet();
 
-            Block block = entry.getValue()
-                .getBlock();
-
-            // Block cannot be seen through.
-            if (!block.isOpaqueCube()) {
-                transparentBlocks.add(entry.getCharKey());
-            }
+        if (entrySet instanceof FastEntrySet) {
+            ((FastEntrySet<BlockMeta>) entrySet).fastForEach(entry -> addTransparentBlock(transparentBlocks, entry));
+        } else {
+            entrySet.forEach(entry -> addTransparentBlock(transparentBlocks, entry));
         }
 
         return transparentBlocks;
+    }
+
+    private static void addTransparentBlock(CharSet transparentBlocks, Entry<BlockMeta> entry) {
+        if (!entry.getValue()
+            .getBlock()
+            .isOpaqueCube()) {
+            transparentBlocks.add(entry.getCharKey());
+        }
     }
 }
