@@ -2,12 +2,14 @@ package glowredman.amazingtrophies;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.model.BasicTrophyModelHandler;
 import glowredman.amazingtrophies.model.EntityTrophyModelHandler;
@@ -19,10 +21,11 @@ import glowredman.amazingtrophies.trophy.TileEntityTrophy;
 
 public class ClientHandler {
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     static void setupAssetHandler() {
-        FMLClientHandler.instance()
-            .getClient().defaultResourcePacks.add(new AssetHandler());
+        ArrayList list = ObfuscationReflectionHelper
+            .getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), "defaultResourcePacks", "field_110449_ao");
+        list.add(new AssetHandler());
         createAssetDirsAndFiles();
     }
 
