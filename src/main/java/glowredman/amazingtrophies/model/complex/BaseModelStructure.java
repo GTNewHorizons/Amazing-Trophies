@@ -1,15 +1,18 @@
 package glowredman.amazingtrophies.model.complex;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import net.minecraft.block.Block;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.tuple.Pair;
+
+import com.gtnewhorizon.gtnhlib.util.data.BlockMeta;
+
+import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
+import it.unimi.dsi.fastutil.chars.Char2ObjectMap.Entry;
+import it.unimi.dsi.fastutil.chars.Char2ObjectMap.FastEntrySet;
+import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.chars.CharOpenHashSet;
+import it.unimi.dsi.fastutil.chars.CharSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 
 public class BaseModelStructure {
 
@@ -18,8 +21,8 @@ public class BaseModelStructure {
      */
     protected Object vertexBuffer;
     protected RenderFacesInfo[][][] renderFacesArray;
-    protected Map<Character, Pair<Block, Integer>> charToBlock = new HashMap<>();
-    protected Set<Character> skipHalfOffset = new HashSet<>();
+    protected Char2ObjectMap<BlockMeta> charToBlock = new Char2ObjectOpenHashMap<>();
+    protected CharSet skipHalfOffset = new CharOpenHashSet();
 
     protected final int getXLength() {
         return getStructureString().length;
@@ -41,7 +44,7 @@ public class BaseModelStructure {
         return Math.max(getXLength(), Math.max(getYLength(), getZLength()));
     }
 
-    protected final Pair<Block, Integer> getAssociatedBlockInfo(final char letter) {
+    protected final BlockMeta getAssociatedBlockInfo(final char letter) {
         return charToBlock.get(letter);
     }
 
@@ -76,7 +79,7 @@ public class BaseModelStructure {
     protected void processStructureMap() {
 
         String[][] structureCopy = deepCopy(getStructureString());
-        Set<Character> transparentBlocks = getTransparentBlocks();
+        CharSet transparentBlocks = getTransparentBlocks();
 
         // These will be replaced with air, so that blocks behind
         // them are rendered as normal.
@@ -150,7 +153,7 @@ public class BaseModelStructure {
 
     }
 
-    private void removeTransparentBlocks(String[][] structure, Set<Character> transparentBlocks) {
+    private void removeTransparentBlocks(String[][] structure, CharSet transparentBlocks) {
         if (structure == null || transparentBlocks == null) {
             return; // Nothing to do if either of them is null
         }
@@ -176,21 +179,26 @@ public class BaseModelStructure {
         }
     }
 
-    private Set<Character> getTransparentBlocks() {
-        Set<Character> transparentBlocks = new HashSet<>();
+    private CharSet getTransparentBlocks() {
+        CharSet transparentBlocks = new CharOpenHashSet();
 
         // Iterate over all blocks to find transparent ones.
-        for (Map.Entry<Character, Pair<Block, Integer>> entry : charToBlock.entrySet()) {
+        ObjectSet<Entry<BlockMeta>> entrySet = charToBlock.char2ObjectEntrySet();
 
-            Block block = entry.getValue()
-                .getLeft();
-
-            // Block cannot be seen through.
-            if (!block.isOpaqueCube()) {
-                transparentBlocks.add(entry.getKey());
-            }
+        if (entrySet instanceof FastEntrySet) {
+            ((FastEntrySet<BlockMeta>) entrySet).fastForEach(entry -> addTransparentBlock(transparentBlocks, entry));
+        } else {
+            entrySet.forEach(entry -> addTransparentBlock(transparentBlocks, entry));
         }
 
         return transparentBlocks;
+    }
+
+    private static void addTransparentBlock(CharSet transparentBlocks, Entry<BlockMeta> entry) {
+        if (!entry.getValue()
+            .getBlock()
+            .isOpaqueCube()) {
+            transparentBlocks.add(entry.getCharKey());
+        }
     }
 }
