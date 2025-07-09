@@ -2,29 +2,23 @@ package glowredman.amazingtrophies.model;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -142,117 +136,7 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
         }
 
         @Override
-        public void doRender(EntityItem entityItem, double x, double y, double z, float p_76986_8_,
-            float partialTickTime) {
-            ItemStack stack = entityItem.getEntityItem();
-
-            this.bindEntityTexture(entityItem);
-            TextureUtil.func_152777_a(false, false, 1.0F);
-
-            this.random.setSeed(187L);
-
-            GL11.glPushMatrix();
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-
-            // render with custom renderer
-            if (ForgeHooksClient.renderEntityItem(
-                entityItem,
-                stack,
-                0.0f,
-                0.0f,
-                this.random,
-                this.renderManager.renderEngine,
-                this.field_147909_c,
-                1));
-
-            // render as 3D block
-            else if (stack.getItemSpriteNumber() == 0 && stack.getItem() instanceof ItemBlock
-                && RenderBlocks.renderItemIn3d(
-                    Block.getBlockFromItem(stack.getItem())
-                        .getRenderType())) {
-                            Block block = Block.getBlockFromItem(stack.getItem());
-                            int renderType = block.getRenderType();
-                            float scale = renderType == 1 || renderType == 19 || renderType == 12 || renderType == 2
-                                ? 0.5f
-                                : 0.25F;
-
-                            if (block.getRenderBlockPass() > 0) {
-                                GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-                                GL11.glEnable(GL11.GL_BLEND);
-                                OpenGlHelper.glBlendFunc(
-                                    GL11.GL_SRC_ALPHA,
-                                    GL11.GL_ONE_MINUS_SRC_ALPHA,
-                                    GL11.GL_ONE,
-                                    GL11.GL_ZERO);
-                            }
-
-                            GL11.glScalef(scale, scale, scale);
-
-                            GL11.glPushMatrix();
-                            this.renderBlocksRi.renderBlockAsItem(block, stack.getItemDamage(), 1.0F);
-                            GL11.glPopMatrix();
-
-                            if (block.getRenderBlockPass() > 0) {
-                                GL11.glDisable(GL11.GL_BLEND);
-                            }
-                        }
-
-            // render as item or 2D block (e.g. Webs)
-            else {
-                if (stack.getItem()
-                    .requiresMultipleRenderPasses()) {
-                    GL11.glScalef(0.5F, 0.5F, 0.5F);
-
-                    for (int pass = 0; pass < stack.getItem()
-                        .getRenderPasses(stack.getItemDamage()); ++pass) {
-                        this.random.setSeed(187L);
-                        int color = stack.getItem()
-                            .getColorFromItemStack(stack, pass);
-                        float r = (float) (color >> 16 & 0xFF) / 255.0F;
-                        float g = (float) (color >> 8 & 0xFF) / 255.0F;
-                        float b = (float) (color & 0xFF) / 255.0F;
-                        GL11.glColor4f(r, g, b, 1.0F);
-                        this.renderDroppedItem(
-                            entityItem,
-                            stack.getItem()
-                                .getIcon(stack, pass),
-                            1,
-                            partialTickTime,
-                            r,
-                            g,
-                            b,
-                            pass);
-                    }
-                } else {
-                    if (stack.getItem() instanceof ItemCloth) {
-                        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-                        GL11.glEnable(GL11.GL_BLEND);
-                        OpenGlHelper
-                            .glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-                    }
-
-                    GL11.glScalef(0.5F, 0.5F, 0.5F);
-
-                    int color = stack.getItem()
-                        .getColorFromItemStack(stack, 0);
-                    float r = (float) (color >> 16 & 255) / 255.0F;
-                    float g = (float) (color >> 8 & 255) / 255.0F;
-                    float b = (float) (color & 255) / 255.0F;
-                    this.renderDroppedItem(entityItem, stack.getIconIndex(), 1, partialTickTime, r, g, b, 0);
-
-                    if (stack.getItem() instanceof ItemCloth) {
-                        GL11.glDisable(GL11.GL_BLEND);
-                    }
-                }
-            }
-
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            GL11.glPopMatrix();
-            this.bindEntityTexture(entityItem);
-            TextureUtil.func_147945_b();
-        }
-
-        private void renderDroppedItem(EntityItem entityItem, IIcon icon, int count, float partialTickTime, float r,
+        protected void renderDroppedItem(EntityItem entityItem, IIcon icon, int count, float partialTickTime, float r,
             float g, float b, int pass) {
             Tessellator tessellator = Tessellator.instance;
 
