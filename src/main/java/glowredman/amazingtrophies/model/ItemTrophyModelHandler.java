@@ -149,20 +149,13 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
                 icon = ((TextureMap) texturemanager.getTexture(resourcelocation)).getAtlasSprite("missingno");
             }
 
-            float minU = icon.getMinU();
-            float maxU = icon.getMaxU();
-            float minV = icon.getMinV();
-            float maxV = icon.getMaxV();
-
             GL11.glPushMatrix();
 
-            float f1 = 0.0625F;
-            float f2 = 0.021875F;
+            float f1 = 0.0625F; // 1/16 (one pixel)
+            float f2 = 0.021875F; // ???
             ItemStack itemstack = entityItem.getEntityItem();
 
-            GL11.glTranslatef(-0.5f, -0.25f, -0.5f * (f1 + f2));
-
-            GL11.glTranslatef(0f, 0f, f1 + f2);
+            GL11.glTranslatef(-0.5f, -0.25f, 0.5f * (f1 + f2));
 
             if (itemstack.getItemSpriteNumber() == 0) {
                 this.bindTexture(TextureMap.locationBlocksTexture);
@@ -171,8 +164,15 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
             }
 
             GL11.glColor4f(r, g, b, 1.0F);
-            ItemRenderer
-                .renderItemIn2D(tessellator, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), f1);
+            ItemRenderer.renderItemIn2D(
+                tessellator,
+                icon.getMaxU(),
+                icon.getMinV(),
+                icon.getMinU(),
+                icon.getMaxV(),
+                icon.getIconWidth(),
+                icon.getIconHeight(),
+                f1);
 
             if (itemstack.hasEffect(pass)) {
 
@@ -187,15 +187,15 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
                 GL11.glMatrixMode(GL11.GL_TEXTURE);
                 GL11.glPushMatrix();
                 GL11.glScalef(0.125F, 0.125F, 0.125F);
-                float f3 = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F * 8.0F;
+                float f3 = (float) (Minecraft.getSystemTime() % 3000L) * 0.0026666666666667f; // *8/3000
                 GL11.glTranslatef(f3, 0.0F, 0.0F);
                 GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
                 ItemRenderer.renderItemIn2D(tessellator, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, f1);
                 GL11.glPopMatrix();
                 GL11.glPushMatrix();
                 GL11.glScalef(0.125F, 0.125F, 0.125F);
-                f3 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F * 8.0F;
-                GL11.glTranslatef(-f3, 0.0F, 0.0F);
+                f3 = (float) (Minecraft.getSystemTime() % 4873L) * -0.001641699159f; // *-8/4873
+                GL11.glTranslatef(f3, 0.0F, 0.0F);
                 GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
                 ItemRenderer.renderItemIn2D(tessellator, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, f1);
                 GL11.glPopMatrix();
