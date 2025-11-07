@@ -70,9 +70,9 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
         if (stack == null) {
             throw new IllegalArgumentException("Could not find item " + registryName + "!");
         }
-        this.xOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Y_OFFSET, this.xOffset);
+        this.xOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_X_OFFSET, this.xOffset);
         this.yOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Y_OFFSET, this.yOffset);
-        this.zOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Y_OFFSET, this.zOffset);
+        this.zOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Z_OFFSET, this.zOffset);
         this.yawOffset = ConfigHandler.getFloatProperty(json, PROPERTY_YAW_OFFSET, this.yawOffset);
         this.scale = ConfigHandler.getFloatProperty(json, PROPERTY_SCALE, this.scale);
         this.setItem(stack);
