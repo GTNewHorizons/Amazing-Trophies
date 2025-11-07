@@ -2,29 +2,23 @@ package glowredman.amazingtrophies.model;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -76,9 +70,9 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
         if (stack == null) {
             throw new IllegalArgumentException("Could not find item " + registryName + "!");
         }
-        this.xOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Y_OFFSET, this.xOffset);
+        this.xOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_X_OFFSET, this.xOffset);
         this.yOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Y_OFFSET, this.yOffset);
-        this.zOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Y_OFFSET, this.zOffset);
+        this.zOffset = ConfigHandler.getDoubleProperty(json, PROPERTY_Z_OFFSET, this.zOffset);
         this.yawOffset = ConfigHandler.getFloatProperty(json, PROPERTY_YAW_OFFSET, this.yawOffset);
         this.scale = ConfigHandler.getFloatProperty(json, PROPERTY_SCALE, this.scale);
         this.setItem(stack);
@@ -142,117 +136,7 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
         }
 
         @Override
-        public void doRender(EntityItem entityItem, double x, double y, double z, float p_76986_8_,
-            float partialTickTime) {
-            ItemStack stack = entityItem.getEntityItem();
-
-            this.bindEntityTexture(entityItem);
-            TextureUtil.func_152777_a(false, false, 1.0F);
-
-            this.random.setSeed(187L);
-
-            GL11.glPushMatrix();
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-
-            // render with custom renderer
-            if (ForgeHooksClient.renderEntityItem(
-                entityItem,
-                stack,
-                0.0f,
-                0.0f,
-                this.random,
-                this.renderManager.renderEngine,
-                this.field_147909_c,
-                1));
-
-            // render as 3D block
-            else if (stack.getItemSpriteNumber() == 0 && stack.getItem() instanceof ItemBlock
-                && RenderBlocks.renderItemIn3d(
-                    Block.getBlockFromItem(stack.getItem())
-                        .getRenderType())) {
-                            Block block = Block.getBlockFromItem(stack.getItem());
-                            int renderType = block.getRenderType();
-                            float scale = renderType == 1 || renderType == 19 || renderType == 12 || renderType == 2
-                                ? 0.5f
-                                : 0.25F;
-
-                            if (block.getRenderBlockPass() > 0) {
-                                GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-                                GL11.glEnable(GL11.GL_BLEND);
-                                OpenGlHelper.glBlendFunc(
-                                    GL11.GL_SRC_ALPHA,
-                                    GL11.GL_ONE_MINUS_SRC_ALPHA,
-                                    GL11.GL_ONE,
-                                    GL11.GL_ZERO);
-                            }
-
-                            GL11.glScalef(scale, scale, scale);
-
-                            GL11.glPushMatrix();
-                            this.renderBlocksRi.renderBlockAsItem(block, stack.getItemDamage(), 1.0F);
-                            GL11.glPopMatrix();
-
-                            if (block.getRenderBlockPass() > 0) {
-                                GL11.glDisable(GL11.GL_BLEND);
-                            }
-                        }
-
-            // render as item or 2D block (e.g. Webs)
-            else {
-                if (stack.getItem()
-                    .requiresMultipleRenderPasses()) {
-                    GL11.glScalef(0.5F, 0.5F, 0.5F);
-
-                    for (int pass = 0; pass < stack.getItem()
-                        .getRenderPasses(stack.getItemDamage()); ++pass) {
-                        this.random.setSeed(187L);
-                        int color = stack.getItem()
-                            .getColorFromItemStack(stack, pass);
-                        float r = (float) (color >> 16 & 0xFF) / 255.0F;
-                        float g = (float) (color >> 8 & 0xFF) / 255.0F;
-                        float b = (float) (color & 0xFF) / 255.0F;
-                        GL11.glColor4f(r, g, b, 1.0F);
-                        this.renderDroppedItem(
-                            entityItem,
-                            stack.getItem()
-                                .getIcon(stack, pass),
-                            1,
-                            partialTickTime,
-                            r,
-                            g,
-                            b,
-                            pass);
-                    }
-                } else {
-                    if (stack.getItem() instanceof ItemCloth) {
-                        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
-                        GL11.glEnable(GL11.GL_BLEND);
-                        OpenGlHelper
-                            .glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-                    }
-
-                    GL11.glScalef(0.5F, 0.5F, 0.5F);
-
-                    int color = stack.getItem()
-                        .getColorFromItemStack(stack, 0);
-                    float r = (float) (color >> 16 & 255) / 255.0F;
-                    float g = (float) (color >> 8 & 255) / 255.0F;
-                    float b = (float) (color & 255) / 255.0F;
-                    this.renderDroppedItem(entityItem, stack.getIconIndex(), 1, partialTickTime, r, g, b, 0);
-
-                    if (stack.getItem() instanceof ItemCloth) {
-                        GL11.glDisable(GL11.GL_BLEND);
-                    }
-                }
-            }
-
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            GL11.glPopMatrix();
-            this.bindEntityTexture(entityItem);
-            TextureUtil.func_147945_b();
-        }
-
-        private void renderDroppedItem(EntityItem entityItem, IIcon icon, int count, float partialTickTime, float r,
+        protected void renderDroppedItem(EntityItem entityItem, IIcon icon, int count, float partialTickTime, float r,
             float g, float b, int pass) {
             Tessellator tessellator = Tessellator.instance;
 
@@ -265,20 +149,13 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
                 icon = ((TextureMap) texturemanager.getTexture(resourcelocation)).getAtlasSprite("missingno");
             }
 
-            float minU = icon.getMinU();
-            float maxU = icon.getMaxU();
-            float minV = icon.getMinV();
-            float maxV = icon.getMaxV();
-
             GL11.glPushMatrix();
 
-            float f1 = 0.0625F;
-            float f2 = 0.021875F;
+            float f1 = 0.0625F; // 1/16 (one pixel)
+            float f2 = 0.021875F; // ???
             ItemStack itemstack = entityItem.getEntityItem();
 
-            GL11.glTranslatef(-0.5f, -0.25f, -0.5f * (f1 + f2));
-
-            GL11.glTranslatef(0f, 0f, f1 + f2);
+            GL11.glTranslatef(-0.5f, -0.25f, 0.5f * (f1 + f2));
 
             if (itemstack.getItemSpriteNumber() == 0) {
                 this.bindTexture(TextureMap.locationBlocksTexture);
@@ -287,8 +164,15 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
             }
 
             GL11.glColor4f(r, g, b, 1.0F);
-            ItemRenderer
-                .renderItemIn2D(tessellator, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), f1);
+            ItemRenderer.renderItemIn2D(
+                tessellator,
+                icon.getMaxU(),
+                icon.getMinV(),
+                icon.getMinU(),
+                icon.getMaxV(),
+                icon.getIconWidth(),
+                icon.getIconHeight(),
+                f1);
 
             if (itemstack.hasEffect(pass)) {
 
@@ -303,15 +187,15 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
                 GL11.glMatrixMode(GL11.GL_TEXTURE);
                 GL11.glPushMatrix();
                 GL11.glScalef(0.125F, 0.125F, 0.125F);
-                float f3 = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F * 8.0F;
+                float f3 = (float) (Minecraft.getSystemTime() % 3000L) * 0.0026666666666667f; // *8/3000
                 GL11.glTranslatef(f3, 0.0F, 0.0F);
                 GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
                 ItemRenderer.renderItemIn2D(tessellator, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, f1);
                 GL11.glPopMatrix();
                 GL11.glPushMatrix();
                 GL11.glScalef(0.125F, 0.125F, 0.125F);
-                f3 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F * 8.0F;
-                GL11.glTranslatef(-f3, 0.0F, 0.0F);
+                f3 = (float) (Minecraft.getSystemTime() % 4873L) * -0.001641699159f; // *-8/4873
+                GL11.glTranslatef(f3, 0.0F, 0.0F);
                 GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
                 ItemRenderer.renderItemIn2D(tessellator, 0.0F, 0.0F, 1.0F, 1.0F, 255, 255, f1);
                 GL11.glPopMatrix();
