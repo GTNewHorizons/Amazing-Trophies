@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.gtnewhorizon.gtnhlib.client.renderer.vao.IVertexArrayObject;
 import com.gtnewhorizon.gtnhlib.util.data.BlockMeta;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
@@ -17,9 +18,9 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 public class BaseModelStructure {
 
     /**
-     * This is an instance of {@code com.gtnewhorizons.angelica.compat.mojang.VertexBuffer} when Angelica is installed.
+     * Used when the model is rendered using a VBO
      */
-    protected Object vertexBuffer;
+    protected IVertexArrayObject vertexBuffer;
     protected RenderFacesInfo[][][] renderFacesArray;
     protected Char2ObjectMap<BlockMeta> charToBlock = new Char2ObjectOpenHashMap<>();
     protected CharSet skipHalfOffset = new CharOpenHashSet();
