@@ -98,13 +98,11 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
-        synchronized (this.item) {
-            try {
-                this.item.setWorld(Minecraft.getMinecraft().theWorld);
-                RENDER.doRender(this.item, 0.0, 0.0, 0.0, 0.0f, 0.0f);
-            } finally {
-                this.item.setWorld(null);
-            }
+        try {
+            this.item.setWorld(Minecraft.getMinecraft().theWorld);
+            RENDER.doRender(this.item, 0.0, 0.0, 0.0, 0.0f, 0.0f);
+        } finally {
+            this.item.setWorld(null);
         }
 
         GL11.glPopAttrib();
