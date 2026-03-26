@@ -9,10 +9,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.gtnewhorizon.gtnhlib.client.renderer.TessellatorManager;
-import com.gtnewhorizon.gtnhlib.client.renderer.vbo.VBOManager;
-import com.gtnewhorizon.gtnhlib.client.renderer.vbo.VertexBuffer;
+import com.gtnewhorizon.gtnhlib.client.renderer.vao.IVertexArrayObject;
+import com.gtnewhorizon.gtnhlib.client.renderer.vao.VertexBufferType;
 import com.gtnewhorizon.gtnhlib.client.renderer.vertex.DefaultVertexFormat;
-import com.gtnewhorizon.gtnhlib.client.renderer.vertex.VertexFormat;
 import com.gtnewhorizon.gtnhlib.util.data.BlockMeta;
 
 import glowredman.amazingtrophies.AmazingTrophies;
@@ -106,14 +105,12 @@ public class RenderHelper {
 
     private static class RenderHelperVBO extends RenderHelper {
 
-        private static final VertexFormat format = DefaultVertexFormat.POSITION_TEXTURE_NORMAL;
-
-        private VertexBuffer rebuildVBO(BaseModelStructure model) {
+        private IVertexArrayObject rebuildVBO(BaseModelStructure model) {
             final CustomRenderBlocks renderBlocks = new CustomRenderBlocks(Minecraft.getMinecraft().theWorld);
             renderBlocks.enableAO = false;
 
-            TessellatorManager.startCapturing();
-            Tessellator tessellator = TessellatorManager.get();
+            Tessellator tessellator = TessellatorManager
+                .startCapturingDirect(DefaultVertexFormat.POSITION_TEXTURE_NORMAL);
             for (int x = 0; x < model.getXLength(); x++) {
                 for (int y = 0; y < model.getYLength(); y++) {
                     for (int z = 0; z < model.getZLength(); z++) {
@@ -132,15 +129,14 @@ public class RenderHelper {
                             tessellator.setTranslation(x, z + 1, y + 1);
                         }
 
-                        this.renderBlock(blockInfo.getBlock(), blockInfo.getBlockMeta(), renderBlocks);
+                        renderBlocks.renderBlockAsItem(blockInfo.getBlock(), blockInfo.getBlockMeta(), 1.0f);
                     }
                 }
             }
             tessellator.setTranslation(0, 0, 0);
-            final int vboId = VBOManager.generateDisplayLists(1);
-            final VertexBuffer vertexBuffer = TessellatorManager.stopCapturingToVBO(format);
-            VBOManager.registerVBO(vboId, vertexBuffer);
 
+            final IVertexArrayObject vertexBuffer = TessellatorManager
+                .stopCapturingDirectToVBO(VertexBufferType.IMMUTABLE);
             model.vertexBuffer = vertexBuffer;
             return vertexBuffer;
         }
@@ -153,7 +149,7 @@ public class RenderHelper {
                 .bindTexture(TextureMap.locationBlocksTexture);
 
             // Build the VBO if needed and store it on the model
-            VertexBuffer vertexBuffer = (VertexBuffer) model.vertexBuffer;
+            IVertexArrayObject vertexBuffer = model.vertexBuffer;
             if (model.vertexBuffer == null) {
                 vertexBuffer = this.rebuildVBO(model);
             }
@@ -167,10 +163,6 @@ public class RenderHelper {
 
             vertexBuffer.render();
 
-        }
-
-        private void renderBlock(Block block, int metadata, CustomRenderBlocks renderBlocks) {
-            renderBlocks.renderBlockAsItem(block, metadata, 1.0f);
         }
     }
 }

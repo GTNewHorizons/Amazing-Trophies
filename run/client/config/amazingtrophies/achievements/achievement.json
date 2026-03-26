@@ -1,0 +1,14 @@
+{ 
+    "id": "test",
+    "condition": {
+        "type": "xp",
+        "amount": 5.0
+    },
+    "page":"Minecraft",
+    "x": 26,
+    "y": 30,
+    "isSpecial": false,
+    "icon": {
+        "registryName": "minecraft:furnace"
+    }
+}

@@ -2,7 +2,6 @@
 .settings
 /.idea/
 /.vscode/
-/run/
 /build/
 /eclipse/
 .classpath
@@ -36,3 +35,13 @@ addon.local.gradle.kts
 addon.late.local.gradle
 addon.late.local.gradle.kts
 layout.json
+
+/run/client/**/*.cfg
+/run/client/**/*.properties
+/run/client/**/*.txt
+/run/client/config/lwjgl3ify-early.json
+/run/client/logs/**
+/run/client/saves/**
+/run/natives/
+/run/obfuscated/
+/run/server/
