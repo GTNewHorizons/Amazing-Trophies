@@ -116,7 +116,7 @@ public class EntityTrophyModelHandler extends PedestalTrophyModelHandler {
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
         float rotationDeg = this.yawOffset - 22.5f * rotation;
-        synchronized (this.entity) {
+        try {
             this.yawHandler.accept(rotationDeg);
             this.entity.setWorld(Minecraft.getMinecraft().theWorld);
 
@@ -135,6 +135,8 @@ public class EntityTrophyModelHandler extends PedestalTrophyModelHandler {
             } else {
                 this.render.doRender(this.entity, 0.0, 0.0, 0.0, rotationDeg, partialTickTime);
             }
+        } finally {
+            this.entity.setWorld(null);
         }
 
         GL11.glPopAttrib();
@@ -146,9 +148,8 @@ public class EntityTrophyModelHandler extends PedestalTrophyModelHandler {
             this.entity.rotationYaw = rotation;
             this.entity.prevRotationYaw = rotation;
         };
-        if (this.entity instanceof EntityLivingBase) {
+        if (this.entity instanceof EntityLivingBase living) {
             this.yawHandler = this.yawHandler.andThen(rotation -> {
-                EntityLivingBase living = (EntityLivingBase) this.entity;
                 living.renderYawOffset = rotation;
                 living.prevRenderYawOffset = rotation;
                 living.rotationYawHead = rotation;
