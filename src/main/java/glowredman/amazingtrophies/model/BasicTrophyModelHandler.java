@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.gtnewhorizon.gtnhlib.client.renderer.vao.IVertexArrayObject;
 
 import glowredman.amazingtrophies.AssetHandler;
 import glowredman.amazingtrophies.ConfigHandler;
@@ -19,12 +20,12 @@ public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
     public static final String PROPERTY_MODEL = "model";
     public static final String PROPERTY_TEXTURE = "texture";
 
-    private ModelWrapper<?> model;
+    private IVertexArrayObject model;
     private ResourceLocation texture;
 
     public BasicTrophyModelHandler() {}
 
-    public BasicTrophyModelHandler(ModelWrapper<?> model, ResourceLocation texture) {
+    public BasicTrophyModelHandler(IVertexArrayObject model, ResourceLocation texture) {
         this.model = model;
         this.texture = texture;
     }
@@ -49,7 +50,7 @@ public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glTranslated(x, y, z);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
-        this.model.renderAll();
+        this.model.render();
         GL11.glPopMatrix();
     }
 

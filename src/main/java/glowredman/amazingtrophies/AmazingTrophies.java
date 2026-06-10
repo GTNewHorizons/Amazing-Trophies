@@ -42,7 +42,7 @@ import glowredman.amazingtrophies.trophy.TileEntityTrophy;
 
 @Mod(
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:gtnhlib@[0.9.13,);after:angelica@[1.0.0-beta4,)",
+    dependencies = "required-after:gtnhlib@[0.11.12,);after:angelica@[1.0.0-beta4,)",
     modid = AmazingTrophies.MODID,
     name = AmazingTrophies.MODNAME,
     version = AmazingTrophies.VERSION)
@@ -53,7 +53,6 @@ public class AmazingTrophies {
     public static final String VERSION = Reference.VERSION;
     public static final Logger LOGGER = LogManager.getLogger(MODNAME);
     public static final Path CONFIG_DIR = getConfigDir();
-    public static final boolean enableVBO = !Boolean.getBoolean("amazingtrophies.disableVBO");
 
     @EventHandler
     public static void construct(FMLConstructionEvent event) {
