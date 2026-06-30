@@ -6,21 +6,21 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.gson.JsonObject;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
+import it.unimi.dsi.fastutil.floats.FloatObjectImmutablePair;
+import it.unimi.dsi.fastutil.floats.FloatObjectPair;
 
 public class FallConditionHandler extends ConditionHandler {
 
     public static final String ID = "fall";
     public static final String PROPERTY_DISTANCE = "distance";
 
-    private final List<Pair<Float, String>> conditions = new ArrayList<>();
+    private final List<FloatObjectPair<String>> conditions = new ArrayList<>();
 
     @Override
     public String getID() {
@@ -29,7 +29,8 @@ public class FallConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) {
-        this.conditions.add(Pair.of(ConfigHandler.getFloatProperty(json, PROPERTY_DISTANCE, 0.0f), id));
+        this.conditions
+            .add(new FloatObjectImmutablePair<>(ConfigHandler.getFloatProperty(json, PROPERTY_DISTANCE, 0.0f), id));
     }
 
     @Override
@@ -43,12 +44,11 @@ public class FallConditionHandler extends ConditionHandler {
             return;
         }
         float distance = event.distance;
-        for (Pair<Float, String> condition : this.conditions) {
-            if (distance >= condition.getLeft()) {
+        for (FloatObjectPair<String> condition : this.conditions) {
+            if (distance >= condition.leftFloat()) {
                 this.getListener()
-                    .accept(condition.getRight(), player);
+                    .accept(condition.right(), player);
             }
         }
     }
-
 }

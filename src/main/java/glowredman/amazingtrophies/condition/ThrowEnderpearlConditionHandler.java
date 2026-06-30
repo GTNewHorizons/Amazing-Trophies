@@ -6,21 +6,21 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.gson.JsonObject;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
+import it.unimi.dsi.fastutil.doubles.DoubleObjectImmutablePair;
+import it.unimi.dsi.fastutil.doubles.DoubleObjectPair;
 
 public class ThrowEnderpearlConditionHandler extends ConditionHandler {
 
     public static final String ID = "enderpearl";
     public static final String PROPERTY_DISTANCE = "distance";
 
-    private final List<Pair<Double, String>> conditions = new ArrayList<>();
+    private final List<DoubleObjectPair<String>> conditions = new ArrayList<>();
 
     @Override
     public String getID() {
@@ -30,7 +30,7 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
     @Override
     public void parse(String id, JsonObject json) {
         double dist = ConfigHandler.getDoubleProperty(json, PROPERTY_DISTANCE, 0.0);
-        this.conditions.add(Pair.of(dist * dist, id));
+        this.conditions.add(new DoubleObjectImmutablePair<>(dist * dist, id));
     }
 
     @Override
@@ -44,12 +44,11 @@ public class ThrowEnderpearlConditionHandler extends ConditionHandler {
             return;
         }
         double distSq = player.getDistanceSq(event.targetX, event.targetY, event.targetZ);
-        for (Pair<Double, String> condition : this.conditions) {
-            if (distSq >= condition.getLeft()) {
+        for (DoubleObjectPair<String> condition : this.conditions) {
+            if (distSq >= condition.leftDouble()) {
                 this.getListener()
-                    .accept(condition.getRight(), player);
+                    .accept(condition.right(), player);
             }
         }
     }
-
 }

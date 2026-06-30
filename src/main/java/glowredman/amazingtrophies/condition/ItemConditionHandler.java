@@ -1,6 +1,5 @@
 package glowredman.amazingtrophies.condition;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +21,8 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 public abstract class ItemConditionHandler extends ConditionHandler {
 
@@ -31,7 +32,7 @@ public abstract class ItemConditionHandler extends ConditionHandler {
     protected static final int MASK_WILDCARD = 0b01;
     protected static final int MASK_NBT = 0b10;
 
-    protected final Map<Integer, Map<ItemStack, Set<String>>> conditions = new HashMap<>();
+    protected final Int2ObjectMap<Map<ItemStack, Set<String>>> conditions = new Int2ObjectOpenHashMap<>();
 
     public ItemConditionHandler() {
         this.conditions.put(0b00, new ItemStackMap<>(false)); // damage + nbt insensitive
