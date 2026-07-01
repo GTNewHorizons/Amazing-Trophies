@@ -128,15 +128,7 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
 
         @SubscribeEvent
         public void onItemAdded(InventoryChangedEvent.ItemAdded event) {
-            this.trigger(event.entityPlayer);
-        }
-
-        @SubscribeEvent
-        public void onItemRemoved(InventoryChangedEvent.ItemRemoved event) {
-            this.trigger(event.entityPlayer);
-        }
-
-        private void trigger(EntityPlayer player) {
+            EntityPlayer player = event.entityPlayer;
             Map<Item, Counter> items = new HashMap<>();
             Map<ItemStack, Counter> stacks = new ItemStackMap<>();
 

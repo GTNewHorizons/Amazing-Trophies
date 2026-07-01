@@ -314,7 +314,7 @@ Triggers if the player removes any Skull from their inventory.
 
 ### `inventory.total`
 Triggers when the player has the specified item in their inventory.
-<br />*Implementation note: Listens to [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemAdd`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java) and [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemRemove`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java). How often the inventory is checked for changes can be configured in GTNHLib's config file (defaults to once every 5 ticks). The items in the main inventory and the armor slots are counted.*
+<br />*Implementation note: Listens to [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemAdd`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java). How often the inventory is checked for changes can be configured in GTNHLib's config file (defaults to once every 5 ticks). The items in the main inventory and the armor slots are counted.*
 
 #### Properties
 *See `inventory.add`.*
