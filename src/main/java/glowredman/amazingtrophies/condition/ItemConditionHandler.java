@@ -1,5 +1,6 @@
 package glowredman.amazingtrophies.condition;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -77,7 +78,7 @@ public abstract class ItemConditionHandler extends ConditionHandler {
 
     protected void trigger(ItemStack stack, EntityPlayer player) {
         for (Map<ItemStack, Set<String>> map : this.conditions.values()) {
-            for (String id : map.getOrDefault(stack, new HashSet<>())) {
+            for (String id : map.getOrDefault(stack, Collections.emptySet())) {
                 this.getListener()
                     .accept(id, player);
             }
