@@ -34,8 +34,7 @@ public abstract class TrophyModelHandler {
      * @param z               the z coordinate to render at
      * @param rotation        A value in the range of 0 - 15 (both inclusive). Each step represents a rotation by 22.5°.
      * @param name            The name of the player who received the trophy to render. May be {@code null} or empty if
-     *                        the
-     *                        player is unknown.
+     *                        the player is unknown.
      * @param time            the time, in milliseconds, since 1970-01-01 00:00 (UTC)
      * @param partialTickTime How much time has elapsed since the last tick, in ticks (range: 0.0 - 1.0)
      */

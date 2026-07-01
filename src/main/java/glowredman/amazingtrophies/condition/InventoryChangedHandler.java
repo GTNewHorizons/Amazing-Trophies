@@ -45,7 +45,7 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
         if (meta < 0 || meta > OreDictionary.WILDCARD_VALUE) {
             throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
         }
-        int count = ConfigHandler.getIntegerProperty(json, PROPERTY_COUNT, 0);
+        int count = ConfigHandler.getIntegerProperty(json, PROPERTY_COUNT, 1);
         ItemStack stack = GameRegistry.makeItemStack(registryName, meta, 0, null);
         if (stack == null) {
             throw new IllegalArgumentException("Could not find item " + registryName + "!");
