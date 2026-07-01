@@ -1,0 +1,14 @@
+{
+    "id": "remove",
+    "_comment": "Should trigger if the player removes any Skull from their inventory",
+    "condition": {
+        "type": "inventory.remove",
+        "item": "minecraft:skull",
+        "meta": 32767
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

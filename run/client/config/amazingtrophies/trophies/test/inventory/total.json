@@ -1,0 +1,14 @@
+{
+    "id": "total",
+    "_comment": "Should trigger if the player has an inventory full of Diamond Helmets (including the armor slot)",
+    "condition": {
+        "type": "inventory.total",
+        "item": "minecraft:diamond_helmet",
+        "count": 37
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

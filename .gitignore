@@ -37,8 +37,10 @@ addon.late.local.gradle.kts
 layout.json
 
 /run/client/**/*.cfg
+/run/client/**/*.jar
 /run/client/**/*.properties
 /run/client/**/*.txt
+/run/client/config/falsepatternlib-early.json
 /run/client/config/lwjgl3ify-early.json
 /run/client/logs/**
 /run/client/saves/**

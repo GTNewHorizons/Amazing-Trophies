@@ -1,0 +1,15 @@
+{
+    "id": "total.meta",
+    "_comment": "Should trigger if the player has at least 4 Splash Potions of Instant Health II in their inventory",
+    "condition": {
+        "type": "inventory.total",
+        "item": "minecraft:potion",
+        "meta": 16421,
+        "count": 4
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}
