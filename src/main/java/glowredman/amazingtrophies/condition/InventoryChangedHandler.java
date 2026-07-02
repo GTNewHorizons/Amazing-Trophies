@@ -21,7 +21,7 @@ import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntObjectMutablePair;
+import it.unimi.dsi.fastutil.ints.IntObjectImmutablePair;
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
 
 public abstract class InventoryChangedHandler extends ConditionHandler {
@@ -54,11 +54,11 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
         Set<IntObjectPair<String>> ids = map.get(stack);
         if (ids == null) {
             ids = new HashSet<>();
-            ids.add(new IntObjectMutablePair<>(count, id));
+            ids.add(new IntObjectImmutablePair<>(count, id));
             map.put(stack, ids);
             return;
         }
-        ids.add(new IntObjectMutablePair<>(count, id));
+        ids.add(new IntObjectImmutablePair<>(count, id));
     }
 
     protected Map<ItemStack, Set<IntObjectPair<String>>> getMap(int meta) {
