@@ -1,17 +1,20 @@
 package glowredman.amazingtrophies.condition;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ContainerPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.gson.JsonObject;
+import com.gtnewhorizon.gtnhlib.compat.BaublesCompat;
+import com.gtnewhorizon.gtnhlib.compat.Mods;
 import com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent;
 import com.gtnewhorizon.gtnhlib.util.map.ItemStackMap;
 
@@ -129,51 +132,89 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
         @SubscribeEvent
         public void onItemAdded(InventoryChangedEvent.ItemAdded event) {
             EntityPlayer player = event.entityPlayer;
-            Map<Item, Counter> items = new HashMap<>();
-            Map<ItemStack, Counter> stacks = new ItemStackMap<>();
+            Item item = event.item.getItem();
+            int meta = event.item.getItemDamage();
+            int numItems = 0;
+            int numStacks = 0; // respects meta
 
             // aggregate inventory contents
             for (ItemStack stack : player.inventory.mainInventory) {
                 if (stack == null) {
                     continue;
                 }
-                items.computeIfAbsent(stack.getItem(), i -> new Counter()).count += stack.stackSize;
-                stacks.computeIfAbsent(stack, s -> new Counter()).count += stack.stackSize;
+                if (stack.getItem() == item) {
+                    numItems += stack.stackSize;
+                    if (stack.getItemDamage() == meta) {
+                        numStacks += stack.stackSize;
+                    }
+                }
             }
             for (ItemStack stack : player.inventory.armorInventory) {
                 if (stack == null) {
                     continue;
                 }
-                items.computeIfAbsent(stack.getItem(), i -> new Counter()).count += stack.stackSize;
-                stacks.computeIfAbsent(stack, s -> new Counter()).count += stack.stackSize;
+                if (stack.getItem() == item) {
+                    numItems += stack.stackSize;
+                    if (stack.getItemDamage() == meta) {
+                        numStacks += stack.stackSize;
+                    }
+                }
+            }
+            ItemStack heldItem = player.inventory.getItemStack();
+            if (heldItem != null && heldItem.getItem() == item) {
+                numItems += heldItem.stackSize;
+                if (heldItem.getItemDamage() == meta) {
+                    numStacks += heldItem.stackSize;
+                }
+            }
+            if (player.inventoryContainer instanceof ContainerPlayer container) {
+                for (ItemStack stack : container.craftMatrix.stackList) {
+                    if (stack == null) {
+                        continue;
+                    }
+                    if (stack.getItem() == item) {
+                        numItems += stack.stackSize;
+                        if (stack.getItemDamage() == meta) {
+                            numStacks += stack.stackSize;
+                        }
+                    }
+                }
+            }
+            baubles: if (Mods.BAUBLES) {
+                IInventory inv = BaublesCompat.getBaubles(player);
+                if (inv == null) {
+                    break baubles;
+                }
+                int size = inv.getInventoryStackLimit();
+                for (int i = 0; i < size; i++) {
+                    ItemStack stack = inv.getStackInSlot(i);
+                    if (stack == null) {
+                        continue;
+                    }
+                    if (stack.getItem() == item) {
+                        numItems += stack.stackSize;
+                        if (stack.getItemDamage() == meta) {
+                            numStacks += stack.stackSize;
+                        }
+                    }
+                }
             }
 
             // trigger listeners
-            for (Map.Entry<Item, Counter> e : items.entrySet()) {
-                int count = e.getValue().count;
-                for (IntObjectPair<String> p : this.conditions.get(MASK_WILDCARD)
-                    .getOrDefault(new ItemStack(e.getKey()), Collections.emptySet())) {
-                    if (count >= p.leftInt()) {
-                        this.getListener()
-                            .accept(p.right(), player);
-                    }
+            for (IntObjectPair<String> p : this.conditions.get(MASK_WILDCARD)
+                .getOrDefault(event.item, Collections.emptySet())) {
+                if (numItems >= p.leftInt()) {
+                    this.getListener()
+                        .accept(p.right(), player);
                 }
             }
-            for (Map.Entry<ItemStack, Counter> e : stacks.entrySet()) {
-                int count = e.getValue().count;
-                for (IntObjectPair<String> p : this.conditions.get(0b0)
-                    .getOrDefault(e.getKey(), Collections.emptySet())) {
-                    if (count >= p.leftInt()) {
-                        this.getListener()
-                            .accept(p.right(), player);
-                    }
+            for (IntObjectPair<String> p : this.conditions.get(0b0)
+                .getOrDefault(event.item, Collections.emptySet())) {
+                if (numStacks >= p.leftInt()) {
+                    this.getListener()
+                        .accept(p.right(), player);
                 }
             }
-        }
-
-        private static class Counter {
-
-            int count;
         }
     }
 }
