@@ -299,7 +299,7 @@ Triggers when the player adds items to their inventory.
 
 ### `inventory.remove`
 Triggers when the player removes items from their inventory.
-<br />*Implementation note: Listens to [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemRemove`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java). How often the inventory is checked for changes can be configured in GTNHLib's config file (defaults to once every 5 ticks). Thus, there can be more than the stack limit of removed items per fired event.*
+<br />*Implementation note: Listens to [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemRemoved`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java). How often the inventory is checked for changes can be configured in GTNHLib's config file (defaults to once every 5 ticks). Thus, there can be more than the stack limit of removed items per fired event.*
 
 #### Properties
 *See `inventory.add`.*
