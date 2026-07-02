@@ -266,7 +266,7 @@ Triggers if the player interacts with an Item Frame.
 
 ### `inventory.add`
 Triggers when the player adds items to their inventory.
-<br />*Implementation note: Listens to [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemAdd`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java). How often the inventory is checked for changes can be configured in GTNHLib's config file (defaults to once every 5 ticks). Thus, there can be more than the stack limit of additional items per fired event.*
+<br />*Implementation note: Listens to [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemAdded`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java). How often the inventory is checked for changes can be configured in GTNHLib's config file (defaults to once every 5 ticks). Thus, there can be more than the stack limit of additional items per fired event.*
 
 #### Properties
 |Name|Type|Format/Range|Default|Notes|
