@@ -2,7 +2,6 @@ package glowredman.amazingtrophies.model;
 
 import javax.annotation.Nullable;
 
-import com.gtnewhorizon.gtnhlib.client.model.wavefront.WavefrontVBOBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -10,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.gtnewhorizon.gtnhlib.client.model.wavefront.WavefrontVBOBuilder;
 import com.gtnewhorizon.gtnhlib.client.renderer.vao.IVertexArrayObject;
 
 import glowredman.amazingtrophies.AssetHandler;
@@ -33,8 +33,8 @@ public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        this.model = WavefrontVBOBuilder
-            .compileToVBO(AssetHandler.getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_MODEL), "models/"));
+        this.model = WavefrontVBOBuilder.compileToVBO(
+            AssetHandler.getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_MODEL), "models/"));
         this.texture = AssetHandler
             .getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_TEXTURE), "textures/blocks/");
     }
