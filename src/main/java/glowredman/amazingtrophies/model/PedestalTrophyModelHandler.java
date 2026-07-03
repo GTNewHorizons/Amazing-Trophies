@@ -2,6 +2,7 @@ package glowredman.amazingtrophies.model;
 
 import javax.annotation.Nullable;
 
+import com.gtnewhorizon.gtnhlib.client.model.wavefront.WavefrontVBOBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -17,8 +18,7 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
 
     public static final String ID = "pedestal";
 
-    private static final IVertexArrayObject MODEL_BASE = ModelWrapper
-        .get(new ResourceLocation(AmazingTrophies.MODID, "models/trophy_pedestal.obj"));
+    private static final IVertexArrayObject MODEL_BASE = WavefrontVBOBuilder.compileToVBO(new ResourceLocation(AmazingTrophies.MODID, "models/trophy_pedestal.obj"));
     private static final ResourceLocation TEXTURE_BASE = new ResourceLocation(
         AmazingTrophies.MODID,
         "textures/blocks/trophy_pedestal.png");

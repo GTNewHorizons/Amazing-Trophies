@@ -2,6 +2,7 @@ package glowredman.amazingtrophies.model;
 
 import javax.annotation.Nullable;
 
+import com.gtnewhorizon.gtnhlib.client.model.wavefront.WavefrontVBOBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -32,8 +33,8 @@ public class BasicTrophyModelHandler extends PedestalTrophyModelHandler {
 
     @Override
     public void parse(String id, JsonObject json) throws JsonSyntaxException {
-        this.model = ModelWrapper
-            .get(AssetHandler.getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_MODEL), "models/"));
+        this.model = WavefrontVBOBuilder
+            .compileToVBO(AssetHandler.getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_MODEL), "models/"));
         this.texture = AssetHandler
             .getResourceLocation(ConfigHandler.getStringProperty(json, PROPERTY_TEXTURE), "textures/blocks/");
     }
