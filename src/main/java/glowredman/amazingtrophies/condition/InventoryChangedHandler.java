@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -101,7 +102,9 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
 
         @SubscribeEvent
         public void onItemAdded(InventoryChangedEvent.ItemAdded event) {
-            this.trigger(event.item, event.entityPlayer);
+            if (event.entityPlayer instanceof EntityPlayerMP) {
+                this.trigger(event.item, event.entityPlayer);
+            }
         }
     }
 
@@ -116,7 +119,9 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
 
         @SubscribeEvent
         public void onItemRemoved(InventoryChangedEvent.ItemRemoved event) {
-            this.trigger(event.item, event.entityPlayer);
+            if (event.entityPlayer instanceof EntityPlayerMP) {
+                this.trigger(event.item, event.entityPlayer);
+            }
         }
     }
 
@@ -131,7 +136,10 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
 
         @SubscribeEvent
         public void onItemAdded(InventoryChangedEvent.ItemAdded event) {
-            EntityPlayer player = event.entityPlayer;
+            if (!(event.entityPlayer instanceof EntityPlayerMP player)) {
+                return;
+            }
+
             Item item = event.item.getItem();
             int meta = event.item.getItemDamage();
             int numItems = 0;

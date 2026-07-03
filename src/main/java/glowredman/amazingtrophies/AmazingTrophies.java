@@ -87,13 +87,6 @@ public class AmazingTrophies {
         AchievementHandler.registerMissingPages();
         AmazingTrophiesAPI.getAchievements()
             .forEach(AchievementProperties::register);
-
-        if (event.getSide()
-            .isClient()) {
-            return;
-        }
-
-        // only register event handlers server-side
         AmazingTrophiesAPI.getAchievementConditionHandlers()
             .forEach(ConditionHandler::registerAsEventHandler);
         AmazingTrophiesAPI.getTrophyConditionHandlers()
