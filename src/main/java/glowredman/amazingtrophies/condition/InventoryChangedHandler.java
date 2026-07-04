@@ -38,8 +38,8 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
     protected final Int2ObjectMap<Map<ItemStack, Set<IntObjectPair<String>>>> conditions = new Int2ObjectOpenHashMap<>();
 
     public InventoryChangedHandler() {
-        this.conditions.put(0b0, new ItemStackMap<>(false)); // damage sensitive
-        this.conditions.put(MASK_WILDCARD, new ItemStackMap<>(false)); // wildcard
+        this.conditions.put(0b0, new ItemStackMap<>(false)); // specific damage, nbt insensitive
+        this.conditions.put(MASK_WILDCARD, new ItemStackMap<>(false)); // wildcard damage, nbt insensitive
     }
 
     @Override
@@ -168,11 +168,11 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
                     }
                 }
             }
-            ItemStack heldItem = player.inventory.getItemStack();
-            if (heldItem != null && heldItem.getItem() == item) {
-                numItems += heldItem.stackSize;
-                if (heldItem.getItemDamage() == meta) {
-                    numStacks += heldItem.stackSize;
+            ItemStack cursorStack = player.inventory.getItemStack();
+            if (cursorStack != null && cursorStack.getItem() == item) {
+                numItems += cursorStack.stackSize;
+                if (cursorStack.getItemDamage() == meta) {
+                    numStacks += cursorStack.stackSize;
                 }
             }
             if (player.inventoryContainer instanceof ContainerPlayer container) {
