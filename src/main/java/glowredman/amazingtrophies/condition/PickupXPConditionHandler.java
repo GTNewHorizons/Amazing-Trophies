@@ -5,21 +5,21 @@ import java.util.List;
 
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.gson.JsonObject;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
+import it.unimi.dsi.fastutil.floats.FloatObjectImmutablePair;
+import it.unimi.dsi.fastutil.floats.FloatObjectPair;
 
 public class PickupXPConditionHandler extends ConditionHandler {
 
     public static final String ID = "xp";
     public static final String PROPERTY_AMOUNT = "amount";
 
-    private final List<Pair<Float, String>> conditions = new ArrayList<>();
+    private final List<FloatObjectPair<String>> conditions = new ArrayList<>();
 
     @Override
     public String getID() {
@@ -28,7 +28,8 @@ public class PickupXPConditionHandler extends ConditionHandler {
 
     @Override
     public void parse(String id, JsonObject json) {
-        this.conditions.add(Pair.of(ConfigHandler.getFloatProperty(json, PROPERTY_AMOUNT, 0.0f), id));
+        this.conditions
+            .add(new FloatObjectImmutablePair<>(ConfigHandler.getFloatProperty(json, PROPERTY_AMOUNT, 0.0f), id));
     }
 
     @Override
@@ -39,12 +40,11 @@ public class PickupXPConditionHandler extends ConditionHandler {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onExplosion(PlayerPickupXpEvent event) {
         float amount = event.orb.xpValue;
-        for (Pair<Float, String> condition : this.conditions) {
-            if (amount >= condition.getLeft()) {
+        for (FloatObjectPair<String> condition : this.conditions) {
+            if (amount >= condition.leftFloat()) {
                 this.getListener()
-                    .accept(condition.getRight(), event.entityPlayer);
+                    .accept(condition.right(), event.entityPlayer);
             }
         }
     }
-
 }

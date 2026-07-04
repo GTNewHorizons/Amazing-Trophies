@@ -7,6 +7,13 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public abstract class ItemUseConditionHandler extends ItemConditionHandler {
 
+    @Override
+    protected boolean isForgeEventHandler() {
+        return this.conditions.values()
+            .stream()
+            .anyMatch(map -> !map.isEmpty());
+    }
+
     public static class Start extends ItemUseConditionHandler {
 
         public static final String ID = "item.use.start";
@@ -14,11 +21,6 @@ public abstract class ItemUseConditionHandler extends ItemConditionHandler {
         @Override
         public String getID() {
             return ID;
-        }
-
-        @Override
-        protected boolean isForgeEventHandler() {
-            return !this.conditions.isEmpty();
         }
 
         @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -37,11 +39,6 @@ public abstract class ItemUseConditionHandler extends ItemConditionHandler {
             return ID;
         }
 
-        @Override
-        protected boolean isForgeEventHandler() {
-            return !this.conditions.isEmpty();
-        }
-
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public void onStopUse(PlayerUseItemEvent.Stop event) {
             this.trigger(event.item, event.entityPlayer);
@@ -56,11 +53,6 @@ public abstract class ItemUseConditionHandler extends ItemConditionHandler {
         @Override
         public String getID() {
             return ID;
-        }
-
-        @Override
-        protected boolean isForgeEventHandler() {
-            return !this.conditions.isEmpty();
         }
 
         @SubscribeEvent
