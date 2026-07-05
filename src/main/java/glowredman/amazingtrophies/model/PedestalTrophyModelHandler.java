@@ -8,6 +8,9 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import com.gtnewhorizon.gtnhlib.client.model.wavefront.WavefrontVBOBuilder;
+import com.gtnewhorizon.gtnhlib.client.renderer.vao.IVertexArrayObject;
+
 import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.TrophyModelHandler;
 
@@ -15,8 +18,8 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
 
     public static final String ID = "pedestal";
 
-    private static final ModelWrapper<?> MODEL_BASE = ModelWrapper
-        .get(new ResourceLocation(AmazingTrophies.MODID, "models/trophy_pedestal.obj"));
+    private static final IVertexArrayObject MODEL_BASE = WavefrontVBOBuilder
+        .compileToVBO(new ResourceLocation(AmazingTrophies.MODID, "models/trophy_pedestal.obj"));
     private static final ResourceLocation TEXTURE_BASE = new ResourceLocation(
         AmazingTrophies.MODID,
         "textures/blocks/trophy_pedestal.png");
@@ -33,7 +36,7 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         GL11.glTranslated(x, y, z);
         GL11.glRotatef(22.5f * rotation, 0.0f, 1.0f, 0.0f);
 
-        MODEL_BASE.renderAll();
+        MODEL_BASE.render();
 
         // text
         if (name == null || name.isEmpty() || time == 0) {

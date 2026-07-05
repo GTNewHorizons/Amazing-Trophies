@@ -25,8 +25,8 @@ public class TrophyHandler {
             JsonObject conditionJson = json.getAsJsonObject(PROPERTY_CONDITION);
             ConditionHandler conditionHandler = null;
             if (conditionJson != null && !conditionJson.isJsonNull()
-                && conditionJson.entrySet()
-                    .size() > 0) {
+                && !conditionJson.entrySet()
+                    .isEmpty()) {
                 String type = ConfigHandler.getStringProperty(conditionJson, PROPERTY_TYPE);
                 conditionHandler = AmazingTrophiesAPI.getTrophyConditionHandler(type);
                 if (conditionHandler == null) {
@@ -38,8 +38,8 @@ public class TrophyHandler {
                 .isClient()) {
                 JsonObject modelJson = json.getAsJsonObject(PROPERTY_MODEL);
                 if (modelJson != null && !modelJson.isJsonNull()
-                    && modelJson.entrySet()
-                        .size() > 0) {
+                    && !modelJson.entrySet()
+                        .isEmpty()) {
                     String modelType = ConfigHandler.getStringProperty(modelJson, PROPERTY_TYPE);
                     Supplier<TrophyModelHandler> modelHandlerSupplier = AmazingTrophiesAPI
                         .getTrophyModelHandlerProvider(modelType);
