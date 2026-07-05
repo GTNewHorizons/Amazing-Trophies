@@ -1,0 +1,14 @@
+{
+    "id": "add.meta",
+    "_comment": "Should trigger if the player adds Lapis Lazuli to their inventory",
+    "condition": {
+        "type": "inventory.add",
+        "item": "minecraft:dye",
+        "meta": 4
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

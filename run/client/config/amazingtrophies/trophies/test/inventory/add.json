@@ -1,0 +1,13 @@
+{
+    "id": "add",
+    "_comment": "Should trigger if the player adds a Diamond Axe to their inventory",
+    "condition": {
+        "type": "inventory.add",
+        "item": "minecraft:diamond_axe"
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

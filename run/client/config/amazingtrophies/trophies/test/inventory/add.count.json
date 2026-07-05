@@ -1,0 +1,14 @@
+{
+    "id": "add.count",
+    "_comment": "Should trigger if the player adds a stack of Dirt to their inventory",
+    "condition": {
+        "type": "inventory.add",
+        "item": "minecraft:dirt",
+        "count": 64
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

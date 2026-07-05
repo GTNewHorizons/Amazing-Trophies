@@ -28,6 +28,7 @@ import glowredman.amazingtrophies.condition.EntityInteractConditionHandler;
 import glowredman.amazingtrophies.condition.ExplosionConditionHandler;
 import glowredman.amazingtrophies.condition.FallConditionHandler;
 import glowredman.amazingtrophies.condition.HealConditionHandler;
+import glowredman.amazingtrophies.condition.InventoryChangedHandler;
 import glowredman.amazingtrophies.condition.ItemConditionHandler;
 import glowredman.amazingtrophies.condition.ItemUseConditionHandler;
 import glowredman.amazingtrophies.condition.JoinWorldConditionHandler;
@@ -42,7 +43,7 @@ import glowredman.amazingtrophies.trophy.TileEntityTrophy;
 
 @Mod(
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:gtnhlib@[0.11.12,);after:angelica@[1.0.0-beta4,)",
+    dependencies = "required-after:gtnhlib@[0.11.21,);after:angelica@[1.0.0-beta4,)",
     modid = AmazingTrophies.MODID,
     name = AmazingTrophies.MODNAME,
     version = AmazingTrophies.VERSION)
@@ -107,6 +108,9 @@ public class AmazingTrophies {
         AmazingTrophiesAPI.registerConditionHandler(EntityInteractConditionHandler::new);
         AmazingTrophiesAPI.registerConditionHandler(FallConditionHandler::new);
         AmazingTrophiesAPI.registerConditionHandler(HealConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(InventoryChangedHandler.Add::new);
+        AmazingTrophiesAPI.registerConditionHandler(InventoryChangedHandler.Remove::new);
+        AmazingTrophiesAPI.registerConditionHandler(InventoryChangedHandler.Total::new);
         AmazingTrophiesAPI.registerConditionHandler(ItemConditionHandler.Craft::new);
         AmazingTrophiesAPI.registerConditionHandler(ItemConditionHandler.Drop::new);
         AmazingTrophiesAPI.registerConditionHandler(ItemConditionHandler.Pickup::new);

@@ -264,6 +264,78 @@ Triggers if the player interacts with an Item Frame.
 ```
 
 
+### `inventory.add`
+Triggers when the player adds items to their inventory.
+<br />*Implementation note: Listens to [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemAdded`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java). How often the inventory is checked for changes can be configured in GTNHLib's config file (defaults to once every 5 ticks). Thus, there can be more than the stack limit of additional items per fired event.*
+
+#### Properties
+|Name|Type|Format/Range|Default|Notes|
+|:---:|:---:|:---:|:---:|:---|
+|item|String|registry name|*Required*|`minecraft:` can be omitted.|
+|meta|int|0 - 32767|32767|32767 is the wildcard value. If it's specified, all variants of the item are accepted.|
+|count|int|-2147483648 - 2147483647|1|The condition is also met if more items than specified are added.|
+
+#### Examples
+*Example 1:* Triggers if the player adds a Diamond Axe to their inventory.
+```json
+"type": "inventory.add",
+"item": "minecraft:diamond_axe"
+```
+
+*Example 2:* Triggers if the player adds a Lapis Lazuli to their inventory.
+```json
+"type": "inventory.add",
+"item": "minecraft:dye",
+"meta": 4
+```
+
+*Example 3:* Triggers if the player adds a stack of Dirt to their inventory.
+```json
+"type": "inventory.add",
+"item": "minecraft:dirt",
+"count": 64
+```
+
+
+### `inventory.remove`
+Triggers when the player removes items from their inventory.
+<br />*Implementation note: Listens to [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemRemoved`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java). How often the inventory is checked for changes can be configured in GTNHLib's config file (defaults to once every 5 ticks). Thus, there can be more than the stack limit of removed items per fired event.*
+
+#### Properties
+*See `inventory.add`.*
+
+#### Example
+Triggers if the player removes any Skull from their inventory.
+```json
+"type": "inventory.remove",
+"item": "minecraft:skull"
+```
+
+
+### `inventory.total`
+Triggers when the player has the specified item in their inventory.
+<br />*Implementation note: Listens to [`com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent$ItemAdded`](https://github.com/GTNewHorizons/GTNHLib/blob/master/src/main/java/com/gtnewhorizon/gtnhlib/event/InventoryChangedEvent.java). How often the inventory is checked for changes can be configured in GTNHLib's config file (defaults to once every 5 ticks). The items in the main inventory, the armor slots, the 2x2 crafting grid, the stack held by the cursor and (if Baubles is installed) the baubles slots are counted.*
+
+#### Properties
+*See `inventory.add`.*
+
+#### Examples
+*Example 1:* Triggers if the player has 37 Diamond Helmets in their inventory.
+```json
+"type": "inventory.total",
+"item": "minecraft:diamond_helmet",
+"count": 37
+```
+
+*Example 2:* Triggers if the player has 4 Splash Potions of Instant Health II in their inventory.
+```json
+"type": "inventory.total",
+"item": "minecraft:potion",
+"meta": 16421,
+"count": 4
+```
+
+
 ### `item.craft`
 Triggers when the player crafts the specified item.
 <br />*Implementation note: Listens to [`cpw.mods.fml.common.gameevent.PlayerEvent$ItemCraftedEvent`](https://github.com/MinecraftForge/FML/blob/1.7.10/src/main/java/cpw/mods/fml/common/gameevent/PlayerEvent.java#L25-L34).*
@@ -272,7 +344,7 @@ Triggers when the player crafts the specified item.
 |Name|Type|Format/Range|Default|Notes|
 |:---:|:---:|:---:|:---:|:---|
 |item|String|registry name|*Required*|`minecraft:` can be omitted.|
-|meta|int|0 - 32767|32767|32767 is the wildcard value. If it's specified, all variants of the block are accepted.|
+|meta|int|0 - 32767|32767|32767 is the wildcard value. If it's specified, all variants of the item are accepted.|
 |nbt|String|[SNBT](https://minecraft.wiki/w/NBT_format#SNBT_format) compound|null||
 
 #### Example
