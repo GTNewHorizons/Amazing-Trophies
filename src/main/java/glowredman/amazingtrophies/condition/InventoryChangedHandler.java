@@ -140,6 +140,14 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
                 return;
             }
 
+            Set<IntObjectPair<String>> wildcardConditions = this.conditions.get(MASK_WILDCARD)
+                .getOrDefault(event.item, Collections.emptySet());
+            Set<IntObjectPair<String>> specificConditions = this.conditions.get(0b0)
+                .getOrDefault(event.item, Collections.emptySet());
+            if (wildcardConditions.isEmpty() && specificConditions.isEmpty()) {
+                return;
+            }
+
             Item item = event.item.getItem();
             int meta = event.item.getItemDamage();
             int numItems = 0;
@@ -209,15 +217,13 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
             }
 
             // trigger listeners
-            for (IntObjectPair<String> p : this.conditions.get(MASK_WILDCARD)
-                .getOrDefault(event.item, Collections.emptySet())) {
+            for (IntObjectPair<String> p : wildcardConditions) {
                 if (numItems >= p.leftInt()) {
                     this.getListener()
                         .accept(p.right(), player);
                 }
             }
-            for (IntObjectPair<String> p : this.conditions.get(0b0)
-                .getOrDefault(event.item, Collections.emptySet())) {
+            for (IntObjectPair<String> p : specificConditions) {
                 if (numStacks >= p.leftInt()) {
                     this.getListener()
                         .accept(p.right(), player);
