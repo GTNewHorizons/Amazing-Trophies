@@ -17,6 +17,7 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
@@ -141,6 +142,19 @@ public class EntityTrophyModelHandler extends PedestalTrophyModelHandler {
 
         GL11.glPopAttrib();
         GL11.glPopMatrix();
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox(double x, double y, double z) {
+        // Rendered models may exceed their hitbox, so use their largest scaled dimension as the radius.
+        double radius = Math.abs(this.scale) * Math.max(this.entity.width, this.entity.height);
+        return AxisAlignedBB.getBoundingBox(
+            Math.min(x - 0.5, x - radius),
+            Math.min(y - 0.5, y + this.yOffset - radius),
+            Math.min(z - 0.5, z - radius),
+            Math.max(x + 0.5, x + radius),
+            Math.max(y + 0.5, y + this.yOffset + radius),
+            Math.max(z + 0.5, z + radius));
     }
 
     private void setYawHandler() {

@@ -3,10 +3,10 @@ package glowredman.amazingtrophies.trophy;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -20,8 +20,6 @@ import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 
 public class BlockTrophy extends BlockContainer {
 
-    private final ThreadLocal<TileEntityTrophy> tempTE = new ThreadLocal<>();
-
     public BlockTrophy() {
         super(MaterialTrophy.INSTANCE);
         this.setBlockName(AmazingTrophies.MODID + ".trophy");
@@ -30,31 +28,25 @@ public class BlockTrophy extends BlockContainer {
     }
 
     @Override
-    public void breakBlock(World worldIn, int x, int y, int z, Block blockBroken, int meta) {
-        if (worldIn.getTileEntity(x, y, z) instanceof TileEntityTrophy tileTrophy) {
-            this.tempTE.set(tileTrophy);
-        }
-        super.breakBlock(worldIn, x, y, z, blockBroken, meta);
-    }
-
-    @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityTrophy();
     }
 
     @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+        return willHarvest || super.removedByPlayer(world, player, x, y, z, false);
+    }
+
+    @Override
+    public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+        super.harvestBlock(world, player, x, y, z, meta);
+        world.setBlockToAir(x, y, z);
+    }
+
+    @Override
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> drops = new ArrayList<>();
-        TileEntityTrophy tileTrophy = null;
-        if (world.getTileEntity(x, y, z) instanceof TileEntityTrophy tile) {
-            tileTrophy = tile;
-        } else {
-            TileEntityTrophy tile = this.tempTE.get();
-            if (tile != null) {
-                tileTrophy = tile;
-            }
-        }
-        if (tileTrophy != null) {
+        if (world.getTileEntity(x, y, z) instanceof TileEntityTrophy tileTrophy) {
             drops.add(tileTrophy.getItemStack());
         }
         return drops;

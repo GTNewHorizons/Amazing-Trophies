@@ -1,5 +1,8 @@
 package glowredman.amazingtrophies.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
@@ -11,16 +14,20 @@ import glowredman.amazingtrophies.AmazingTrophies;
 
 public abstract class ModelWrapper<T extends IModelCustom> {
 
+    private static final Map<ResourceLocation, ModelWrapper<? extends IModelCustom>> MODELS = new HashMap<>();
+
     protected T model;
 
     public abstract void renderAll();
 
     public static ModelWrapper<? extends IModelCustom> get(ResourceLocation resource)
         throws IllegalArgumentException, ModelFormatException {
-        if (AmazingTrophies.enableVBO) {
-            return new ModelCustomWrapperExt(resource);
+        ModelWrapper<? extends IModelCustom> model = MODELS.get(resource);
+        if (model == null) {
+            model = AmazingTrophies.enableVBO ? new ModelCustomWrapperExt(resource) : new ModelCustomWrapper(resource);
+            MODELS.put(resource, model);
         }
-        return new ModelCustomWrapper(resource);
+        return model;
     }
 
     private static class ModelCustomWrapper extends ModelWrapper<IModelCustom> {

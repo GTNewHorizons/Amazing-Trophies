@@ -14,6 +14,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
@@ -107,6 +108,19 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
 
         GL11.glPopAttrib();
         GL11.glPopMatrix();
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox(double x, double y, double z) {
+        // Item renderers expose no geometry bounds, so use the configured scale as a conservative radius.
+        double radius = Math.abs(this.scale);
+        return AxisAlignedBB.getBoundingBox(
+            Math.min(x - 0.5, x + this.xOffset - radius),
+            Math.min(y - 0.5, y + this.yOffset - radius),
+            Math.min(z - 0.5, z + this.zOffset - radius),
+            Math.max(x + 0.5, x + this.xOffset + radius),
+            Math.max(y + 0.5, y + this.yOffset + radius),
+            Math.max(z + 0.5, z + this.zOffset + radius));
     }
 
     private void setItem(ItemStack item) {
