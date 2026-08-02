@@ -13,7 +13,7 @@ import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
 
 public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    private static final double MAX_LABEL_RENDER_DISTANCE_SQUARED = 16.0 * 16.0;
+    private static final double MAX_LABEL_RENDER_DISTANCE_SQUARED = 32.0 * 32.0;
     private static final TrophyModelHandler FALLBACK_MODEL_HANDLER = new PedestalTrophyModelHandler();
 
     @Override

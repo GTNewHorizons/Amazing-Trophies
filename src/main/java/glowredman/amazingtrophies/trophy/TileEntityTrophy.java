@@ -119,7 +119,7 @@ public class TileEntityTrophy extends TileEntity {
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         if (this.renderBoundingBox == null) {
-            // Four-block padding covers built-in models; expose model bounds if custom models exceed it.
+            // Built-in models can extend beyond the trophy block, so keep a four-block padding.
             this.renderBoundingBox = AxisAlignedBB.getBoundingBox(
                 this.xCoord - MODEL_RENDER_PADDING,
                 this.yCoord - MODEL_RENDER_PADDING,
