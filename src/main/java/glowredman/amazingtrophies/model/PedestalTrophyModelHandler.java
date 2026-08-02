@@ -1,5 +1,7 @@
 package glowredman.amazingtrophies.model;
 
+import java.util.TimeZone;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
@@ -10,11 +12,16 @@ import org.lwjgl.opengl.GL11;
 
 import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.TrophyModelHandler;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 
 public class PedestalTrophyModelHandler extends TrophyModelHandler {
 
     public static final String ID = "pedestal";
 
+    private static final long MILLIS_PER_DAY = 86_400_000L;
+    private static final TimeZone TIME_ZONE = TimeZone.getDefault();
+    private static final Long2ObjectMap<String> DATE_TEXTS = new Long2ObjectOpenHashMap<>();
     private static final ModelWrapper<?> MODEL_BASE = ModelWrapper
         .get(new ResourceLocation(AmazingTrophies.MODID, "models/trophy_pedestal.obj"));
     private static final ResourceLocation TEXTURE_BASE = new ResourceLocation(
@@ -40,7 +47,7 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
             GL11.glPopMatrix();
             return;
         }
-        String timeText = String.format("%tF", time);
+        String timeText = getDateText(time);
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
         GL11.glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
         GL11.glTranslatef(0.0f, -0.5f, 0.376f);
@@ -53,5 +60,15 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         fontRenderer.drawString(timeText, -fontRenderer.getStringWidth(timeText) / 2, -29, 0x000000);
         GL11.glDepthMask(true);
         GL11.glPopMatrix();
+    }
+
+    private static String getDateText(long time) {
+        long day = Math.floorDiv(time + TIME_ZONE.getOffset(time), MILLIS_PER_DAY);
+        String text = DATE_TEXTS.get(day);
+        if (text == null) {
+            text = String.format("%tF", time);
+            DATE_TEXTS.put(day, text);
+        }
+        return text;
     }
 }
