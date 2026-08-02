@@ -19,11 +19,10 @@ import net.minecraftforge.common.UsernameCache;
 
 import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
+import glowredman.amazingtrophies.api.TrophyModelHandler;
 import glowredman.amazingtrophies.api.TrophyProperties;
 
 public class TileEntityTrophy extends TileEntity {
-
-    private static final double MODEL_RENDER_PADDING = 4.0;
 
     private TrophyProperties props;
     private long time;
@@ -77,6 +76,7 @@ public class TileEntityTrophy extends TileEntity {
         String name = nbt.getString(TAGNAME_NAME);
         this.name = name.isEmpty() ? null : name;
         this.props = id == null ? null : AmazingTrophiesAPI.getTrophyProperties(id);
+        this.renderBoundingBox = null;
         this.time = nbt.getLong(TAGNAME_TIME);
         String uuid = nbt.getString(TAGNAME_UUID);
         try {
@@ -119,14 +119,19 @@ public class TileEntityTrophy extends TileEntity {
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         if (this.renderBoundingBox == null) {
-            // Built-in models can extend beyond the trophy block, so keep a four-block padding.
-            this.renderBoundingBox = AxisAlignedBB.getBoundingBox(
-                this.xCoord - MODEL_RENDER_PADDING,
-                this.yCoord - MODEL_RENDER_PADDING,
-                this.zCoord - MODEL_RENDER_PADDING,
-                this.xCoord + 1.0 + MODEL_RENDER_PADDING,
-                this.yCoord + 1.0 + MODEL_RENDER_PADDING,
-                this.zCoord + 1.0 + MODEL_RENDER_PADDING);
+            TrophyModelHandler modelHandler = this.props == null ? null : this.props.getModelHandler();
+            if (modelHandler == null) {
+                this.renderBoundingBox = AxisAlignedBB.getBoundingBox(
+                    this.xCoord,
+                    this.yCoord,
+                    this.zCoord,
+                    this.xCoord + 1,
+                    this.yCoord + 1,
+                    this.zCoord + 1);
+            } else {
+                this.renderBoundingBox = modelHandler
+                    .getRenderBoundingBox(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5);
+            }
         }
         return this.renderBoundingBox;
     }

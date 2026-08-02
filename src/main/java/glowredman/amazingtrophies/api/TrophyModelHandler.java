@@ -3,6 +3,8 @@ package glowredman.amazingtrophies.api;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import net.minecraft.util.AxisAlignedBB;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
@@ -16,6 +18,8 @@ import com.google.gson.JsonSyntaxException;
 @ParametersAreNonnullByDefault
 public abstract class TrophyModelHandler {
 
+    private static final double DEFAULT_RENDER_RADIUS = 4.5;
+
     /**
      * Parses the given JSON object and stores the details internally (this is up to the implementing class).
      * 
@@ -25,6 +29,24 @@ public abstract class TrophyModelHandler {
      *                             TrophyModelHandler
      */
     public void parse(String id, JsonObject json) throws JsonSyntaxException {}
+
+    /**
+     * Gets this model's render bounds relative to the supplied render origin.
+     *
+     * @param x the x coordinate of the render origin
+     * @param y the y coordinate of the render origin
+     * @param z the z coordinate of the render origin
+     */
+    public AxisAlignedBB getRenderBoundingBox(double x, double y, double z) {
+        // Custom renderers can draw arbitrary geometry, so retain the previous four-block padding by default.
+        return AxisAlignedBB.getBoundingBox(
+            x - DEFAULT_RENDER_RADIUS,
+            y - DEFAULT_RENDER_RADIUS,
+            z - DEFAULT_RENDER_RADIUS,
+            x + DEFAULT_RENDER_RADIUS,
+            y + DEFAULT_RENDER_RADIUS,
+            z + DEFAULT_RENDER_RADIUS);
+    }
 
     /**
      * Renders the trophy at the give position.

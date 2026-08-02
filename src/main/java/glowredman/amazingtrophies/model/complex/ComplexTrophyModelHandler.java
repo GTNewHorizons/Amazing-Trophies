@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.lwjgl.opengl.GL11;
@@ -163,5 +164,11 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
 
         GL11.glPopAttrib();
         GL11.glPopMatrix();
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox(double x, double y, double z) {
+        // Complex models are automatically scaled to fit above the pedestal; the wider X/Z bounds cover rotation.
+        return AxisAlignedBB.getBoundingBox(x - 0.75, y - 0.5, z - 0.75, x + 0.75, y + 0.5, z + 0.75);
     }
 }
