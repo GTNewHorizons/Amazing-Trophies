@@ -23,10 +23,13 @@ import glowredman.amazingtrophies.api.TrophyProperties;
 
 public class TileEntityTrophy extends TileEntity {
 
+    private static final double MODEL_RENDER_PADDING = 4.0;
+
     private TrophyProperties props;
     private long time;
     private UUID uuid;
     private String name;
+    private AxisAlignedBB renderBoundingBox;
 
     public TrophyProperties getProperties() {
         return this.props;
@@ -115,7 +118,17 @@ public class TileEntityTrophy extends TileEntity {
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
-        return INFINITE_EXTENT_AABB;
+        if (this.renderBoundingBox == null) {
+            // Four-block padding covers built-in models; expose model bounds if custom models exceed it.
+            this.renderBoundingBox = AxisAlignedBB.getBoundingBox(
+                this.xCoord - MODEL_RENDER_PADDING,
+                this.yCoord - MODEL_RENDER_PADDING,
+                this.zCoord - MODEL_RENDER_PADDING,
+                this.xCoord + 1.0 + MODEL_RENDER_PADDING,
+                this.yCoord + 1.0 + MODEL_RENDER_PADDING,
+                this.zCoord + 1.0 + MODEL_RENDER_PADDING);
+        }
+        return this.renderBoundingBox;
     }
 
     @Override

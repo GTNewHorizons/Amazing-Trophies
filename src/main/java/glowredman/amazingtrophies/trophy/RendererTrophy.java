@@ -13,6 +13,7 @@ import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
 
 public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRenderer {
 
+    private static final double MAX_LABEL_RENDER_DISTANCE_SQUARED = 16.0 * 16.0;
     private static final TrophyModelHandler FALLBACK_MODEL_HANDLER = new PedestalTrophyModelHandler();
 
     @Override
@@ -23,13 +24,18 @@ public class RendererTrophy extends TileEntitySpecialRenderer implements IItemRe
         if (modelHandler == null) {
             return;
         }
+        double centerX = x + 0.5;
+        double centerY = y + 0.5;
+        double centerZ = z + 0.5;
+        boolean renderLabel = centerX * centerX + centerY * centerY + centerZ * centerZ
+            <= MAX_LABEL_RENDER_DISTANCE_SQUARED;
         modelHandler.render(
-            x + 0.5,
-            y + 0.5,
-            z + 0.5,
+            centerX,
+            centerY,
+            centerZ,
             tileTrophy.getBlockMetadata(),
-            tileTrophy.getPlayerName(),
-            tileTrophy.getTime(),
+            renderLabel ? tileTrophy.getPlayerName() : null,
+            renderLabel ? tileTrophy.getTime() : 0L,
             partialTickTime);
     }
 
