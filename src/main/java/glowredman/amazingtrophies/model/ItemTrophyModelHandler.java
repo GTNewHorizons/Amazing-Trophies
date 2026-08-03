@@ -85,7 +85,7 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
         float partialTickTime) {
         super.render(x, y, z, rotation, name, time, partialTickTime);
 
-        if (RENDER.getFontRendererFromRenderManager() == null) {
+        if (RENDER.getFontRendererFromRenderManager() == null || RenderManager.instance.renderEngine == null) {
             return;
         }
 
