@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -52,6 +53,11 @@ public class ClientHandler {
         @SubscribeEvent
         public void onTextureStitchPost(TextureStitchEvent.Post event) {
             PedestalTrophyModelHandler.clearLabelCache();
+        }
+
+        @SubscribeEvent
+        public void onWorldUnload(WorldEvent.Unload event) {
+            PedestalTrophyModelHandler.clearCaches();
         }
     }
 

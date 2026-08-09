@@ -58,6 +58,15 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         LABEL_SIZES.clear();
     }
 
+    /**
+     * Clears all cached label render data and date texts. Called on world unload, since no label of the old world can
+     * ever be reused.
+     */
+    public static void clearCaches() {
+        LABEL_SIZES.clear();
+        DATE_TEXTS.clear();
+    }
+
     @Override
     public void render(double x, double y, double z, int rotation, @Nullable String name, long time,
         float partialTickTime) {
