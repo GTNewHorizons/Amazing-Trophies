@@ -49,6 +49,14 @@ public abstract class TrophyModelHandler {
     }
 
     /**
+     * The label key passed to the current render call. It is set by the {@link #render(double, double, double, int,
+     * String, long, float, String)} overload before it delegates to the abstract method and cleared afterwards, so that
+     * subclasses that only override the abstract method can still retrieve it via {@link #getPendingLabelKey()}.
+     */
+    @Nullable
+    private String pendingLabelKey;
+
+    /**
      * Renders the trophy at the give position.
      * 
      * @param x               the x coordinate to render at
@@ -64,7 +72,9 @@ public abstract class TrophyModelHandler {
         float partialTickTime);
 
     /**
-     * Renders the trophy at the give position.
+     * Renders the trophy at the give position. The default implementation passes the label key on to
+     * {@link #getPendingLabelKey()} before delegating to
+     * {@link #render(double, double, double, int, String, long, float)}.
      * 
      * @param x               the x coordinate to render at
      * @param y               the y coordinate to render at
@@ -80,7 +90,20 @@ public abstract class TrophyModelHandler {
     public void render(double x, double y, double z, int rotation, @Nullable String name, long time,
         float partialTickTime, @Nullable String labelKey) {
 
-        render(x, y, z, rotation, name, time, partialTickTime);
+        this.pendingLabelKey = labelKey;
+        try {
+            render(x, y, z, rotation, name, time, partialTickTime);
+        } finally {
+            this.pendingLabelKey = null;
+        }
+    }
+
+    /**
+     * Gets the label key passed to the current render call, or {@code null} if the label is not to be rendered or the
+     * key is unknown.
+     */
+    protected @Nullable String getPendingLabelKey() {
+        return this.pendingLabelKey;
     }
 
 }

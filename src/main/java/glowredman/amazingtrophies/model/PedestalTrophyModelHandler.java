@@ -78,13 +78,6 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
     public void render(double x, double y, double z, int rotation, @Nullable String name, long time,
         float partialTickTime) {
 
-        render(x, y, z, rotation, name, time, partialTickTime, getLabelKey(name, time));
-    }
-
-    @Override
-    public void render(double x, double y, double z, int rotation, @Nullable String name, long time,
-        float partialTickTime, @Nullable String labelKey) {
-
         // model
         Minecraft.getMinecraft()
             .getTextureManager()
@@ -108,7 +101,7 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         GL11.glScalef(0.00625f, -0.00625f, 0.00625f);
         GL11.glDepthMask(false);
         // due to the flip, the Y coordinate must be negative. one pixel is 10 high
-        LabelSize labelSize = getLabelSize(fontRenderer, labelKey, name, time);
+        LabelSize labelSize = getLabelSize(fontRenderer, getPendingLabelKey(), name, time);
         FontBatch.begin(fontRenderer);
         fontRenderer.drawString(name, -labelSize.nameWidth / 2, -39, 0x000000);
         fontRenderer.drawString(labelSize.timeText, -labelSize.timeWidth / 2, -29, 0x000000);

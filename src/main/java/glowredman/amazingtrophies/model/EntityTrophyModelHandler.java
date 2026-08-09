@@ -101,13 +101,7 @@ public class EntityTrophyModelHandler extends PedestalTrophyModelHandler {
     @Override
     public void render(double x, double y, double z, int rotation, @Nullable String name, long time,
         float partialTickTime) {
-        render(x, y, z, rotation, name, time, partialTickTime, null);
-    }
-
-    @Override
-    public void render(double x, double y, double z, int rotation, @Nullable String name, long time,
-        float partialTickTime, @Nullable String labelKey) {
-        super.render(x, y, z, rotation, name, time, partialTickTime, labelKey);
+        super.render(x, y, z, rotation, name, time, partialTickTime);
 
         if (this.render.getFontRendererFromRenderManager() == null) {
             return;
