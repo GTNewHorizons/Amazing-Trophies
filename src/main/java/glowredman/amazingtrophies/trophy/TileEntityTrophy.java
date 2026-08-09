@@ -21,6 +21,7 @@ import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.api.TrophyModelHandler;
 import glowredman.amazingtrophies.api.TrophyProperties;
+import glowredman.amazingtrophies.model.PedestalTrophyModelHandler;
 
 public class TileEntityTrophy extends TileEntity {
 
@@ -28,6 +29,7 @@ public class TileEntityTrophy extends TileEntity {
     private long time;
     private UUID uuid;
     private String name;
+    private String labelKey;
     private AxisAlignedBB renderBoundingBox;
 
     public TrophyProperties getProperties() {
@@ -44,6 +46,13 @@ public class TileEntityTrophy extends TileEntity {
 
     public String getPlayerName() {
         return this.name;
+    }
+
+    /**
+     * @return the label cache key, computed once on the client. {@code null} while the label is empty or on the server.
+     */
+    public String getLabelKey() {
+        return this.labelKey;
     }
 
     public ItemStack getItemStack() {
@@ -107,6 +116,24 @@ public class TileEntityTrophy extends TileEntity {
                 this.name = actualName;
             }
         }
+        this.rebuildLabelKey();
+    }
+
+    /**
+     * The player name and time of a trophy never change, so the label cache key is built once (on the client) instead
+     * of
+     * every frame.
+     */
+    private void rebuildLabelKey() {
+        if (this.worldObj != null && this.worldObj.isRemote) {
+            this.labelKey = PedestalTrophyModelHandler.getLabelKey(this.name, this.time);
+        }
+    }
+
+    @Override
+    public void validate() {
+        super.validate();
+        this.rebuildLabelKey();
     }
 
     @Override

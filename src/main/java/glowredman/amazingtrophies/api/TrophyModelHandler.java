@@ -63,4 +63,24 @@ public abstract class TrophyModelHandler {
     public abstract void render(double x, double y, double z, int rotation, @Nullable String name, long time,
         float partialTickTime);
 
+    /**
+     * Renders the trophy at the give position.
+     * 
+     * @param x               the x coordinate to render at
+     * @param y               the y coordinate to render at
+     * @param z               the z coordinate to render at
+     * @param rotation        A value in the range of 0 - 15 (both inclusive). Each step represents a rotation by 22.5°.
+     * @param name            The name of the player who received the trophy to render. May be {@code null} or empty if
+     *                        the player is unknown.
+     * @param time            the time, in milliseconds, since 1970-01-01 00:00 (UTC)
+     * @param labelKey        the opaque cache key identifying the label (player name + date). May be {@code null} if
+     *                        the label is not to be rendered or the key is unknown
+     * @param partialTickTime How much time has elapsed since the last tick, in ticks (range: 0.0 - 1.0)
+     */
+    public void render(double x, double y, double z, int rotation, @Nullable String name, long time,
+        float partialTickTime, @Nullable String labelKey) {
+
+        render(x, y, z, rotation, name, time, partialTickTime);
+    }
+
 }

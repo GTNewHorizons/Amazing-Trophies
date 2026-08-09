@@ -5,9 +5,12 @@ import java.nio.file.Path;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.model.BasicTrophyModelHandler;
 import glowredman.amazingtrophies.model.EntityTrophyModelHandler;
@@ -41,6 +44,15 @@ public class ClientHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrophy.class, trophyRenderer);
         MinecraftForgeClient
             .registerItemRenderer(Item.getItemFromBlock(AmazingTrophiesAPI.getTrophyBlock()), trophyRenderer);
+        MinecraftForge.EVENT_BUS.register(new LabelCacheInvalidationHandler());
+    }
+
+    public static final class LabelCacheInvalidationHandler {
+
+        @SubscribeEvent
+        public void onTextureStitchPost(TextureStitchEvent.Post event) {
+            PedestalTrophyModelHandler.clearLabelCache();
+        }
     }
 
     private static void createAssetDirsAndFiles() {
