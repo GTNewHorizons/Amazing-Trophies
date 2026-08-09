@@ -17,18 +17,23 @@ public class FontBatch {
     private FontBatch() {}
 
     public static void begin(FontRenderer fontRenderer) {
-        if (ANGELICA_LOADED) {
-            getBatcher(fontRenderer).beginBatch();
+        BatchingFontRenderer batcher = getBatcher(fontRenderer);
+        if (batcher != null) {
+            batcher.beginBatch();
         }
     }
 
     public static void end(FontRenderer fontRenderer) {
-        if (ANGELICA_LOADED) {
-            getBatcher(fontRenderer).endBatch();
+        BatchingFontRenderer batcher = getBatcher(fontRenderer);
+        if (batcher != null) {
+            batcher.endBatch();
         }
     }
 
     private static BatchingFontRenderer getBatcher(FontRenderer fontRenderer) {
-        return ((FontRendererAccessor) fontRenderer).angelica$getBatcher();
+        if (ANGELICA_LOADED && fontRenderer instanceof FontRendererAccessor accessor) {
+            return accessor.angelica$getBatcher();
+        }
+        return null;
     }
 }
