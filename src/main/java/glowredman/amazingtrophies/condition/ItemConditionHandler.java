@@ -19,7 +19,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -50,11 +49,12 @@ public abstract class ItemConditionHandler extends ConditionHandler {
             throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
         }
         String nbt = ConfigHandler.getStringProperty(json, PROPERTY_NBT, null);
-        ItemStack stack = GameRegistry.makeItemStack(registryName, meta, 0, nbt);
+        ItemStack stack = ConfigHandler.makeItemStack(registryName, meta, nbt);
         if (stack == null) {
             throw new IllegalArgumentException("Could not find item " + registryName + "!");
         }
-        Map<ItemStack, Set<String>> map = this.getMap(meta, nbt);
+        // a MaterialLib reference supplies its own meta value, so classify by the resolved one
+        Map<ItemStack, Set<String>> map = this.getMap(stack.getItemDamage(), nbt);
         Set<String> ids = map.get(stack);
         if (ids == null) {
             ids = new HashSet<>();

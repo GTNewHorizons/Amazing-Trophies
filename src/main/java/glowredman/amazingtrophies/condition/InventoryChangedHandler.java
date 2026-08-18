@@ -20,7 +20,6 @@ import com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent;
 import com.gtnewhorizon.gtnhlib.util.map.ItemStackMap;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 import glowredman.amazingtrophies.ConfigHandler;
 import glowredman.amazingtrophies.api.ConditionHandler;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -50,11 +49,12 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
             throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
         }
         int count = ConfigHandler.getIntegerProperty(json, PROPERTY_COUNT, 1);
-        ItemStack stack = GameRegistry.makeItemStack(registryName, meta, 0, null);
+        ItemStack stack = ConfigHandler.makeItemStack(registryName, meta, null);
         if (stack == null) {
             throw new IllegalArgumentException("Could not find item " + registryName + "!");
         }
-        Map<ItemStack, Set<IntObjectPair<String>>> map = this.getMap(meta);
+        // a MaterialLib reference supplies its own meta value, so classify by the resolved one
+        Map<ItemStack, Set<IntObjectPair<String>>> map = this.getMap(stack.getItemDamage());
         Set<IntObjectPair<String>> ids = map.get(stack);
         if (ids == null) {
             ids = new HashSet<>();
