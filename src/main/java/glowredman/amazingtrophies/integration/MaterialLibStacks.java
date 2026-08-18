@@ -8,7 +8,9 @@ import com.ruling_0.materiallib.api.StackResolver;
 
 import glowredman.amazingtrophies.AmazingTrophies;
 
-/// Resolves the `ml:<Material>:<shape>` registry names MaterialLib-aware config files carry.
+/// Resolves the `ml:<Material>:<shape>` registry names MaterialLib-aware config files carry. Such a name identifies
+/// its item by material and shape instead of by registry name and metadata, which MaterialLib assigns afresh each
+/// session.
 ///
 /// This is the only class holding MaterialLib types, so the rest of Amazing Trophies loads without MaterialLib
 /// installed. Every caller checks `Loader.isModLoaded("materiallib")` before naming it.

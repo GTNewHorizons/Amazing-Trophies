@@ -53,7 +53,6 @@ public abstract class ItemConditionHandler extends ConditionHandler {
         if (stack == null) {
             throw new IllegalArgumentException("Could not find item " + registryName + "!");
         }
-        // a MaterialLib reference supplies its own meta value, so classify by the resolved one
         Map<ItemStack, Set<String>> map = this.getMap(stack.getItemDamage(), nbt);
         Set<String> ids = map.get(stack);
         if (ids == null) {

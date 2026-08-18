@@ -53,7 +53,6 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
         if (stack == null) {
             throw new IllegalArgumentException("Could not find item " + registryName + "!");
         }
-        // a MaterialLib reference supplies its own meta value, so classify by the resolved one
         Map<ItemStack, Set<IntObjectPair<String>>> map = this.getMap(stack.getItemDamage());
         Set<IntObjectPair<String>> ids = map.get(stack);
         if (ids == null) {

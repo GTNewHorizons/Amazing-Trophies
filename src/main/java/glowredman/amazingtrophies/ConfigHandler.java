@@ -118,18 +118,16 @@ public class ConfigHandler {
     /**
      * Constructs the {@link ItemStack} a config entry names.
      * <p>
-     * A registry name of the form {@code ml:<Material>:<shape>} is a MaterialLib reference: it names its item by
-     * material and shape rather than by registry name and metadata, so it survives sessions that renumber MaterialLib's
-     * metadata. Such an entry takes the resolved damage in place of {@code meta}.
+     * A registry name of the form {@code ml:<Material>:<shape>} is a MaterialLib reference (see
+     * {@link MaterialLibStacks}) and takes the resolved damage in place of {@code meta}.
      *
      * @return {@code null} if the item does not exist
      * @see GameRegistry#makeItemStack(String, int, int, String)
      */
     public static ItemStack makeItemStack(String registryName, int meta, String nbt) {
         if (registryName.startsWith(MATERIALLIB_PREFIX)) {
-            ItemStack stack = lookupMaterialLibStack(registryName);
-            countMaterialLibEntry(stack != null);
-            return stack;
+            ItemDefinition definition = resolveMaterialLibDefinition(registryName, nbt);
+            return definition == null ? null : definition.getAsStack();
         }
         // FML completely ignores the stackSize parameter in the method's implementation...
         return GameRegistry.makeItemStack(registryName, meta, 0, nbt);
@@ -240,8 +238,8 @@ public class ConfigHandler {
     /**
      * Reads an {@link ItemDefinition} from the named property.
      * <p>
-     * A registry name of the form {@code ml:<Material>:<shape>} is resolved here, so the definition names the resolved
-     * item and its damage. An unresolvable reference is kept verbatim and fails like any other unknown registry name.
+     * A registry name of the form {@code ml:<Material>:<shape>} names the resolved item and takes its damage in place
+     * of {@code meta}. An unresolvable reference is kept verbatim.
      */
     public static ItemDefinition getItemProperty(JsonObject json, String key, int defaultMeta) {
         JsonObject definitionJson = json.getAsJsonObject(key);
