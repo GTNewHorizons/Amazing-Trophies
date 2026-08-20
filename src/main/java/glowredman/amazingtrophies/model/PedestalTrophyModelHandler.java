@@ -57,34 +57,13 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         GL11.glScalef(0.00625f, -0.00625f, 0.00625f);
         GL11.glDepthMask(false);
         // due to the flip, the Y coordinate must be negative. one pixel is 10 high
-        LabelSize labelSize = getLabelSize(fontRenderer, name, time);
         FontBatch.begin(fontRenderer);
-        fontRenderer.drawString(name, -labelSize.nameWidth / 2, -39, 0x000000);
-        fontRenderer.drawString(labelSize.timeText, -labelSize.timeWidth / 2, -29, 0x000000);
+        String timeText = getDateText(time);
+        fontRenderer.drawString(name, -FontRendering.getStringWidth(name, fontRenderer) / 2, -39, 0x000000);
+        fontRenderer.drawString(timeText, -FontRendering.getStringWidth(timeText, fontRenderer) / 2, -29, 0x000000);
         FontBatch.end(fontRenderer);
         GL11.glDepthMask(true);
         GL11.glPopMatrix();
-    }
-
-    private static LabelSize getLabelSize(FontRenderer fontRenderer, String name, long time) {
-        String timeText = getDateText(time);
-        return new LabelSize(
-            timeText,
-            FontRendering.getStringWidth(name, fontRenderer),
-            FontRendering.getStringWidth(timeText, fontRenderer));
-    }
-
-    private static final class LabelSize {
-
-        private final String timeText;
-        private final int nameWidth;
-        private final int timeWidth;
-
-        private LabelSize(String timeText, int nameWidth, int timeWidth) {
-            this.timeText = timeText;
-            this.nameWidth = nameWidth;
-            this.timeWidth = timeWidth;
-        }
     }
 
     private static String getDateText(long time) {
