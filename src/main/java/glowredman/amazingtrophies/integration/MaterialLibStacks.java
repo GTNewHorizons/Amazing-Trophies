@@ -13,7 +13,7 @@ import glowredman.amazingtrophies.AmazingTrophies;
 /// session.
 ///
 /// This is the only class holding MaterialLib types, so the rest of Amazing Trophies loads without MaterialLib
-/// installed. Every caller checks `Loader.isModLoaded("materiallib")` before naming it.
+/// installed. Call only when `materiallib` is loaded.
 public final class MaterialLibStacks {
 
     private MaterialLibStacks() {}

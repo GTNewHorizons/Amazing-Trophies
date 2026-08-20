@@ -115,15 +115,11 @@ public class ConfigHandler {
         }
     }
 
-    /**
-     * Constructs the {@link ItemStack} a config entry names.
-     * <p>
-     * A registry name of the form {@code ml:<Material>:<shape>} is a MaterialLib reference (see
-     * {@link MaterialLibStacks}) and takes the resolved damage in place of {@code meta}.
-     *
-     * @return {@code null} if the item does not exist
-     * @see GameRegistry#makeItemStack(String, int, int, String)
-     */
+    /// Constructs the [ItemStack] a config entry names. An `ml:` registry name is resolved through
+    /// [MaterialLibStacks] and takes the resolved damage in place of `meta`.
+    ///
+    /// @return `null` if the item does not exist
+    /// @see GameRegistry#makeItemStack(String, int, int, String)
     public static ItemStack makeItemStack(String registryName, int meta, String nbt) {
         if (registryName.startsWith(MATERIALLIB_PREFIX)) {
             ItemDefinition definition = resolveMaterialLibDefinition(registryName, nbt);
@@ -133,35 +129,28 @@ public class ConfigHandler {
         return GameRegistry.makeItemStack(registryName, meta, 0, nbt);
     }
 
-    /**
-     * Logs how many MaterialLib references the config files carried, then forgets them.
-     */
+    /// Logs how many MaterialLib references the config files carried and clears the counts.
     static void logMaterialLibSummary() {
         if (materialLibResolved + materialLibInvalid == 0) {
             return;
         }
-        AmazingTrophies.LOGGER.info(
-            "{}: resolved {} MaterialLib entries ({} invalid)",
-            AmazingTrophies.MODNAME,
-            materialLibResolved,
-            materialLibInvalid);
+        AmazingTrophies.LOGGER
+            .info("Resolved {} MaterialLib entries ({} invalid)", materialLibResolved, materialLibInvalid);
         materialLibResolved = 0;
         materialLibInvalid = 0;
     }
 
-    /**
-     * Restates a MaterialLib reference as a definition of the resolved item, so {@link ItemDefinition} never has to
-     * know about the {@code ml:} form.
-     *
-     * @return {@code null} if the reference does not resolve
-     */
+    /// Restates a MaterialLib reference as a definition of the resolved item.
+    ///
+    /// @return `null` if the reference does not resolve
     private static ItemDefinition resolveMaterialLibDefinition(String registryName, String nbt) {
         ItemStack stack = lookupMaterialLibStack(registryName);
         UniqueIdentifier id = stack == null ? null : GameRegistry.findUniqueIdentifierFor(stack.getItem());
-        countMaterialLibEntry(id != null);
         if (id == null) {
+            materialLibInvalid++;
             return null;
         }
+        materialLibResolved++;
         return new ItemDefinition(id.toString(), stack.getItemDamage(), nbt);
     }
 
@@ -171,14 +160,6 @@ public class ConfigHandler {
         }
         AmazingTrophies.LOGGER.error("Cannot resolve item {}: MaterialLib is not installed!", registryName);
         return null;
-    }
-
-    private static void countMaterialLibEntry(boolean resolved) {
-        if (resolved) {
-            materialLibResolved++;
-        } else {
-            materialLibInvalid++;
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -235,12 +216,8 @@ public class ConfigHandler {
         return getProperty(json, key, JsonElement::getAsInt);
     }
 
-    /**
-     * Reads an {@link ItemDefinition} from the named property.
-     * <p>
-     * A registry name of the form {@code ml:<Material>:<shape>} names the resolved item and takes its damage in place
-     * of {@code meta}. An unresolvable reference is kept verbatim.
-     */
+    /// Reads an [ItemDefinition] from the named property. An `ml:` registry name is resolved as in [#makeItemStack];
+    /// one that does not resolve is kept verbatim.
     public static ItemDefinition getItemProperty(JsonObject json, String key, int defaultMeta) {
         JsonObject definitionJson = json.getAsJsonObject(key);
         String registryName = getStringProperty(definitionJson, PROPERTY_REGISTRY_NAME);
