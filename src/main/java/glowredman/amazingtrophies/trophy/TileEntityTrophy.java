@@ -5,7 +5,6 @@ import static glowredman.amazingtrophies.api.AmazingTrophiesAPI.TAGNAME_NAME;
 import static glowredman.amazingtrophies.api.AmazingTrophiesAPI.TAGNAME_TIME;
 import static glowredman.amazingtrophies.api.AmazingTrophiesAPI.TAGNAME_UUID;
 
-import java.util.Locale;
 import java.util.UUID;
 
 import net.minecraft.item.ItemStack;
@@ -84,21 +83,17 @@ public class TileEntityTrophy extends TileEntity {
         } catch (IllegalArgumentException e) {
             if (this.hasWorldObj()) {
                 AmazingTrophies.LOGGER.warn(
-                    String.format(
-                        Locale.ROOT,
-                        "Found trophy of type \"%s\" with invalid UUID \"%s\" at x=%d, y=%d, z=%d, dim=%d (%s)!",
-                        id,
-                        uuid,
-                        this.xCoord,
-                        this.yCoord,
-                        this.zCoord,
-                        this.worldObj.provider.dimensionId,
-                        this.worldObj.getProviderName()),
+                    "Found trophy of type \"{}\" with invalid UUID \"{}\" at x={}, y={}, z={}, dim={} ({})!",
+                    id,
+                    uuid,
+                    this.xCoord,
+                    this.yCoord,
+                    this.zCoord,
+                    this.worldObj.provider.dimensionId,
+                    this.worldObj.getProviderName(),
                     e);
             } else {
-                AmazingTrophies.LOGGER.warn(
-                    String.format(Locale.ROOT, "Found trophy of type \"%s\" with invalid UUID \"%s\"!", id, uuid),
-                    e);
+                AmazingTrophies.LOGGER.warn("Found trophy of type \"{}\" with invalid UUID \"{}\"!", id, uuid, e);
             }
         }
         if (this.uuid != null) {
