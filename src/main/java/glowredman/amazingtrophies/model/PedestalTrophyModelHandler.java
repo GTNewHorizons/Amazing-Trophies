@@ -10,6 +10,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import com.gtnewhorizon.gtnhlib.util.font.FontRendering;
+
 import glowredman.amazingtrophies.AmazingTrophies;
 import glowredman.amazingtrophies.api.TrophyModelHandler;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -47,7 +49,6 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
             GL11.glPopMatrix();
             return;
         }
-        String timeText = getDateText(time);
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
         GL11.glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
         GL11.glTranslatef(0.0f, -0.5f, 0.376f);
@@ -56,8 +57,11 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         GL11.glScalef(0.00625f, -0.00625f, 0.00625f);
         GL11.glDepthMask(false);
         // due to the flip, the Y coordinate must be negative. one pixel is 10 high
-        fontRenderer.drawString(name, -fontRenderer.getStringWidth(name) / 2, -39, 0x000000);
-        fontRenderer.drawString(timeText, -fontRenderer.getStringWidth(timeText) / 2, -29, 0x000000);
+        String timeText = getDateText(time);
+        FontBatch.begin(fontRenderer);
+        fontRenderer.drawString(name, -FontRendering.getStringWidth(name, fontRenderer) / 2, -39, 0x000000);
+        fontRenderer.drawString(timeText, -FontRendering.getStringWidth(timeText, fontRenderer) / 2, -29, 0x000000);
+        FontBatch.end(fontRenderer);
         GL11.glDepthMask(true);
         GL11.glPopMatrix();
     }
