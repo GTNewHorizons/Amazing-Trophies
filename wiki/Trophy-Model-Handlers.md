@@ -19,7 +19,7 @@ Renders any model on top of the pedestal. Wavefront (`.obj`) and Techne (`.tcn`)
 "model": "model.obj",
 "texture": "texture.png"
 ```
-Source: [model.obj](https://github.com/GTNewHorizons/Amazing-Trophies/blob/master/run/config/amazingtrophies/models/model.obj) | [texture.png](https://github.com/GTNewHorizons/Amazing-Trophies/blob/master/run/config/amazingtrophies/textures/blocks/texture.png)
+Source: [model.obj](https://github.com/GTNewHorizons/Amazing-Trophies/blob/master/run/client/config/amazingtrophies/models/model.obj) | [texture.png](https://github.com/GTNewHorizons/Amazing-Trophies/blob/master/run/client/config/amazingtrophies/textures/blocks/texture.png)
 ![](https://raw.githubusercontent.com/GTNewHorizons/Amazing-Trophies/refs/heads/master/wiki/img/trophy_basic.png)
 
 ### `entity`
