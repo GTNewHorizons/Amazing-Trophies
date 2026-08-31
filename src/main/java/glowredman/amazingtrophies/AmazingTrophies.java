@@ -43,7 +43,7 @@ import glowredman.amazingtrophies.trophy.TileEntityTrophy;
 
 @Mod(
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:gtnhlib@[0.11.21,);after:angelica@[1.0.0-beta4,)",
+    dependencies = "required-after:gtnhlib@[0.11.44,);after:angelica@[1.0.0-beta4,)",
     modid = AmazingTrophies.MODID,
     name = AmazingTrophies.MODNAME,
     version = AmazingTrophies.VERSION)
