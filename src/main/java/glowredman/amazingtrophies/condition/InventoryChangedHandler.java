@@ -7,15 +7,10 @@ import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.ContainerPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.gson.JsonObject;
-import com.gtnewhorizon.gtnhlib.compat.BaublesCompat;
-import com.gtnewhorizon.gtnhlib.compat.Mods;
 import com.gtnewhorizon.gtnhlib.event.InventoryChangedEvent;
 import com.gtnewhorizon.gtnhlib.util.map.ItemStackMap;
 
@@ -136,98 +131,10 @@ public abstract class InventoryChangedHandler extends ConditionHandler {
 
         @SubscribeEvent
         public void onItemAdded(InventoryChangedEvent.ItemAdded event) {
-            if (!(event.entityPlayer instanceof EntityPlayerMP player)) {
-                return;
-            }
-
-            Set<IntObjectPair<String>> wildcardConditions = this.conditions.get(MASK_WILDCARD)
-                .getOrDefault(event.item, Collections.emptySet());
-            Set<IntObjectPair<String>> specificConditions = this.conditions.get(0b0)
-                .getOrDefault(event.item, Collections.emptySet());
-            if (wildcardConditions.isEmpty() && specificConditions.isEmpty()) {
-                return;
-            }
-
-            Item item = event.item.getItem();
-            int meta = event.item.getItemDamage();
-            int numItems = 0;
-            int numStacks = 0; // respects meta
-
-            // aggregate inventory contents
-            for (ItemStack stack : player.inventory.mainInventory) {
-                if (stack == null) {
-                    continue;
-                }
-                if (stack.getItem() == item) {
-                    numItems += stack.stackSize;
-                    if (stack.getItemDamage() == meta) {
-                        numStacks += stack.stackSize;
-                    }
-                }
-            }
-            for (ItemStack stack : player.inventory.armorInventory) {
-                if (stack == null) {
-                    continue;
-                }
-                if (stack.getItem() == item) {
-                    numItems += stack.stackSize;
-                    if (stack.getItemDamage() == meta) {
-                        numStacks += stack.stackSize;
-                    }
-                }
-            }
-            ItemStack cursorStack = player.inventory.getItemStack();
-            if (cursorStack != null && cursorStack.getItem() == item) {
-                numItems += cursorStack.stackSize;
-                if (cursorStack.getItemDamage() == meta) {
-                    numStacks += cursorStack.stackSize;
-                }
-            }
-            if (player.inventoryContainer instanceof ContainerPlayer container) {
-                for (ItemStack stack : container.craftMatrix.stackList) {
-                    if (stack == null) {
-                        continue;
-                    }
-                    if (stack.getItem() == item) {
-                        numItems += stack.stackSize;
-                        if (stack.getItemDamage() == meta) {
-                            numStacks += stack.stackSize;
-                        }
-                    }
-                }
-            }
-            baubles: if (Mods.BAUBLES) {
-                IInventory inv = BaublesCompat.getBaubles(player);
-                if (inv == null) {
-                    break baubles;
-                }
-                int size = inv.getSizeInventory();
-                for (int i = 0; i < size; i++) {
-                    ItemStack stack = inv.getStackInSlot(i);
-                    if (stack == null) {
-                        continue;
-                    }
-                    if (stack.getItem() == item) {
-                        numItems += stack.stackSize;
-                        if (stack.getItemDamage() == meta) {
-                            numStacks += stack.stackSize;
-                        }
-                    }
-                }
-            }
-
-            // trigger listeners
-            for (IntObjectPair<String> p : wildcardConditions) {
-                if (numItems >= p.leftInt()) {
-                    this.getListener()
-                        .accept(p.right(), player);
-                }
-            }
-            for (IntObjectPair<String> p : specificConditions) {
-                if (numStacks >= p.leftInt()) {
-                    this.getListener()
-                        .accept(p.right(), player);
-                }
+            if (event.entityPlayer instanceof EntityPlayerMP) {
+                ItemStack stack = event.item.copy();
+                stack.stackSize = event.inventoryCount;
+                this.trigger(stack, event.entityPlayer);
             }
         }
     }
