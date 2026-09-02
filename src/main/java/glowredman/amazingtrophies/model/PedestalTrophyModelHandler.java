@@ -59,8 +59,8 @@ public class PedestalTrophyModelHandler extends TrophyModelHandler {
         // due to the flip, the Y coordinate must be negative. one pixel is 10 high
         String timeText = getDateText(time);
         FontBatch.begin(fontRenderer);
-        fontRenderer.drawString(name, -FontRendering.getStringWidth(name, fontRenderer) / 2, -39, 0x000000);
-        fontRenderer.drawString(timeText, -FontRendering.getStringWidth(timeText, fontRenderer) / 2, -29, 0x000000);
+        fontRenderer.drawString(name, -FontRendering.getStringWidth(name, fontRenderer) / 2, -34, 0x000000);
+        fontRenderer.drawString(timeText, -FontRendering.getStringWidth(timeText, fontRenderer) / 2, -24, 0x000000);
         FontBatch.end(fontRenderer);
         GL11.glDepthMask(true);
         GL11.glPopMatrix();
