@@ -63,6 +63,10 @@ public class AllConditionHandler extends ConditionHandler {
                 throw new IllegalArgumentException("Duplicate child_id: \"" + childID + "\"");
             }
             String type = ConfigHandler.getStringProperty(childJSON, this.propertyType);
+            if (AnyConditionHandler.PROPERTY_CONDITIONS.equals(type)) {
+                throw new IllegalArgumentException(
+                    "Conditions of type \"" + AnyConditionHandler.PROPERTY_CONDITIONS + "\" are not supported!");
+            }
             ConditionHandler conditionHandler = this.getConditionHandler(type);
             if (conditionHandler == null) {
                 throw new IllegalArgumentException("Referencing unknown condition type: \"" + type + "\"");
