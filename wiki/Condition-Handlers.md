@@ -17,6 +17,68 @@ Triggers when the Inventory is opened for the first time.
 ```
 
 
+### `all`
+Triggers when all of the Condition Handlers defined by `conditions` triggered (in any order).
+
+#### Properties
+|Name|Type|Format/Range|Default|Notes|
+|:---:|:---:|:---:|:---:|:---|
+|conditions|Condition Handler array|Each element in the array must include the properties `childID` (identifies the element, changing this breaks a player's progress) and `type` (sets the element's Condition Handler type), additionally all properties required by that Condition Handler|*Required*|`childID` must be unique across this `all` Condition Handler. Duplicates in other Condition Handlers are allowed. **Note:** Condition Handlers of type `any` are currently not supported.|
+
+#### Example
+Triggers after the player gains the achievement "Getting Wood" AND adds a stack of Lapis Lazuli to their inventory AND crafts a Bowl AND kills any entity.
+```json
+"type": "all",
+"conditions": [
+  {
+    "childID": "gettingWood",
+    "type": "achievement",
+    "id": "achievement.mineWood"
+  },
+  {
+    "childID": "add64lapis",
+    "type": "inventory.add",
+    "item": "minecraft:dye",
+    "meta": 4,
+    "count": 64
+  },
+  {
+    "childID": "craftBowl",
+    "type": "item.craft",
+    "item": "minecraft:bowl"
+  },
+  {
+    "childID": "killAny",
+    "type": "kill"
+  }
+]
+```
+
+
+### `any`
+Triggers when any one of the Condition Handlers defined by `conditions` triggeres.
+
+#### Properties
+|Name|Type|Format/Range|Default|Notes|
+|:---:|:---:|:---:|:---:|:---|
+|conditions|Condition Handler array|Each element in the array must include the property `type` (sets the element's Condition Handler type), additionally all properties required by that Condition Handler|*Required*||
+
+#### Example
+Triggers when the player gets the "Benchmarking" achievement OR drops a Dirt block.
+```json
+"conditions": [
+  {
+    "type": "achievement",
+    "id": "achievement.buildWorkBench"
+  },
+  {
+    "type": "item.drop",
+    "item": "minecraft:dirt"
+  }
+]
+```
+
+
 ### `attack.entity`
 Triggers when the player attacks an living entity.
 <br />*Implementation note: Listens to [`net.minecraftforge.event.entity.living.LivingAttackEvent`](https://github.com/MinecraftForge/MinecraftForge/blob/1.7.10/src/main/java/net/minecraftforge/event/entity/living/LivingAttackEvent.java).*
