@@ -61,6 +61,16 @@ public class AmazingTrophiesAPI {
      */
     public static final String TAGNAME_NAME = "name";
 
+    /**
+     * The key used to identify {@link ConditionHandler ConditionHandlers} which trigger achievements.
+     */
+    public static final String OWNER_ACHIEVEMENTS = "achievements";
+
+    /**
+     * The key used to identify {@link ConditionHandler ConditionHandlers} which trigger trophies.
+     */
+    public static final String OWNER_TROPHIES = "trophies";
+
     static final Logger LOGGER = LogManager.getLogger("Amazing Trophies API");
 
     private static final Map<String, AchievementProperties> ACHIEVEMENTS = new LinkedHashMap<>();
@@ -68,6 +78,7 @@ public class AmazingTrophiesAPI {
     private static final Map<String, ConditionHandler> ACHIEVEMENT_CONDITION_HANDLERS = new HashMap<>();
     private static final Map<String, ConditionHandler> TROPHY_CONDITION_HANDLERS = new HashMap<>();
     private static final Map<String, Supplier<TrophyModelHandler>> TROPHY_MODEL_HANDLER_PROVIDERS = new HashMap<>();
+    private static final Map<String, Supplier<ConditionHandler>> CONDITION_HANDLERS_PROVIDERS = new HashMap<>();
     private static Block blockTrophy;
 
     /**
@@ -183,6 +194,29 @@ public class AmazingTrophiesAPI {
      */
     public static Collection<Supplier<TrophyModelHandler>> getTrophyModelHandlerProviders() {
         return TROPHY_MODEL_HANDLER_PROVIDERS.values();
+    }
+
+    /**
+     * Gets the {@link ConditionHandler} {@link Supplier} associated with the given ID. Returns {@code null} if no
+     * ConditionHandler Supplier has been registered for the given ID.
+     */
+    @Nullable
+    public static Supplier<ConditionHandler> getConditionHandlerProvider(@Nullable String id) {
+        return CONDITION_HANDLERS_PROVIDERS.get(id);
+    }
+
+    /**
+     * Gets a {@link Set} of all {@link ConditionHandler} IDs.
+     */
+    public static Set<String> getConditionHandlerProviderIDs() {
+        return CONDITION_HANDLERS_PROVIDERS.keySet();
+    }
+
+    /**
+     * Gets a {@link Collection} of all {@link ConditionHandler} {@link Supplier Suppliers}.
+     */
+    public static Collection<Supplier<ConditionHandler>> getConditionHandlerProviders() {
+        return CONDITION_HANDLERS_PROVIDERS.values();
     }
 
     /**
@@ -308,7 +342,7 @@ public class AmazingTrophiesAPI {
     public static void registerConditionHandler(Supplier<ConditionHandler> handlerSupplier) {
         ConditionHandler achievementHandler = handlerSupplier.get();
         String id = achievementHandler.getID();
-        if (ACHIEVEMENT_CONDITION_HANDLERS.containsKey(id)) {
+        if (CONDITION_HANDLERS_PROVIDERS.containsKey(id)) {
             LOGGER.error(
                 "Condition Handler with id {} already exists! {} will not be registered.",
                 id,
@@ -317,7 +351,9 @@ public class AmazingTrophiesAPI {
             return;
         }
 
-        achievementHandler.setOwner("achievements");
+        CONDITION_HANDLERS_PROVIDERS.put(id, handlerSupplier);
+
+        achievementHandler.setOwner(OWNER_ACHIEVEMENTS);
         achievementHandler.setListener((achievementID, player) -> {
             StatBase stat = StatList.func_151177_a(achievementID); // getOneShotStat
             if (stat == null || !stat.isAchievement()) {
@@ -328,7 +364,7 @@ public class AmazingTrophiesAPI {
         ACHIEVEMENT_CONDITION_HANDLERS.put(id, achievementHandler);
 
         ConditionHandler trophyHandler = handlerSupplier.get();
-        trophyHandler.setOwner("trophies");
+        trophyHandler.setOwner(OWNER_TROPHIES);
         trophyHandler.setListener(AmazingTrophiesAPI::awardTrophy);
         TROPHY_CONDITION_HANDLERS.put(id, trophyHandler);
     }
