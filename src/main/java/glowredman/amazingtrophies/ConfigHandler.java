@@ -35,7 +35,7 @@ public class ConfigHandler {
     public static final String PROPERTY_META = "meta";
     public static final String PROPERTY_NBT = "nbt";
     private static final String MATERIALLIB_MODID = "materiallib";
-    private static final String MATERIALLIB_PREFIX = "ml:";
+    public static final String MATERIALLIB_PREFIX = "ml:";
     private static final JsonParser PARSER = new JsonParser();
     private static final Comparator<Path> COMPARATOR = new Comparator<>() {
 
