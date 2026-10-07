@@ -21,6 +21,8 @@ import glowredman.amazingtrophies.api.AmazingTrophiesAPI;
 import glowredman.amazingtrophies.api.ConditionHandler;
 import glowredman.amazingtrophies.api.Reference;
 import glowredman.amazingtrophies.condition.AchievementConditionHandler;
+import glowredman.amazingtrophies.condition.AllConditionHandler;
+import glowredman.amazingtrophies.condition.AnyConditionHandler;
 import glowredman.amazingtrophies.condition.AttackConditionHandler;
 import glowredman.amazingtrophies.condition.BlockConditionHandler;
 import glowredman.amazingtrophies.condition.DeathConditionHandler;
@@ -82,6 +84,10 @@ public class AmazingTrophies {
 
     @EventHandler
     public static void postInit(FMLPostInitializationEvent event) {
+        AmazingTrophiesAPI.getAchievementConditionHandlers()
+            .forEach(ConditionHandler::preParsing);
+        AmazingTrophiesAPI.getTrophyConditionHandlers()
+            .forEach(ConditionHandler::preParsing);
         ConfigHandler.parseOrCreate("achievements", AchievementHandler::parseAchievement);
         ConfigHandler.parseOrCreate("trophies", TrophyHandler::parseTrophy);
         AchievementHandler.registerMissingPages();
@@ -100,6 +106,8 @@ public class AmazingTrophies {
 
     private static void registerConditionHandlers() {
         AmazingTrophiesAPI.registerConditionHandler(AchievementConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(AllConditionHandler::new);
+        AmazingTrophiesAPI.registerConditionHandler(AnyConditionHandler::new);
         AmazingTrophiesAPI.registerConditionHandler(AttackConditionHandler.Entity::new);
         AmazingTrophiesAPI.registerConditionHandler(AttackConditionHandler.Player::new);
         AmazingTrophiesAPI.registerConditionHandler(BlockConditionHandler.Break::new);

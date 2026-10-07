@@ -76,7 +76,7 @@ public class ConfigHandler {
         }
     };
 
-    static void parseOrCreate(String directoryName, Consumer<JsonElement> action) {
+    public static void parseOrCreate(String directoryName, Consumer<JsonElement> action) {
         Path dir = AmazingTrophies.CONFIG_DIR.resolve(directoryName);
         try {
             Files.createDirectories(dir);
@@ -174,7 +174,7 @@ public class ConfigHandler {
     public static <T> Set<T> getSetProperty(JsonObject json, String key, Function<JsonElement, T> parser) {
         return getProperty(json, key, jsonElement -> {
             Set<T> set = new HashSet<>();
-            if (jsonElement.isJsonPrimitive()) {
+            if (!jsonElement.isJsonArray()) {
                 set.add(parser.apply(jsonElement));
                 return set;
             }
@@ -221,7 +221,7 @@ public class ConfigHandler {
         Set<T> fallback) {
         return getProperty(json, key, jsonElement -> {
             Set<T> set = new HashSet<>();
-            if (jsonElement.isJsonPrimitive()) {
+            if (!jsonElement.isJsonArray()) {
                 set.add(parser.apply(jsonElement));
                 return set;
             }

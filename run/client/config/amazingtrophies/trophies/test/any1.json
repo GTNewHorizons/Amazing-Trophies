@@ -1,0 +1,22 @@
+{
+    "id": "any1",
+    "_comment": "Should trigger if the player gets the Benchmarking achievement OR drops a Dirt block",
+    "condition": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "achievement",
+            "id": "achievement.buildWorkBench"
+          },
+          {
+            "type": "item.drop",
+            "item": "minecraft:dirt"
+          }
+        ]
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

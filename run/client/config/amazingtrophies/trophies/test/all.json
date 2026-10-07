@@ -1,0 +1,35 @@
+{
+    "id": "all",
+    "_comment": "Should trigger if the player gains the achievement \"Getting Wood\" AND adds a stack of Lapis Lazuli to their inventory AND crafts a Bowl AND kills any entity (in any order)",
+    "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "childID": "gettingWood",
+            "type": "achievement",
+            "id": "achievement.mineWood"
+          },
+          {
+            "childID": "add64lapis",
+            "type": "inventory.add",
+            "item": "minecraft:dye",
+            "meta": 4,
+            "count": 64
+          },
+          {
+            "childID": "craftBowl",
+            "type": "item.craft",
+            "item": "minecraft:bowl"
+          },
+          {
+            "childID": "killAny",
+            "type": "kill"
+          }
+        ]
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

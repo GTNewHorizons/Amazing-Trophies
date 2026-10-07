@@ -1,0 +1,18 @@
+{
+    "id": "all.error3",
+    "_comment": "Should fail to parse because the child condition type doesn't exist",
+    "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "childID": "test",
+            "type": "sdlfgjn"
+          }
+        ]
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}
