@@ -88,7 +88,7 @@ Any combination of these properties is allowed.
 |Name|Type|Format/Range|Default|Notes|
 |:---:|:---:|:---:|:---:|:---|
 |damage|float||0.0|Minimum raw damage, before accounting for invulnerability, resistance, armour, etc.|
-|damageType|String array|Damage type|[]|Vanilla damage types are: `inFire`, `onFire`, `lava`, `inWall`, `drown`, `starve`, `cactus`, `fall`, `outOfWorld`, `generic`, `magic`, `wither`, `anvil`, `fallingBlock`.|
+|damageType|String array|Damage type|[]|Vanilla damage types are: `inFire`, `onFire`, `lava`, `inWall`, `drown`, `starve`, `cactus`, `fall`, `outOfWorld`, `generic`, `magic`, `wither`, `anvil`, `fallingBlock`, `mob`, `player`, `arrow`, `fireball`, `thrown`, `indirectMagic`, `thorns`, `explosion.player`.|
 |isDamageTypesAllowList|boolean||false|true = allow list, false = deny list|
 |entities|String array|entity name or fully qualified class name|[]|Combining entity names and classes is allowed.|
 |isEntitiesAllowList|boolean||false|true = allow list, false = deny list|
@@ -204,7 +204,7 @@ Triggers when the player dies.
 #### Properties
 |Name|Type|Format/Range|Default|Notes|
 |:---:|:---:|:---:|:---:|:---|
-|sources|String array|Damage type|[]|Vanilla damage types are: `inFire`, `onFire`, `lava`, `inWall`, `drown`, `starve`, `cactus`, `fall`, `outOfWorld`, `generic`, `magic`, `wither`, `anvil`, `fallingBlock`.|
+|sources|String array|Damage type|[]|Vanilla damage types are: `inFire`, `onFire`, `lava`, `inWall`, `drown`, `starve`, `cactus`, `fall`, `outOfWorld`, `generic`, `magic`, `wither`, `anvil`, `fallingBlock`, `mob`, `player`, `arrow`, `fireball`, `thrown`, `indirectMagic`, `thorns`, `explosion.player`.|
 |isSourcesAllowList|boolean||false|true = allow list, false = deny list|
 
 #### Example
