@@ -84,6 +84,7 @@ public class AmazingTrophies {
     public static void postInit(FMLPostInitializationEvent event) {
         ConfigHandler.parseOrCreate("achievements", AchievementHandler::parseAchievement);
         ConfigHandler.parseOrCreate("trophies", TrophyHandler::parseTrophy);
+        ConfigHandler.logMaterialLibSummary();
         AchievementHandler.registerMissingPages();
         AmazingTrophiesAPI.getAchievements()
             .forEach(AchievementProperties::register);

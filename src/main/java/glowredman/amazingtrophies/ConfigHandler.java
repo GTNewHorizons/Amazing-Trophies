@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,13 +23,19 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import glowredman.amazingtrophies.api.ItemDefinition;
+import glowredman.amazingtrophies.integration.MaterialLibStacks;
 
 public class ConfigHandler {
 
     public static final String PROPERTY_REGISTRY_NAME = "registryName";
     public static final String PROPERTY_META = "meta";
     public static final String PROPERTY_NBT = "nbt";
+    private static final String MATERIALLIB_MODID = "materiallib";
+    public static final String MATERIALLIB_PREFIX = "ml:";
     private static final JsonParser PARSER = new JsonParser();
     private static final Comparator<Path> COMPARATOR = new Comparator<>() {
 
@@ -76,6 +83,9 @@ public class ConfigHandler {
         }
     };
 
+    private static int materialLibResolved;
+    private static int materialLibInvalid;
+
     static void parseOrCreate(String directoryName, Consumer<JsonElement> action) {
         Path dir = AmazingTrophies.CONFIG_DIR.resolve(directoryName);
         try {
@@ -103,6 +113,53 @@ public class ConfigHandler {
         } catch (Exception e) {
             AmazingTrophies.LOGGER.error("Failed to parse " + AmazingTrophies.CONFIG_DIR.relativize(path) + "!", e);
         }
+    }
+
+    /// Constructs the [ItemStack] a config entry names. An `ml:` registry name is resolved through
+    /// [MaterialLibStacks] and takes the resolved damage in place of `meta`.
+    ///
+    /// @return `null` if the item does not exist
+    /// @see GameRegistry#makeItemStack(String, int, int, String)
+    public static ItemStack makeItemStack(String registryName, int meta, String nbt) {
+        if (registryName.startsWith(MATERIALLIB_PREFIX)) {
+            ItemDefinition definition = resolveMaterialLibDefinition(registryName, nbt);
+            return definition == null ? null : definition.getAsStack();
+        }
+        // FML completely ignores the stackSize parameter in the method's implementation...
+        return GameRegistry.makeItemStack(registryName, meta, 0, nbt);
+    }
+
+    /// Logs how many MaterialLib references the config files carried and clears the counts.
+    static void logMaterialLibSummary() {
+        if (materialLibResolved + materialLibInvalid == 0) {
+            return;
+        }
+        AmazingTrophies.LOGGER
+            .info("Resolved {} MaterialLib entries ({} invalid)", materialLibResolved, materialLibInvalid);
+        materialLibResolved = 0;
+        materialLibInvalid = 0;
+    }
+
+    /// Restates a MaterialLib reference as a definition of the resolved item.
+    ///
+    /// @return `null` if the reference does not resolve
+    private static ItemDefinition resolveMaterialLibDefinition(String registryName, String nbt) {
+        ItemStack stack = lookupMaterialLibStack(registryName);
+        UniqueIdentifier id = stack == null ? null : GameRegistry.findUniqueIdentifierFor(stack.getItem());
+        if (id == null) {
+            materialLibInvalid++;
+            return null;
+        }
+        materialLibResolved++;
+        return new ItemDefinition(id.toString(), stack.getItemDamage(), nbt);
+    }
+
+    private static ItemStack lookupMaterialLibStack(String registryName) {
+        if (Loader.isModLoaded(MATERIALLIB_MODID)) {
+            return MaterialLibStacks.resolve(registryName);
+        }
+        AmazingTrophies.LOGGER.error("Cannot resolve item {}: MaterialLib is not installed!", registryName);
+        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -159,12 +216,20 @@ public class ConfigHandler {
         return getProperty(json, key, JsonElement::getAsInt);
     }
 
+    /// Reads an [ItemDefinition] from the named property. An `ml:` registry name is resolved as in [#makeItemStack];
+    /// one that does not resolve is kept verbatim.
     public static ItemDefinition getItemProperty(JsonObject json, String key, int defaultMeta) {
         JsonObject definitionJson = json.getAsJsonObject(key);
-        return new ItemDefinition(
-            getStringProperty(definitionJson, PROPERTY_REGISTRY_NAME),
-            getIntegerProperty(definitionJson, PROPERTY_META, defaultMeta),
-            getStringProperty(definitionJson, PROPERTY_NBT, null));
+        String registryName = getStringProperty(definitionJson, PROPERTY_REGISTRY_NAME);
+        int meta = getIntegerProperty(definitionJson, PROPERTY_META, defaultMeta);
+        String nbt = getStringProperty(definitionJson, PROPERTY_NBT, null);
+        if (registryName.startsWith(MATERIALLIB_PREFIX)) {
+            ItemDefinition resolved = resolveMaterialLibDefinition(registryName, nbt);
+            if (resolved != null) {
+                return resolved;
+            }
+        }
+        return new ItemDefinition(registryName, meta, nbt);
     }
 
     public static JsonObject getObjectProperty(JsonObject json, String key) {
