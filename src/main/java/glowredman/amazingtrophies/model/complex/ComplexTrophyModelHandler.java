@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -68,6 +70,16 @@ public class ComplexTrophyModelHandler extends PedestalTrophyModelHandler {
             String keyChar = entry.getKey();
             String registryName = entry.getValue()
                 .getAsString();
+
+            if (registryName.startsWith(ConfigHandler.MATERIALLIB_PREFIX)) {
+                ItemStack stack = ConfigHandler.makeItemStack(registryName, 0, null);
+                Block block = stack == null ? null : Block.getBlockFromItem(stack.getItem());
+                if (block == null || block == Blocks.air) {
+                    throw new IllegalArgumentException("Could not find block " + registryName + "!");
+                }
+                resultMap.put(keyChar.charAt(0), new BlockMeta(block, stack.getItemDamage()));
+                continue;
+            }
 
             Block block = GameData.getBlockRegistry()
                 .getRaw(registryName);

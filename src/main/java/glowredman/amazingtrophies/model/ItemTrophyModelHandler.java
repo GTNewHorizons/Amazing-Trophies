@@ -24,7 +24,6 @@ import org.lwjgl.opengl.GL11;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import glowredman.amazingtrophies.ConfigHandler;
 
 public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
@@ -67,7 +66,7 @@ public class ItemTrophyModelHandler extends PedestalTrophyModelHandler {
             throw new IllegalArgumentException("Illegal meta value (" + meta + ")!");
         }
         String nbt = ConfigHandler.getStringProperty(json, PROPERTY_NBT, null);
-        ItemStack stack = GameRegistry.makeItemStack(registryName, meta, 0, nbt);
+        ItemStack stack = ConfigHandler.makeItemStack(registryName, meta, nbt);
         if (stack == null) {
             throw new IllegalArgumentException("Could not find item " + registryName + "!");
         }
