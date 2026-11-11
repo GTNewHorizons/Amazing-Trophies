@@ -1,0 +1,13 @@
+{
+    "id": "any.error1",
+    "_comment": "Should fail to parse because the 'conditions' array does not contain JSON objects",
+    "condition": {
+        "type": "any",
+        "conditions": [1, 2]
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

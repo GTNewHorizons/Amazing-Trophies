@@ -1,6 +1,7 @@
 package glowredman.amazingtrophies.api;
 
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -49,7 +50,15 @@ public abstract class ConditionHandler {
         this.owner = owner;
     }
 
-    void setListener(BiConsumer<String, EntityPlayer> listener) {
+    /**
+     * Sets the action to trigger. The first argument of {@link BiConsumer#accept(Object, Object)} is the ID, as
+     * received by {@link #parse(String, JsonObject)}, the second argument is the player to trigger the action on.
+     * <p>
+     * <b>Use with care!</b> {@link AmazingTrophiesAPI#registerConditionHandler(Supplier)} indirectly calls this!
+     * 
+     * @param listener the action to trigger
+     */
+    public void setListener(BiConsumer<String, EntityPlayer> listener) {
         this.listener = listener;
     }
 
@@ -86,6 +95,11 @@ public abstract class ConditionHandler {
     protected boolean isForgeEventHandler() {
         return false;
     }
+
+    /**
+     * This method is called immediately before any parsing happens.
+     */
+    public void preParsing() {}
 
     /**
      * Registers this instance to the {@link FMLCommonHandler#bus() FML event bus} and/or the
