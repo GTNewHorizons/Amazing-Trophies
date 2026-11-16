@@ -1,0 +1,53 @@
+{
+    "id": "any2",
+    "_comment": "Should trigger after the player either attacks a Pig with a Bow and breaks a Stone block OR dies by falling out of the world and going to The End",
+    "condition": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "all",
+            "conditions": [
+              {
+                "childID": "shootPig",
+                "type": "attack.entity",
+                "damageType": [
+                  "arrow"
+                ],
+                "entities": [
+                  "Pig"
+                ],
+                "isEntitiesAllowList": true
+              },
+              {
+                "childID": "breakStone",
+                "type": "block.break",
+                "block": "minecraft:stone"
+              }
+            ]
+          },
+          {
+            "type": "all",
+            "conditions": [
+              {
+                "childID": "die",
+                "type": "death",
+                "sources": [
+                  "outOfWorld"
+                ],
+                "isSourcesAllowList": true
+              },
+              {
+                "childID": "visitTheEnd",
+                "type": "dimension.join",
+                "id": 1
+              }
+            ]
+          }
+        ]
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

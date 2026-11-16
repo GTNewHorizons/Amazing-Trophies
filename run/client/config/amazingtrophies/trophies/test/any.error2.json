@@ -1,0 +1,13 @@
+{
+    "id": "any.error2",
+    "_comment": "Should fail to parse because 'conditions' is not an array",
+    "condition": {
+        "type": "any",
+        "conditions": {}
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

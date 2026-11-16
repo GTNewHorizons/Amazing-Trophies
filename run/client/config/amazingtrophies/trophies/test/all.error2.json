@@ -1,0 +1,22 @@
+{
+    "id": "all.error2",
+    "_comment": "Should fail to parse because a childID exists twice",
+    "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "childID": "test",
+            "type": "lightning"
+          },
+          {
+            "childID": "test",
+            "type": "lightning"
+          }
+        ]
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}

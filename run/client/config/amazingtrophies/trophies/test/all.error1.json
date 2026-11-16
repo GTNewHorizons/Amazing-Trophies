@@ -1,0 +1,13 @@
+{
+    "id": "all/error1",
+    "_comment": "Should fail to parse because the id contains a '/'",
+    "condition": {
+        "type": "all",
+        "conditions": []
+    },
+    "model": {
+        "type": "basic",
+        "model": "model.obj",
+        "texture": "texture.png"
+    }
+}
